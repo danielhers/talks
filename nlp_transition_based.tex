@@ -836,6 +836,38 @@
     \[
     s(t,c)=\big[W\cdot\mathbf{f}(c)\big]_t
     \]
+    Typically trained by the perceptron algorithm, with binary features:
+	words, POS and existing arc labels of stack and buffer nodes, and
+	their heads and dependents.
+    
+    \pause\vfill
+    
+    Feature templates:
+    
+    \begin{minipage}{.5\textwidth}
+	\begin{adjustbox}{margin=3pt,frame,scale=.6}
+	\begin{tabular}{l}
+	\textbf{unigrams} \\
+	$s_0ta, s_0wa, s_1ta, s_1wa, s_2ta, s_2wa, s_3ta, s_3wa,$ \\
+	$b_0wt, b_1wt, b_2wt, b_3wt,s_0lwa, s_0rwa, s_1lwa, s_1rwa,$ \\
+	$s_0hw$ \\
+	\textbf{bigrams} \\
+	$s_0ws_1w, s_0ws_1a, s_0as_1w, s_0as_1a, s_0wb_0w, s_0wb_0t,$ \\
+	$s_0ab_0w, s_0ab_0t, s_1wb_0w, s_1wb_0t, s_1ab_0w, s_1ab_0t,$ \\
+	$b_0wb_1w, b_0wb_1t, b_0tb_1w, b_0tb_1t$ \\
+	\textbf{trigrams} \\
+	$s_0as_1as_2w, s_0as_1as_2a, s_0as_1ab_0w, s_0as_1ab_0t,$ \\
+	$s_0as_1wb_0w, s_0as_1wb_0t, s_0ws_1as_2a, s_0ws_1ab_0t$
+	\end{tabular}
+	\end{adjustbox}
+	\end{minipage}
+	\begin{minipage}{.45\textwidth}\scriptsize
+	  $s_i$, $b_i$: $i$th stack, buffer items.\\
+	  $w$, $t$: word form, POS tag. \\
+	  $a$: arc label to the node.\\
+	  $l$, $r$: left, right dependents. \\
+	  $h$: head.
+	\end{minipage}
 \end{frame}
 
 
