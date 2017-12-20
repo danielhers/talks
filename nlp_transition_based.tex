@@ -31,6 +31,8 @@
 \usepackage{minibox}
 \usepackage{tikz}
 \usepackage{tikz-dependency}
+\usepackage{algorithmic}
+\usepackage{mathtools}
 \usetikzlibrary{arrows.meta,graphs,graphs.standard,graphdrawing,quotes,shapes}
 \usegdlibrary{layered,trees}
 \tikzset{
@@ -41,6 +43,8 @@
   },
 }
 \captionsetup{labelformat=empty}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
 
 \makeatletter
 \pgfdeclareshape{vector}{
@@ -85,6 +89,8 @@
 
 
 %----------------------------------------------------------------------------------------
+
+\section{Introduction}
 
 \begin{frame}
   \frametitle{Dependency parsing}
@@ -266,6 +272,8 @@
 	}
 \end{frame}
 
+\section{Transition systems}
+
 \begin{frame}
   \frametitle{Configurations}
   Transitions operate on the parser \textit{configuration} (or \textit{state})
@@ -274,8 +282,8 @@
   \]
   where
   \begin{itemize}
-    \item $\Sigma \subseteq V_x$ is the stack of partially processed items.
-    \item $B \subseteq V_x$ is the buffer of remaining input tokens.
+    \item $\Sigma \subseteq V_w$ is the stack of partially processed items.
+    \item $B \subseteq V_w$ is the buffer of remaining input tokens.
     \item $A \subset V_w \times \mathcal{L} \times V_w$ is the set of arcs constructed so far.
   \end{itemize}
   
@@ -284,8 +292,8 @@
   Common notation:
   \begin{equation*}
   \begin{split}
-      \Sigma&=[\ldots,s_1,s_0]=\Sigma^\prime\;|\;s_1,s_0 \\
-      B&=[b_0,b_1,\ldots]=b_0,b_1\;|\;B^\prime
+      \Sigma&=[\ldots,s_1,s_0]=\Sigma^\prime|s_1|s_0 \\
+      B&=[b_0,b_1,\ldots]=b_0|b_1|B^\prime
   \end{split}
   \end{equation*}
 \end{frame}
@@ -324,14 +332,14 @@
 
   \begin{tabular}{ll}
     $\textsc{shift}$ & move one item from the buffer to the stack: \\
-    & $(\Sigma, \; x \;|\; B, \; A) \Rightarrow (\Sigma \;|\; x, \; B, \; A)$ \\
+    & $(\Sigma, \; i | B, \; A) \Rightarrow (\Sigma | i, \; B, \; A)$ \\
     \hline
-    $\textsc{left-arc}_X$ & create arc $s_0 \to s_1$ with label $X \in \mathcal{L}$ and remove $s_1$: \\
-    & $(\Sigma \;|\; s_1,s_0, \; B, \; A) \Rightarrow (\Sigma \;|\; s_0, \; B, \; A \cup \{(s_0,X,s_1)\})$ \\
-    & Condition: $s1\neq0$ \\
+    $\textsc{left-arc}_\ell$ & create arc $s_0 \to s_1$ with label $\ell \in \mathcal{L}$ and remove $s_1$: \\
+    & $(\Sigma | i|j, \; B, \; A) \Rightarrow (\Sigma | j, \; B, \; A \cup \{(j,\ell,i)\})$ \\
+    & Condition: $i\neq0$ \\
     \hline
-    $\textsc{right-arc}_X$ & create arc $s_1 \to s_0$ with label $X \in \mathcal{L}$ and remove $s_0$: \\
-    & $(\Sigma \;|\; s_1,s_0, \; B, \; A) \Rightarrow (\Sigma \;|\; s_1, \; B, \; A \cup \{(s_1,X,s_0)\})$  
+    $\textsc{right-arc}_\ell$ & create arc $s_1 \to s_0$ with label $\ell \in \mathcal{L}$ and remove $s_0$: \\
+    & $(\Sigma | i|j, \; B, \; A) \Rightarrow (\Sigma | i, \; B, \; A \cup \{(i,\ell,j)\})$  
   \end{tabular}
   
   \pause\vfill
@@ -353,7 +361,8 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Properties of the arc-standard system}
+  \frametitle{Properties of the arc-standard system
+  \footnotetext[1]{\url{http://aclweb.org/anthology/J08-4003}}}
   \begin{description}
   \item[Soundness.] Every transition sequence outputs a projective tree.
   \item[Completeness.] Every projective tree is output by some sequence.
@@ -363,7 +372,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Another example}
+  \frametitle{Another example for arc-standard transition sequence}
     \scalebox{.5}{\begin{varwidth}{2.2\linewidth}
 	\minibox[frame]{
 	\begin{dependency}
@@ -537,24 +546,232 @@
 	}
     \end{varwidth}
 	}
+	
+	\pause\vfill
+	Might be a good idea to attach $\textrm{looked} \to \textrm{at}$ as soon as possible?
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{Arc-eager transition system}
-  Slightly different set of transitions:
-
+  \frametitle{Arc-eager transition system \cite{nivre2004incrementality}}
   \begin{tabular}{ll}
-    $\textsc{shift}$ & move one item from the buffer to the stack. \\
-    $\textsc{left-arc}$ & create arc $(s_0, s_1)$ and remove $s_1$. \\
-    $\textsc{right-arc}$ & create arc $(s_0, b_0)$ and remove $b_0$. \\
-    $\textsc{reduce}$ & remove $s_0$.
+    $\textsc{shift}$ & move one item from the buffer to the stack: \\
+    (same) & $(\Sigma, \; i | B, \; A) \Rightarrow (\Sigma | i, \; B, \; A)$ \\
+    \hline
+    $\textsc{left-arc}_\ell$ & create arc $b_0 \to s_0$ with label $\ell \in \mathcal{L}$ and remove $s_0$: \\
+    & $(\Sigma | i, \; j | B, \; A) \Rightarrow (\Sigma, \; j | B, \; A \cup \{(j,\ell,i)\})$ \\
+    & Condition: $i\neq0$ and $i$ has no head \\
+    \hline
+    $\textsc{right-arc}_\ell$ & create arc $s_0 \to b_0$ with label $\ell \in \mathcal{L}$ and shift $b_0$: \\
+    & $(\Sigma | i, \; j | B, \; A) \Rightarrow (\Sigma | i|j, \; B, \; A \cup \{(i,\ell,j)\})$   \\
+    \hline
+    $\textsc{reduce}$ & remove $s_0$: \\
+    & $(\Sigma | i, \; B, \; A) \Rightarrow (\Sigma, \; B, \; A)$ \\
+    & Condition: $i$ has a head
   \end{tabular}
+  
+  \pause\vfill
 
-  \vfill
+  Initial configuration (same as arc-standard):
+  \[
+    c_s(w_1, w_2, w_3, \ldots,) = ([0], [1, 2, 3, \ldots], \emptyset)
+  \]
 
-  Does not require waiting for the sub-tree to be complete before attaching a head.
+  Terminal configuration ($\Sigma$ does not have to be $[0]$):
+  \[
+    c_t = (\Sigma, [], A)
+  \]
 \end{frame}
+
+\begin{frame}
+  \frametitle{Properties of the arc-eager system}
+  Soundness and completeness are the same as arc-standard.
+  
+  Complexity: \textbf{at most} $2n$.
+  
+  Builds parts of the tree top-down instead of bottom-up.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example arc-eager transition sequence}
+    \scalebox{.5}{\begin{varwidth}{2.2\linewidth}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|}\hline
+	\color{red} root \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|l|l|l|}
+	\hline
+	\color{blue} Alice & \color{blue} looked & \color{blue} at & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root & \color{red} Alice \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|l|l|}\hline
+	\color{blue} looked & \color{blue} at & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{left}\\ \textsc{arc}\\{\footnotesize nsubj}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|}\hline
+	\color{red} root \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|l|l|}\hline
+	\color{blue} looked & \color{blue} at & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{right}\\ \textsc{arc}\\{\footnotesize root}\\$\rightarrow$\end{tabular}
+
+    \vspace{5mm}
+	
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot{2}{root}
+	\depedge{2}{1}{nsubj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root & \color{red} looked \\ \hline
+	\end{tabular}
+	\hspace{11mm}
+	\begin{tabular}{|l|l|}\hline
+	\color{blue} at & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{right}\\ \textsc{arc}\\{\footnotesize prep}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{2}{3}{prep}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|} \hline
+	\color{red} root & \color{red} looked & \color{red} at \\ \hline
+	\end{tabular}
+	\hspace{11mm}
+	\begin{tabular}{|l|}\hline
+	\color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{right}\\ \textsc{arc}\\{\footnotesize pobj}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{2}{3}{prep}
+	\depedge{3}{4}{pobj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|l|}\hline
+	\color{red} root & \color{red} looked & \color{red} at & \color{red} Bob \\ \hline
+	\end{tabular}
+	\hspace{6mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+    \end{varwidth}
+	}
+\end{frame}
+
+\section{Greedy transition-based parsing}
+
+\begin{frame}
+  \frametitle{Transition-based (shift-reduce) parsing}
+    To actually parse text, we need to decide which transitions to take.
+    
+    Given a score for transition sequences, $s(c_0, \ldots, c_m)$,
+    inference is
+    \[
+    \argmax_{t_1,\ldots,t_m \in \mathcal{T}} s(c_0, \ldots, c_m)
+    \]
+
+    But training examples are trees, not sequences.
+    
+    To learn this score, we need an \textit{oracle} to tell the correct sequence:
+    \[
+    o(T)=(t_1,\ldots,t_m)
+    \]
+    
+    \pause\vfill
+    
+    \begin{minipage}{.5\textwidth}
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{2}{3}{dobj}
+	\end{dependency}
+	\end{minipage}
+    \begin{minipage}{.1\textwidth}
+	$\Rightarrow$
+	\end{minipage}
+    \begin{minipage}{.2\textwidth}
+    $\textsc{shift}$,
+	$\textsc{shift}$,
+	$\textsc{left-arc}_\mathrm{nsubj}$,
+	$\textsc{shift}$,
+	$\textsc{right-arc}_\mathrm{dobj}$,
+	$\textsc{right-arc}_\mathrm{root}$
+	\end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Oracle for arc-standard}
+    \begin{algorithmic}[1]
+    \WHILE{$B\neq[]$ and $\Sigma\neq[0]$}
+        \IF{$s_0\xrightarrow{\ell} s_1$ and $s_1$ has all its children and $s_1\neq0$}
+            \RETURN $\textsc{left-arc}_\ell$
+        \ELSIF{$s_1\xrightarrow{\ell} s_0$ and $s_0$ has all its children and $s_0\neq0$}
+            \RETURN $\textsc{right-arc}_\ell$
+        \ELSE
+            \RETURN $\textsc{shift}$
+        \ENDIF
+    \ENDWHILE
+    \end{algorithmic}
+\end{frame}
+
+
+\section{More transition systems}
 
 \begin{frame}
   \frametitle{Non-projective parsing}
@@ -805,8 +1022,8 @@
 %\pause
 %TUPA transitions:
 %
-%\{\textsc{Shift, Reduce, Node$_X$, Left-Edge$_X$, Right-Edge$_X$,}\\
-%\hspace{5mm}\textsc{Left-Remote$_X$, Right-Remote$_X$, Swap, Finish}\}
+%\{\textsc{Shift, Reduce, Node$_\ell$, Left-Edge$_\ell$, Right-Edge$_\ell$,}\\
+%\hspace{5mm}\textsc{Left-Remote$_\ell$, Right-Remote$_\ell$, Swap, Finish}\}
 %
 %\vfill
 %Support {\color{blue}non-terminal nodes}, {\color{orange}reentrancy} and {\color{red}discontinuity}.
