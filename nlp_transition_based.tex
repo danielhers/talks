@@ -823,15 +823,15 @@
     
     Possible hypothesis classes $\mathcal{S}$:
     \begin{enumerate}
-    \item Linear
-    \item SVM
-    \item Feedforward neural networks
+    \item Linear (perceptron)
+    \item SVM (support vector machines)
+    \item Feedforward neural networks (MLP, multi-layer perceptron)
     \item Recurrent neural networks
     \end{enumerate}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Linear transition classifier}
+    \frametitle{Linear transition classifier \cite{Nivre03anefficient}}
     Given features $\mathbf{f}=(f_1, \ldots, f_K) : \mathcal{C}\to\mathbb{R}^K$, learn weights $W_{|\mathcal{T}|\times K}$:
     \[
     s(t,c)=\big[W\cdot\mathbf{f}(c)\big]_t
@@ -868,6 +868,65 @@
 	  $l$, $r$: left, right dependents. \\
 	  $h$: head.
 	\end{minipage}
+	
+	\pause\vfill
+	
+	SVM transition classifier is similar, and works about as well.
+\end{frame}
+
+\begin{frame}
+    \frametitle{NN transition classifier \cite{chen2014fast}}
+    Instead of sparse binary features, uses dense embedding features.
+    Trained with backpropagation and stochastic gradient descent.
+    
+    \vfill
+    
+    MLP architecture:
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{nn.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Bi-RNN encoder \cite{kiperwasser2016simple}}
+    Add bidirectional LSTM RNN to get token representations.
+    
+    \vfill
+    
+    \centering
+	\begin{tikzpicture}[->]
+	\tiny
+	\tikzstyle{main}=[circle, minimum size=7mm, draw=black!80, node distance=12mm]
+	\foreach \i/\word in {1/{John},3/{looked},5/{at},7/{Mary}} {
+	    \node (x\i) at (\i,-1.3) {\small \word};
+	    \node[main, fill=white!100] (h\i) at (\i,0) {LSTM};
+        \path (x\i) edge node[left]{\textit{embedding}} (h\i);
+	    \node[main, fill=white!100] (i\i) at (\i.5,.8) {LSTM};
+        \path (x\i) edge [bend right] node[right]{\textit{embedding}} (i\i);
+	    \node[main, fill=white!100] (l\i) at (\i.5,2.3) {LSTM};
+        \path (h\i) edge [bend left] (l\i);
+        \path (i\i) edge (l\i);
+	    \node[main, fill=white!100] (k\i) at (\i,3.1) {LSTM};
+        \path (i\i) edge [bend left] (k\i);
+        \path (h\i) edge [bend left] (k\i);
+	}
+    \node (l4) at (4.5,2.3) {\ldots};
+    \node (k4) at (4,3.1) {\ldots};
+    \node (i4) at (4.5,.8) {\ldots};
+    \node (h4) at (4,0) {\ldots};
+    \node (x4) at (4,-1.3) {\ldots};
+	\foreach \current/\next in {1/3,3/4,4/5,5/7} {
+        \path (i\next) edge (i\current);
+        \path (h\current) edge (h\next);
+        \path (k\next) edge (k\current);
+        \path (l\current) edge (l\next);
+	}
+    \node[main, fill=white!100] (mlp) at (4,4.6) {MLP};
+	\foreach \i in {1,3} {
+        \path (l\i) edge (mlp);
+        \path (k\i) edge (mlp);
+    }
+    \node (transition) at (4,5.8) {score};
+    \path (mlp) edge node[right] {\textit{softmax}} (transition);
+	\end{tikzpicture}
 \end{frame}
 
 
