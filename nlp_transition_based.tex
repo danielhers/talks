@@ -716,11 +716,12 @@
 \begin{frame}
   \frametitle{Transition-based (shift-reduce) parsing}
     To actually parse text, we need to decide which transitions to take.
-    
-    Given a score for transition sequences, $s(c_0, \ldots, c_m)$,
-    inference is
     \[
-    \argmax_{t_1,\ldots,t_m \in \mathcal{T}} s(c_0, \ldots, c_m)
+        P(t_1,\ldots,t_m|w)=\prod_{i=1}^mP(t_i|t_1,\ldots,t_{i-1},w)=\prod_{i=1}^mP(t_i|c_{i-1})
+    \]
+    so inference is
+    \[
+    \argmax_{t_1,\ldots,t_m \in \mathcal{T}} \prod_{i=1}^mP(t_i|c_{i-1})
     \]
 
     But training examples are trees, not sequences.
@@ -757,7 +758,7 @@
 
 \begin{frame}
     \frametitle{Oracle for arc-standard}
-    \begin{algorithmic}[1]
+    \begin{algorithmic}[0]
     \WHILE{$B\neq[]$ and $\Sigma\neq[0]$}
         \IF{$s_0\xrightarrow{\ell} s_1$ and $s_1$ has all its children and $s_1\neq0$}
             \RETURN $\textsc{left-arc}_\ell$
@@ -769,6 +770,75 @@
     \ENDWHILE
     \end{algorithmic}
 \end{frame}
+
+\begin{frame}
+    \frametitle{Oracle for arc-eager}
+    \begin{algorithmic}[0]
+    \WHILE{$B\neq[]$}
+        \IF{$b_0\xrightarrow{\ell} s_0$}
+            \RETURN $\textsc{left-arc}_\ell$
+        \ELSIF{$s_0\xrightarrow{\ell} b_0$}
+            \RETURN $\textsc{right-arc}_\ell$
+        \ELSIF{$s_0$ has all its children and a head}
+            \RETURN $\textsc{reduce}$
+        \ELSE
+            \RETURN $\textsc{shift}$
+        \ENDIF
+    \ENDWHILE
+    \end{algorithmic}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Greedy transition-based parsing}
+    In \textit{greedy parsing}, instead of    
+    \[
+    (t_1,\ldots,t_m)=\argmax_{t^\prime_1,\ldots,t^\prime_m \in \mathcal{T}} \prod_{i=1}^mP(t^\prime_i|c_{i-1})
+    \]
+    we select each transition separately and sequentially:
+    \[
+    t_i = \argmax_{t^\prime_i \in \mathcal{T}} P(t^\prime_i|c_{i-1}) \quad i=1,\ldots,m
+    \]
+    
+    \pause\vfill
+    
+    To estimate this probability, we estimate it by a score $s(t, c)$.
+    The whole parsing process is then just:
+    \begin{algorithmic}[0]
+    \STATE{$c\leftarrow c_s(w)$}
+    \WHILE{$c\not\in C_t$}
+        \STATE{$c\leftarrow\Big(\argmax_{t\in\mathcal{T}}s(t,c)\Big)(c)$}
+    \ENDWHILE
+    \end{algorithmic}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Transition classifiers}
+    Learn the score giving maximum probability to oracle transitions:
+    \[
+    \argmax_{s\in\mathcal{S}}\sum_{i=1}^ms(t^*_i,c^*_{i-1})
+    \]
+    where $t^*_1,\ldots,t^*_m$ (and $c^*_1,\ldots,c^*_m$) are determined by the oracle.
+    
+    \pause\vfill
+    
+    Possible hypothesis classes $\mathcal{S}$:
+    \begin{enumerate}
+    \item Linear
+    \item SVM
+    \item Feedforward neural networks
+    \item Recurrent neural networks
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Linear transition classifier}
+    Given features $\mathbf{f}=(f_1, \ldots, f_K) : \mathcal{C}\to\mathbb{R}^K$, learn weights $W_{|\mathcal{T}|\times K}$:
+    \[
+    s(t,c)=\big[W\cdot\mathbf{f}(c)\big]_t
+    \]
+\end{frame}
+
+
 
 
 \section{More transition systems}
