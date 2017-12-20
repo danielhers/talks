@@ -28,6 +28,7 @@
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{multicol}
+\usepackage{minibox}
 \usepackage{tikz}
 \usepackage{tikz-dependency}
 \usetikzlibrary{arrows.meta,graphs,graphs.standard,graphdrawing,quotes,shapes}
@@ -86,72 +87,468 @@
 %----------------------------------------------------------------------------------------
 
 \begin{frame}
-  \frametitle{Transition-based (shift-reduce) parsing}
-  Given tokens $w_1, \ldots, w_n$, derive dependency tree $T$ by finding the set of arcs $A$.
+  \frametitle{Dependency parsing}
+  Given sentence $w=(w_1, \ldots, w_n)$,
+  let $V_w=\{0, 1, \ldots, n \}$ \\
+  (the root node has index 0).
+  
+  Derive dependency tree $T=(V_w,A)$ by finding the set of arcs
+  $A \subset V_w \times \mathcal{L} \times V_w$,
+  where $\mathcal{L}$ is the set of possible edge labels.
+  
+  \vfill
 
-  Equivalently---for each $i$, find $w_i$'s head (or its index) and label.
+  Equivalently---for each $i$, find $w_i$'s head and dependency label.
+  
+  \pause
+  
+  \begin{center}
+	  \begin{minipage}{4cm}
+	    $w=(w_1, w_2, w_3)$ \hfill $\Rightarrow$
+	  \end{minipage}
+	  \begin{minipage}{5cm}
+	    \begin{dependency}
+	      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+	        $w_1$ \^ $w_2$ \^ $w_3$ \\
+	      \end{deptext}
+	      \deproot{2}{root}
+	      \depedge{2}{1}{nsubj}
+	      \depedge{2}{3}{dobj}
+	    \end{dependency}
+	  \end{minipage}
+  \end{center}
+  \[
+      V_w=\{0,1,2,3\}, \quad
+      A=\{(0,\mathrm{root},2),(2,\mathrm{nsubj},1),(2,\mathrm{dobj},3)\}
+  \]
+  
+  \pause
 
-  The root node has index 0.
+  In transition-based parsing,
+  the problem is decomposed to finding a sequence of \textit{transitions}.
+\end{frame}
 
-  The problem is decomposed to finding a sequence of \textit{transitions}.
+\begin{frame}
+  \frametitle{Example}
+    \scalebox{.6}{\begin{varwidth}{1.8\linewidth}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|}\hline
+	\color{red} root \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|l|l|}
+	\hline
+	\color{blue} Alice & \color{blue} saw & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root & \color{red} Alice \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|l|}\hline
+	\color{blue} saw & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|}\hline
+	\color{red} root & \color{red} Alice & \color{red} saw \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|}\hline
+	\color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{left}\\ \textsc{arc}\\{\footnotesize nsubj}\\$\rightarrow$\end{tabular}
+
+    \vspace{5mm}
+	
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root & \color{red} saw \\ \hline
+	\end{tabular}
+	\hspace{11mm}
+	\begin{tabular}{|l|}\hline
+	\color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|} \hline
+	\color{red} root & \color{red} saw & \color{red} Bob \\ \hline
+	\end{tabular}
+	\hspace{5.6mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{right}\\ \textsc{arc}\\{\footnotesize dobj}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{2}{3}{dobj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root & \color{red} saw \\ \hline
+	\end{tabular}
+	\hspace{16mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{right}\\ \textsc{arc}\\{\footnotesize root}\\$\rightarrow$\end{tabular}
+	
+    \vspace{5mm}
+	
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{2}{3}{dobj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root \\ \hline
+	\end{tabular}
+	\hspace{27mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+    \end{varwidth}
+	}
 \end{frame}
 
 \begin{frame}
   \frametitle{Configurations}
-  A transition-based parser operates on the parser \textit{configuration} (or \textit{state})
+  Transitions operate on the parser \textit{configuration} (or \textit{state})
   \[
     c = (\Sigma, B, A)
   \]
   where
   \begin{itemize}
-    \item $\Sigma$ is the stack of partially processed items
-    \item $B$ is the buffer of remaining input tokens (or their indices)
-    \item $A$ is the set of arcs constructed so far.
+    \item $\Sigma \subseteq V_x$ is the stack of partially processed items.
+    \item $B \subseteq V_x$ is the buffer of remaining input tokens.
+    \item $A \subset V_w \times \mathcal{L} \times V_w$ is the set of arcs constructed so far.
   \end{itemize}
+  
+  \pause\vfill
+  
+  Common notation:
+  \begin{equation*}
+  \begin{split}
+      \Sigma&=[\ldots,s_1,s_0]=\Sigma^\prime\;|\;s_1,s_0 \\
+      B&=[b_0,b_1,\ldots]=b_0,b_1\;|\;B^\prime
+  \end{split}
+  \end{equation*}
+\end{frame}
 
-  \vfill
+\begin{frame}
+  \frametitle{Transition systems}  
+  
+  A \textit{transition system} is defined as
+  \[
+    S = (\mathcal{C}, \mathcal{T}, c_s, C_t)
+  \]
+  where
+  \begin{itemize}
+    \item $\mathcal{C}$ is the set of possible configurations.
+    \item $\mathcal{T} \subset \mathcal{C}^\mathcal{C}$ is the set of \textit{transitions}.
+    \item $c_s$ maps every sentence $w$ to an initial configuration $c_s(w)$.
+    \item $C_t \subset \mathcal{C}$ is the set of terminal configurations.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Transition sequence}  
+  A \textit{transition sequence} is $(c_0, \ldots, c_m) \subseteq \mathcal{C}$ s.t.
+  \begin{itemize}
+    \item $c_0 = c_s(w)$
+    \item $c_m = (\Sigma_m, B_m, A_m) \in C_t$
+    \item For each $i=1,\ldots,m$ there exists $t\in \mathcal{T}$ s.t. $c_{i+1}=t(c_i)$.
+  \end{itemize}
+  
+  The output of the system is then $T=(V_w,A_m)$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Arc-standard transition system \cite{nivre2004incrementality}}
+  Transition set $\mathcal{T}$:
+
+  \begin{tabular}{ll}
+    $\textsc{shift}$ & move one item from the buffer to the stack: \\
+    & $(\Sigma, \; x \;|\; B, \; A) \Rightarrow (\Sigma \;|\; x, \; B, \; A)$ \\
+    \hline
+    $\textsc{left-arc}_X$ & create arc $s_0 \to s_1$ with label $X \in \mathcal{L}$ and remove $s_1$: \\
+    & $(\Sigma \;|\; s_1,s_0, \; B, \; A) \Rightarrow (\Sigma \;|\; s_0, \; B, \; A \cup \{(s_0,X,s_1)\})$ \\
+    & Condition: $s1\neq0$ \\
+    \hline
+    $\textsc{right-arc}_X$ & create arc $s_1 \to s_0$ with label $X \in \mathcal{L}$ and remove $s_0$: \\
+    & $(\Sigma \;|\; s_1,s_0, \; B, \; A) \Rightarrow (\Sigma \;|\; s_1, \; B, \; A \cup \{(s_1,X,s_0)\})$  
+  \end{tabular}
+  
+  \pause\vfill
+  
+  Typically $|\mathcal{L}| \approx 50$,
+  so there are 101 different transitions.
+
+  \pause\vfill
 
   Initial configuration:
   \[
-    c_0 = ([0], [1, 2, 3, \ldots], \emptyset)
+    c_s(w_1, w_2, w_3, \ldots,) = ([0], [1, 2, 3, \ldots], \emptyset)
   \]
 
   Terminal configuration:
   \[
-    c^* = ([0], [], A)
+    c_t = ([0], [], A)
   \]
 \end{frame}
 
 \begin{frame}
-  \frametitle{Arc-standard}
-  The possible transitions are:
-
-  \begin{tabular}{ll}
-    \textsc{shift} & move one item from the buffer to the stack. \\
-    \textsc{left-arc} & create arc $(s_0, s_1)$ and remove $s_1$. \\
-    \textsc{right-arc} & create arc $(s_1, s_0)$ and remove $s_0$.
-  \end{tabular}
-  \begin{center}
-    \begin{dependency}
-      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
-        John \^ likes \^ mary \\
-      \end{deptext}
-      \deproot{2}{root}
-      \depedge{2}{1}{nsubj}
-      \depedge{2}{3}{dobj}
-    \end{dependency}
-  \end{center}
+  \frametitle{Properties of the arc-standard system}
+  \begin{description}
+  \item[Soundness.] Every transition sequence outputs a projective tree.
+  \item[Completeness.] Every projective tree is output by some sequence.
+  \item[Complexity.] Input of length $n$ requires exactly $2n$ transitions.
+  \item[Bottom-up.] Attaches a token's head only after all dependents.
+  \end{description}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Arc-eager}
+  \frametitle{Another example}
+    \scalebox{.5}{\begin{varwidth}{2.2\linewidth}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|}\hline
+	\color{red} root \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|l|l|l|}
+	\hline
+	\color{blue} Alice & \color{blue} looked & \color{blue} at & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root & \color{red} Alice \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|l|l|}\hline
+	\color{blue} looked & \color{blue} at & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|}\hline
+	\color{red} root & \color{red} Alice & \color{red} looked \\ \hline
+	\end{tabular}
+	\hfill
+	\begin{tabular}{|l|l|}\hline
+	\color{blue} at & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{left}\\ \textsc{arc}\\{\footnotesize nsubj}\\$\rightarrow$\end{tabular}
+
+    \vspace{5mm}
+	
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root & \color{red} looked \\ \hline
+	\end{tabular}
+	\hspace{11mm}
+	\begin{tabular}{|l|l|}\hline
+	\color{blue} at & \color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|} \hline
+	\color{red} root & \color{red} looked & \color{red} at \\ \hline
+	\end{tabular}
+	\hspace{11mm}
+	\begin{tabular}{|l|}\hline
+	\color{blue} Bob \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|l|}\hline
+	\color{red} root & \color{red} looked & \color{red} at & \color{red} Bob \\ \hline
+	\end{tabular}
+	\hspace{6mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{right}\\ \textsc{arc}\\{\footnotesize pobj}\\$\rightarrow$\end{tabular}
+	
+    \vspace{5mm}
+	
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{3}{4}{pobj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|} \hline
+	\color{red} root & \color{red} looked & \color{red} at \\ \hline
+	\end{tabular}
+	\hspace{17mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{right}\\ \textsc{arc}\\{\footnotesize prep}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot[color=white]{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{2}{3}{prep}
+	\depedge{3}{4}{pobj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|}\hline
+	\color{red} root & \color{red} looked \\ \hline
+	\end{tabular}
+	\hspace{25mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{right}\\ \textsc{arc}\\{\footnotesize root}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& Bob \\
+	\end{deptext}
+	\deproot{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{2}{3}{prep}
+	\depedge{3}{4}{pobj}
+	\end{dependency}
+	\\
+	\begin{tabular}{|l|l|}\hline
+	\color{red} root \\ \hline
+	\end{tabular}
+	\hspace{40mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+    \end{varwidth}
+	}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Arc-eager transition system}
   Slightly different set of transitions:
 
   \begin{tabular}{ll}
-    \textsc{shift} & move one item from the buffer to the stack. \\
-    \textsc{left-arc} & create arc $(s_0, s_1)$ and remove $s_1$. \\
-    \textsc{right-arc} & create arc $(s_0, b_0)$ and remove $b_0$. \\
-    \textsc{reduce} & remove $s_0$.
+    $\textsc{shift}$ & move one item from the buffer to the stack. \\
+    $\textsc{left-arc}$ & create arc $(s_0, s_1)$ and remove $s_1$. \\
+    $\textsc{right-arc}$ & create arc $(s_0, b_0)$ and remove $b_0$. \\
+    $\textsc{reduce}$ & remove $s_0$.
   \end{tabular}
 
   \vfill
@@ -177,15 +574,21 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Swap-standard}
+  \frametitle{Swap-standard transition system}
   Like arc-standard, but adding a \textsc{swap} transition:
 
   \begin{tabular}{ll}
-    \textsc{shift} & move one item from the buffer to the stack. \\
-    \textsc{left-arc} & create arc $(s_0, s_1)$ and remove $s_1$. \\
-    \textsc{right-arc} & create arc $(s_1, s_0)$ and remove $s_0$. \\
-    \textsc{swap} & switch $s_0$ and $s_1$.
+    $\textsc{shift}$ & move one item from the buffer to the stack. \\
+    $\textsc{left-arc}$ & create arc $(s_0, s_1)$ and remove $s_1$. \\
+    $\textsc{right-arc}$ & create arc $(s_1, s_0)$ and remove $s_0$. \\
+    $\textsc{swap}$ & switch $s_0$ and $s_1$.
   \end{tabular}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+\bibliographystyle{apalike}
+\tiny\bibliography{references}
 \end{frame}
 
 %\begin{frame}
@@ -966,14 +1369,6 @@
 %	Thank you!
 %\end{flushright}
 %}
-%\end{frame}
-%
-%
-%
-%\begin{frame}[allowframebreaks]
-%\frametitle{References}
-%\bibliographystyle{apalike}
-%\tiny\bibliography{references}
 %\end{frame}
 %
 %
