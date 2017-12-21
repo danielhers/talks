@@ -1347,27 +1347,10 @@
   
   \pause\vfill
   
-  But learning signal is still according to \textbf{oracle transition}, so
-  we require a modified oracle that can handle \textbf{incorrect states}.
-\end{frame}
-
-\begin{frame}
-  \frametitle{Dynamic oracles \cite{goldberg2012dynamic}}
-  All oracles presented so far are \textbf{static oracles}:
-  they return one canonical sequence of correct transition
-  (or several possible sequences as long as they are all perfectly correct).
+  But learning is still by oracle---should support incorrect states.
   
-  A \textbf{dynamic oracle} returns all \textbf{optimal transitions} at any state.
-  
-  \pause\vfill
-  
-  Define the \textbf{cost} of a transition:
-  \[
-  \mathcal{L}(t;c,G^*)=\Bigg[\min_{A:t(c)\leadsto A} \Big|A\setminus A^*\Big|\Bigg]-
-  \Bigg[\min_{A:c\leadsto A} \Big|A\setminus A^*\Big|\Bigg]
-  \]
-  An optimal transition is a zero-cost transition:
-  it does not lose any arcs beyond what is already lost.
+  So far we saw only static oracles.  
+  \textbf{Dynamic oracles} return all optimal transitions at any state \cite{goldberg2012dynamic}.
 \end{frame}
 
 \begin{frame}
