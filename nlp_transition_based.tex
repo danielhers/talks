@@ -1453,35 +1453,57 @@
     \vfill
     
   \begin{center}
-    \scalebox{.7}{
+    \scalebox{.47}{
     \begin{dependency}
       \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
         That \^ 's \^ what \^ they \^ 're \^ after \\
       \end{deptext}
       \depedge{2}{1}{nsubj}
       \deproot{2}{root}
-      \only<1>{\depedge[edge start x offset=.75em]{6}{3}{pobj}}
-      \only<2>{\depedge[color=red,edge start x offset=.75em]{6}{3}{pobj}}
+      \depedge[edge start x offset=.75em]{6}{3}{pobj}
       \depedge{5}{4}{nsubj}
       \depedge[edge unit distance=.75em]{2}{5}{ccomp}
       \depedge{5}{6}{prep}
     \end{dependency}
     }
-    \scalebox{.7}{
+    \hfill
+    \scalebox{.47}{
     \begin{dependency}
 		\begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
 		Last \^ week \^ , \^ shareholders \^ took \^ their \^ money \^ and \^ ran \\
 		\end{deptext}
-		\deproot{5}{top}
+		\deproot[edge unit distance=2em]{5}{top}
 		\depedge{1}{2}{arg1}
 		\depedge{2}{5}{loc}
 		\depedge{5}{4}{arg1}
 		\depedge{5}{7}{arg2}
-		\depedge{5}{9}{_and_c}
+		\depedge[edge start x offset=-.25em]{5}{9}{{\textunderscore}and{\textunderscore}c}
 		\depedge{6}{7}{poss}
-		\depedge{9}{4}{arg1}
+		\depedge[edge start x offset=.75em]{9}{4}{arg1}
 	\end{dependency}
     }
+    \scalebox{.5}{
+	  \begin{tikzpicture}[level distance=16mm, sibling distance=2cm, ->]
+	  \tikzstyle{word} = [font=\rmfamily,color=black]
+	    \node (ROOT) [fill=black, circle] {}
+	      child {node (You) [word] {You} edge from parent node[left] {\scriptsize $A$}}
+	      child {node [word] {want} edge from parent node[left] {\scriptsize $P$}}
+	      child {node (totakealongbath) [fill=black, circle] {}
+	      {
+	        child {node [word] {to} edge from parent node[left] {\scriptsize $F$}}
+	        child {node (takeabath) [fill=black, circle] {}
+	        {
+	          child {node [word] {take} edge from parent node[right] {\scriptsize $C$}}
+	          child {node [word] {a} edge from parent node[right] {\scriptsize $F$}}
+	          child {node [word] (long) {long} edge from parent[draw=none]}
+	          child {node [word] {bath} edge from parent node[right] {\scriptsize $C$}}
+	        } edge from parent node[right] {\scriptsize $P$} }
+	      } edge from parent node[left] {\scriptsize $A$} }
+	      ;
+	    \draw[bend left,dashed,->] (takeabath) to node [auto] {\scriptsize $A$} (You);
+	    \draw[bend left,->] (totakealongbath) to node [auto] {\scriptsize $D$} (long);
+	\end{tikzpicture}
+	}
   \end{center}
 \end{frame}
 
@@ -1513,15 +1535,60 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Swap-standard transition system}
+    \frametitle{Solutions for non-projective parsing}
+    \begin{itemize}
+    \item Pre- and post-processing \cite{nivre2005pseudo}.
+    \item Transitions for non-adjacent nodes \cite{attardi2006experiments}.
+    \item List-based algorithm \cite{nivre2008algorithms}.
+    \item {\only<2>{\bf}\textsc{swap} transition \cite{nivre2009non}.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Arc-standard with \textsc{swap} \cite{nivre2009non}}
   Like arc-standard, but adding a \textsc{swap} transition:
 
   \begin{tabular}{ll}
-    $\textsc{shift}$ & move one item from the buffer to the stack. \\
-    $\textsc{left-arc}$ & create arc $(s_0, s_1)$ and remove $s_1$. \\
-    $\textsc{right-arc}$ & create arc $(s_1, s_0)$ and remove $s_0$. \\
-    $\textsc{swap}$ & switch $s_0$ and $s_1$.
+    $\textsc{shift}$ & move one item from the buffer to the stack: \\
+    & $(\Sigma, \; i | B, \; A) \Rightarrow (\Sigma | i, \; B, \; A)$ \\
+    \hline
+    $\textsc{left-arc}_\ell$ & create arc $s_0 \to s_1$ with label $\ell \in \mathcal{L}$ and remove $s_1$: \\
+    & $(\Sigma | i|j, \; B, \; A) \Rightarrow (\Sigma | j, \; B, \; A \cup \{(j,\ell,i)\})$ \\
+    & Condition: $i\neq0$ \\
+    \hline
+    $\textsc{right-arc}_\ell$ & create arc $s_1 \to s_0$ with label $\ell \in \mathcal{L}$ and remove $s_0$: \\
+    & $(\Sigma | i|j, \; B, \; A) \Rightarrow (\Sigma | i, \; B, \; A \cup \{(i,\ell,j)\})$ \\
+    \hline
+    $\textsc{swap}$ & move $s_1$ back to the buffer: \\
+    & $(\Sigma | i|j, \; B, \; A) \Rightarrow (\Sigma | j, \; i | B, \; A)$ \\
+    & Condition: $0<i<_Gj$.
   \end{tabular}
+  
+  \pause\vfill
+  
+  \textsc{swap} effectively swaps $s_0$ and $s_1$, allowing non-projective arcs.
+    
+    \pause\vfill
+    
+    $<_G$ is the \textit{projective order} of the correct graph $G$, \\
+    obtained by in-order traversal.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Oracle for arc-standard with \textsc{swap}}
+    \begin{algorithmic}[0]
+    \WHILE{$B\neq[]$ and $\Sigma\neq[0]$}
+        \IF{$s_0\xrightarrow{\ell} s_1$ and $s_1$ has all its children and $s_1\neq0$}
+            \RETURN $\textsc{left-arc}_\ell$
+        \ELSIF{$s_1\xrightarrow{\ell} s_0$ and $s_0$ has all its children and $s_0\neq0$}
+            \RETURN $\textsc{right-arc}_\ell$
+        \ELSIF{$s_0<_Gs_1$}
+            \RETURN $\textsc{swap}$
+        \ELSE
+            \RETURN $\textsc{shift}$
+        \ENDIF
+    \ENDWHILE
+    \end{algorithmic}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
