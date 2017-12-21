@@ -855,7 +855,7 @@
     Possible hypothesis classes $\mathcal{S}$:
     \begin{enumerate}
     \item Linear (perceptron)
-    \item Feedforward neural networks (MLP, multi-layer perceptron)
+    \item Feedforward neural networks
     \item Recurrent neural networks (RNN, LSTM, GRU)
     \end{enumerate}
     And others, e.g. SVM.
@@ -908,7 +908,7 @@
     
     \vfill
     
-    Feedforward NN (MLP) architecture:
+    Feedforward NN architecture:
     \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{nn.png}
 \end{frame}
 
@@ -930,7 +930,7 @@
     \scalebox{.85}{
 	\begin{tikzpicture}[->]
 	\tiny
-	\tikzstyle{main}=[circle, minimum size=7mm, draw=black!80, node distance=12mm]
+	\tikzstyle{main}=[ellipse, minimum size=7mm, draw=black!80, node distance=12mm]
 	\foreach \i/\word in {1/{John},3/{looked},5/{at},7/{Mary}} {
 	    \uncover<1->{\node (x\i) at (\i,-1.3) {\small \word};}
 	    \uncover<1->{\node[main, fill=white!100] (h\i) at (\i,0) {\textsc{lstm}};}
@@ -956,7 +956,7 @@
         \uncover<3->{\path (l\current) edge (l\next);}
 	}
 	\uncover<5->{
-        \node[main, fill=white!100] (mlp) at (4,4.6) {\textsc{mlp}};
+        \node[main, fill=white!100] (mlp) at (4,4.6) {feedforward NN};
 		\foreach \i in {1,3} {
 	        \path (l\i) edge (mlp);
 	        \path (k\i) edge (mlp);
@@ -979,7 +979,7 @@
     \hline
     \small Transition-based \\
     Linear \cite{ZhangTDP11} & 89.6 & 87.4 \\
-    MLP \cite{chen2014fast} & 91.8 & 89.6 \\
+    Feedforward NN \cite{chen2014fast} & 91.8 & 89.6 \\
     Stack LSTM \cite{dyer2015transition} & 92.4 & 90.0 \\
     BiLSTM \cite{kiperwasser2016simple} & 93.9 & 91.9
     \end{tabular}
@@ -1372,10 +1372,6 @@
     Early update \cite{Coll:04}: stop training if $c^* \not\in Q$.
 \end{frame}
 
-%\begin{frame}
-%  \frametitle{Label bias and global normalization}
-%\end{frame}
-
 \begin{frame}
   \frametitle{Training with exploration \cite{goldberg2013training}}
   Greedy parsing, but allow making errors during training. Options:
@@ -1422,13 +1418,12 @@
     & $k$ & UAS & LAS \\ \hline
     Greedy \\
     Linear \cite{ZhangTDP11} & 1 & 89.6 & 87.4 \\
-    MLP \cite{chen2014fast} & 1 & 91.8 & 89.6 \\
+    Feedforward NN \cite{chen2014fast} & 1 & 91.8 & 89.6 \\
     Stack LSTM \cite{dyer2015transition} & 1 & 92.4 & 90.0 \\
     \hline
     Beam search \\
     Linear \cite{bohnet2012transition} & 40 & 93.2 & 91.1 \\
-    MLP+perceptron \cite{weiss2015structured} & 8 & 93.9 & 92 \\
-    MLP+global normalization \cite{andor2016globally} & 32 & 94.6 & 92.7 \\
+    Feedforward NN+perceptron \cite{weiss2015structured} & 8 & 93.9 & 92 \\
     \hline
     Dynamic oracle \\
     Stack LSTM \cite{ballesteros-EtAl:2016:EMNLP2016} & 1 & 93.6 & 91.4 \\
@@ -1590,6 +1585,189 @@
     \ENDWHILE
     \end{algorithmic}
 \end{frame}
+
+\begin{frame}
+    \frametitle{Example for arc-standard with \textsc{swap}}
+    \scalebox{.5}{\begin{varwidth}{2.3\linewidth}
+	\minibox[frame]{
+    \begin{dependency}
+      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+        That \^ 's \^ what \^ they \^ 're \^ after \\
+      \end{deptext}
+      \deproot[color=white]{2}{root}
+    \end{dependency}
+	\\
+	\begin{tabular}{|l|}\hline
+	\color{red} root \\ \hline
+	\end{tabular}
+	\hspace{2mm}
+	\begin{tabular}{|l|l|l|l|l|l|}\hline
+	\color{blue} That & \color{blue} 's & \color{blue} what & \color{blue} they & \color{blue} 're & \color{blue} after \\ \hline
+	\end{tabular}
+	}
+    {\footnotesize$\rightarrow\cdots\rightarrow$}
+	\minibox[frame]{
+    \begin{dependency}
+      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+        That \^ 's \^ what \^ they \^ 're \^ after \\
+      \end{deptext}
+      \depedge{2}{1}{nsubj}
+      \deproot[color=white]{2}{root}
+      \depedge{5}{4}{nsubj}
+    \end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|l|l|}\hline
+	\color{red} root & \color{red} 's & \color{red} what & \color{red} 're & \color{red} after \\ \hline
+	\end{tabular}
+	\hspace{21mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{swap}\\$\rightarrow$\end{tabular}
+    
+    \vspace{5mm}
+       
+	\minibox[frame]{
+    \begin{dependency}
+      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+        That \^ 's \^ what \^ they \^ 're \^ after \\
+      \end{deptext}
+      \depedge{2}{1}{nsubj}
+      \deproot[color=white]{2}{root}
+      \depedge{5}{4}{nsubj}
+    \end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|l|}\hline
+	\color{red} root & \color{red} 's & \color{red} what & \color{red} after \\ \hline
+	\end{tabular}
+	\hspace{25mm}
+	\begin{tabular}{|l|}\hline
+	\color{blue} 're \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{left}\\ \textsc{arc}\\{\footnotesize pobj}\\$\rightarrow$\end{tabular}
+	\minibox[frame]{
+    \begin{dependency}
+      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+        That \^ 's \^ what \^ they \^ 're \^ after \\
+      \end{deptext}
+      \depedge{2}{1}{nsubj}
+      \deproot[color=white]{2}{root}
+      \depedge[edge start x offset=.75em]{6}{3}{pobj}
+      \depedge{5}{4}{nsubj}
+    \end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|}\hline
+	\color{red} root & \color{red} 's & \color{red} after \\ \hline
+	\end{tabular}
+	\hspace{37mm}
+	\begin{tabular}{|l|}\hline
+	\color{blue} 're \\ \hline
+	\end{tabular}
+	}
+	\begin{tabular}{c}\textsc{shift}$\rightarrow$\end{tabular}
+	
+    \vspace{5mm}
+    
+	\minibox[frame]{
+    \begin{dependency}
+      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+        That \^ 's \^ what \^ they \^ 're \^ after \\
+      \end{deptext}
+      \depedge{2}{1}{nsubj}
+      \deproot[color=white]{2}{root}
+      \depedge[edge start x offset=.75em]{6}{3}{pobj}
+      \depedge{5}{4}{nsubj}
+    \end{dependency}
+	\\
+	\begin{tabular}{|l|l|l|l|}\hline
+	\color{red} root & \color{red} 's & \color{red} after & \color{red} 're \\ \hline
+	\end{tabular}
+	\hspace{34mm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+	{\footnotesize$\rightarrow\cdots\rightarrow$}
+    \minibox[frame]{
+    \begin{dependency}
+      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+        That \^ 's \^ what \^ they \^ 're \^ after \\
+      \end{deptext}
+      \depedge{2}{1}{nsubj}
+      \deproot{2}{root}
+      \depedge[edge start x offset=.75em]{6}{3}{pobj}
+      \depedge{5}{4}{nsubj}
+      \depedge[edge unit distance=.75em]{2}{5}{ccomp}
+      \depedge{5}{6}{prep}
+    \end{dependency}
+	\\
+	\begin{tabular}{|l|}\hline
+	\color{red} root \\ \hline
+	\end{tabular}
+	\hspace{6cm}
+	\begin{tabular}{|l|}\hline
+	\quad \\ \hline
+	\end{tabular}
+	}
+    \end{varwidth}
+	}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Properties of arc-standard system with \textsc{swap}}
+  \begin{description}
+  \item[Soundness.] Every transition sequence outputs a tree.
+  \item[Completeness.] Every tree is output by some sequence.
+  \item[Complexity.] Input of length $n$ requires $O(n^2)$ transitions, \\
+  but empirically the number of swaps is low $\Rightarrow$ expected $O(n)$ transitions.
+  \end{description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Shift-reduce DAG parsing \cite{sagae2008shift}}
+  Like arc-eager, but does not reduce on $\textsc{arc}$ transitions:
+
+  \begin{tabular}{ll}
+    $\textsc{shift}$ & move one item from the buffer to the stack: \\
+    & $(\Sigma, \; i | B, \; A) \Rightarrow (\Sigma | i, \; B, \; A)$ \\
+    \hline
+    $\textsc{left-arc}_\ell$ & create arc $b_0 \to s_0$ with label $\ell \in \mathcal{L}$: \\
+    & $(\Sigma | i, \; j | B, \; A) \Rightarrow (\Sigma | i, \; j | B, \; A \cup \{(j,\ell,i)\})$ \\
+    & Condition: $i\neq0$ and $j\not\to i$ \\
+    \hline
+    $\textsc{right-arc}_\ell$ & create arc $s_0 \to b_0$ with label $\ell \in \mathcal{L}$: \\
+    & $(\Sigma | i, \; j | B, \; A) \Rightarrow (\Sigma | i|j, \; j | B, \; A \cup \{(i,\ell,j)\})$   \\
+    & Condition: $i\not\to j$ \\
+    \hline
+    $\textsc{reduce}$ & remove $s_0$: \\
+    & $(\Sigma | i, \; B, \; A) \Rightarrow (\Sigma, \; B, \; A)$ \\
+    & Condition: $i$ has a head
+  \end{tabular}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Shift-reduce constituent parsing \cite{sagae2005classifier}}
+  Creates new nodes (constituents) with labels in $\mathcal{X}$:
+
+  \begin{tabular}{ll}
+    $\textsc{shift}$ & move one item from the buffer to the stack: \\
+    & $(\Sigma, \; i | B) \Rightarrow (\Sigma | i, \; B)$ \\
+    \hline
+    $\textsc{reduce}_X$ & create node $[s_1\;s_0]$ with label $X \in \mathcal{X}$: \\
+    & $(\Sigma | i|j \; B) \Rightarrow (\Sigma | [i\;j]_X, \; B)$ \\
+    \hline
+    $\textsc{unary}_X$ & create node $[s_0]$ with label $X \in \mathcal{X}$: \\
+    & $(\Sigma | i \; B) \Rightarrow (\Sigma | [i]_X, \; B)$
+  \end{tabular}
+  
+  \pause\vfill
+  
+  \ldots and these transition systems can be combined for
+  discontinuous constituency DAG parsing \cite{hershcovich2017a}.
+\end{frame}
+
 
 \begin{frame}[allowframebreaks]
 \frametitle{References}
