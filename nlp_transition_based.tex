@@ -9,6 +9,7 @@
   \insertpagenumber% 
   \kern1em\vskip-1em% 
 }
+\usetheme{Antibes}
 \usepackage{pgfpages}
 %\setbeameroption{show notes}
 %\setbeameroption{show notes on second screen=right}
@@ -77,15 +78,15 @@
   \end{frame}
 }
 
-\title{Transition-Based Parsing}
+\title{Transition-based parsing}
 \author{Daniel Hershcovich}
 \date{NLP Course \\ December 24, 2017}
 
 \begin{document}
 
-\begin{frame}
-\titlepage
-\end{frame}
+\frame{\titlepage}
+
+\frame{\frametitle{Overview}\tableofcontents} 
 
 
 %----------------------------------------------------------------------------------------
@@ -572,10 +573,7 @@
   
   \pause\vfill
 
-  Initial configuration (same as arc-standard):
-  \[
-    c_s(w_1, w_2, w_3, \ldots,) = ([0], [1, 2, 3, \ldots], \emptyset)
-  \]
+  Initial configuration: same as arc-standard.
 
   Terminal configuration ($\Sigma$ does not have to be $[0]$):
   \[
@@ -733,7 +731,9 @@
     
     \pause\vfill
     
-    \begin{minipage}{.5\textwidth}
+    \centering
+    \scalebox{.7}{
+    \begin{minipage}{.4\textwidth}
 	\begin{dependency}
 	\begin{deptext}[column sep=.7cm]
 	Alice \& saw \& Bob \\
@@ -743,17 +743,18 @@
 	\depedge{2}{3}{dobj}
 	\end{dependency}
 	\end{minipage}
-    \begin{minipage}{.1\textwidth}
+    \begin{minipage}{.05\textwidth}
 	$\Rightarrow$
 	\end{minipage}
-    \begin{minipage}{.2\textwidth}
-    $\textsc{shift}$,
-	$\textsc{shift}$,
-	$\textsc{left-arc}_\mathrm{nsubj}$,
-	$\textsc{shift}$,
-	$\textsc{right-arc}_\mathrm{dobj}$,
-	$\textsc{right-arc}_\mathrm{root}$
+    \begin{minipage}{1.2\textwidth}
+    $\textsc{shift},
+	\textsc{shift},
+	\textsc{left-arc}_\mathrm{nsubj},
+	\textsc{shift},
+	\textsc{right-arc}_\mathrm{dobj},
+	\textsc{right-arc}_\mathrm{root}$
 	\end{minipage}
+	}
 \end{frame}
 
 \begin{frame}
@@ -799,10 +800,10 @@
     t_i = \argmax_{t^\prime_i \in \mathcal{T}} P(t^\prime_i|c_{i-1}) \quad i=1,\ldots,m
     \]
     
-    \pause\vfill
+    \pause
     
-    To estimate this probability, we estimate it by a score $s(t, c)$.
-    The whole parsing process is then just:
+    A score $s(t, c)$ estimates this probability. Parsing algorithm:
+    
     \begin{algorithmic}[0]
     \STATE{$c\leftarrow c_s(w)$}
     \WHILE{$c\not\in C_t$}
@@ -824,10 +825,10 @@
     Possible hypothesis classes $\mathcal{S}$:
     \begin{enumerate}
     \item Linear (perceptron)
-    \item SVM (support vector machines)
     \item Feedforward neural networks (MLP, multi-layer perceptron)
-    \item Recurrent neural networks
+    \item Recurrent neural networks (RNN, LSTM, GRU)
     \end{enumerate}
+    And others, e.g. SVM.
 \end{frame}
 
 \begin{frame}
@@ -868,65 +869,91 @@
 	  $l$, $r$: left, right dependents. \\
 	  $h$: head.
 	\end{minipage}
-	
-	\pause\vfill
-	
-	SVM transition classifier is similar, and works about as well.
 \end{frame}
 
 \begin{frame}
     \frametitle{NN transition classifier \cite{chen2014fast}}
-    Instead of sparse binary features, uses dense embedding features.
+    Dense \textbf{embedding} features instead of sparse binary features.
     Trained with backpropagation and stochastic gradient descent.
     
     \vfill
     
-    MLP architecture:
+    Feedforward NN (MLP) architecture:
     \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{nn.png}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Bi-RNN encoder \cite{kiperwasser2016simple}}
-    Add bidirectional LSTM RNN to get token representations.
+    \frametitle{Stack-RNN transition classifier \cite{dyer2015transition}}
+    LSTM RNN encoding the \textbf{whole state} instead of specific locations.
     
     \vfill
     
+    Stack LSTM architecture:
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{stackrnn.png}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Bi-RNN encoder \cite{kiperwasser2016simple}}
+    Deep bidirectional LSTM RNN for input representations.
+    
     \centering
+    \scalebox{.85}{
 	\begin{tikzpicture}[->]
 	\tiny
 	\tikzstyle{main}=[circle, minimum size=7mm, draw=black!80, node distance=12mm]
 	\foreach \i/\word in {1/{John},3/{looked},5/{at},7/{Mary}} {
-	    \node (x\i) at (\i,-1.3) {\small \word};
-	    \node[main, fill=white!100] (h\i) at (\i,0) {LSTM};
-        \path (x\i) edge node[left]{\textit{embedding}} (h\i);
-	    \node[main, fill=white!100] (i\i) at (\i.5,.8) {LSTM};
-        \path (x\i) edge [bend right] node[right]{\textit{embedding}} (i\i);
-	    \node[main, fill=white!100] (l\i) at (\i.5,2.3) {LSTM};
-        \path (h\i) edge [bend left] (l\i);
-        \path (i\i) edge (l\i);
-	    \node[main, fill=white!100] (k\i) at (\i,3.1) {LSTM};
-        \path (i\i) edge [bend left] (k\i);
-        \path (h\i) edge [bend left] (k\i);
+	    \uncover<1->{\node (x\i) at (\i,-1.3) {\small \word};}
+	    \uncover<1->{\node[main, fill=white!100] (h\i) at (\i,0) {\textsc{lstm}};}
+        \uncover<1->{\path (x\i) edge node[left]{\textit{embedding}} (h\i);}
+	    \uncover<2->{\node[main, fill=white!100] (i\i) at (\i.5,.8) {\textsc{lstm}};}
+        \uncover<2->{\path (x\i) edge [bend right] node[right]{\textit{embedding}} (i\i);}
+	    \uncover<3->{\node[main, fill=white!100] (l\i) at (\i.5,2.3) {\textsc{lstm}};}
+        \uncover<3->{\path (h\i) edge [bend left] (l\i);}
+        \uncover<3->{\path (i\i) edge (l\i);}
+	    \uncover<4->{\node[main, fill=white!100] (k\i) at (\i,3.1) {\textsc{lstm}};}
+        \uncover<4->{\path (i\i) edge [bend left] (k\i);}
+        \uncover<4->{\path (h\i) edge [bend left] (k\i);}
 	}
-    \node (l4) at (4.5,2.3) {\ldots};
-    \node (k4) at (4,3.1) {\ldots};
-    \node (i4) at (4.5,.8) {\ldots};
-    \node (h4) at (4,0) {\ldots};
-    \node (x4) at (4,-1.3) {\ldots};
+	\uncover<3->{\node (l4) at (4.5,2.3) {\ldots};}
+    \uncover<4->{\node (k4) at (4,3.1) {\ldots};}
+    \uncover<2->{\node (i4) at (4.5,.8) {\ldots};}
+    \uncover<1->{\node (h4) at (4,0) {\ldots};}
+    \uncover<1->{\node (x4) at (4,-1.3) {\ldots};}
 	\foreach \current/\next in {1/3,3/4,4/5,5/7} {
-        \path (i\next) edge (i\current);
-        \path (h\current) edge (h\next);
-        \path (k\next) edge (k\current);
-        \path (l\current) edge (l\next);
+        \uncover<2->{\path (i\next) edge (i\current);}
+        \uncover<1->{\path (h\current) edge (h\next);}
+        \uncover<4->{\path (k\next) edge (k\current);}
+        \uncover<3->{\path (l\current) edge (l\next);}
 	}
-    \node[main, fill=white!100] (mlp) at (4,4.6) {MLP};
-	\foreach \i in {1,3} {
-        \path (l\i) edge (mlp);
-        \path (k\i) edge (mlp);
+	\uncover<5->{
+        \node[main, fill=white!100] (mlp) at (4,4.6) {\textsc{mlp}};
+		\foreach \i in {1,3} {
+	        \path (l\i) edge (mlp);
+	        \path (k\i) edge (mlp);
+	    }
+	    \node (transition) at (4,5.8) {score};
+	    \path (mlp) edge node[right] {\textit{softmax}} (transition);
     }
-    \node (transition) at (4,5.8) {score};
-    \path (mlp) edge node[right] {\textit{softmax}} (transition);
 	\end{tikzpicture}
+	}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Empirical comparison}
+    Evaluation on PTB-SD\footnote{Penn Treebank Wall-Street Journal (WSJ) with Stanford Dependencies}:
+    \begin{center}
+    \begin{tabular}{l|cc}
+    & UAS & LAS \\ \hline
+    \small Graph-based \\
+    MSTParser & 90.7 & 87.6 \\
+    \hline
+    \small Transition-based \\
+    Linear \cite{ZhangTDP11} & 89.6 & 87.4 \\
+    MLP \cite{chen2014fast} & 91.8 & 89.6 \\
+    Stack LSTM \cite{dyer2015transition} & 92.4 & 90.0 \\
+    BiLSTM \cite{kiperwasser2016simple} & 93.2 & 91.2
+    \end{tabular}
+    \end{center}
 \end{frame}
 
 
