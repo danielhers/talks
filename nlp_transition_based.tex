@@ -617,7 +617,25 @@
   
   Complexity: \textbf{at most} $2n$.
   
-  Builds parts of the tree top-down instead of bottom-up.
+  \pause\vfill
+  
+  Builds left-dependents bottom-up and right-dependents top-down.
+  Increased incrementality---no need to wait for the whole sub-tree to be complete before attaching it.
+  
+  \vfill
+  
+  \begin{center}
+  \scalebox{.6}{
+    \begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& looked \& at \& the \& quiet \& old \& man \& who \& sat \& in \& the \& corner \\
+	\end{deptext}
+	\deproot{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge[color=red]{2}{3}{prep}
+	\end{dependency}
+	}
+  \end{center}
 \end{frame}
 
 \begin{frame}
