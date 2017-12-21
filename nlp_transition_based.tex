@@ -884,16 +884,6 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Stack-RNN transition classifier \cite{dyer2015transition}}
-    LSTM RNN encoding the \textbf{whole state} instead of specific locations.
-    
-    \vfill
-    
-    Stack LSTM architecture:
-    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{stackrnn.png}
-\end{frame}
-
-\begin{frame}
     \frametitle{Bi-RNN encoder \cite{kiperwasser2016simple}}
     Deep bidirectional LSTM RNN for input representations.
     
@@ -951,7 +941,6 @@
     \small Transition-based \\
     Linear \cite{ZhangTDP11} & 89.6 & 87.4 \\
     Feedforward NN \cite{chen2014fast} & 91.8 & 89.6 \\
-    Stack LSTM \cite{dyer2015transition} & 92.4 & 90.0 \\
     BiLSTM \cite{kiperwasser2016simple} & 93.9 & 91.9
     \end{tabular}
     \end{center}
@@ -1390,14 +1379,12 @@
     Greedy \\
     Linear \cite{ZhangTDP11} & 1 & 89.6 & 87.4 \\
     Feedforward NN \cite{chen2014fast} & 1 & 91.8 & 89.6 \\
-    Stack LSTM \cite{dyer2015transition} & 1 & 92.4 & 90.0 \\
     \hline
     Beam search \\
     Linear \cite{bohnet2012transition} & 40 & 93.2 & 91.1 \\
     Feedforward NN+perceptron \cite{weiss2015structured} & 8 & 93.9 & 92 \\
     \hline
     Dynamic oracle \\
-    Stack LSTM \cite{ballesteros-EtAl:2016:EMNLP2016} & 1 & 93.6 & 91.4 \\
     BiLSTM \cite{kiperwasser2016simple} & 1 & 93.9 & 91.9 \\
     \end{tabular}
     \end{center}
