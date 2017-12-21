@@ -1666,49 +1666,6 @@
   \end{description}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Shift-reduce DAG parsing \cite{sagae2008shift}}
-  Like arc-eager, but does not reduce on $\textsc{arc}$ transitions:
-
-  \begin{tabular}{ll}
-    $\textsc{shift}$ & move one item from the buffer to the stack: \\
-    & $(\Sigma, \; i | B, \; A) \Rightarrow (\Sigma | i, \; B, \; A)$ \\
-    \hline
-    $\textsc{left-arc}_\ell$ & create arc $b_0 \to s_0$ with label $\ell \in \mathcal{L}$: \\
-    & $(\Sigma | i, \; j | B, \; A) \Rightarrow (\Sigma | i, \; j | B, \; A \cup \{(j,\ell,i)\})$ \\
-    & Condition: $i\neq0$ and $j\not\to i$ \\
-    \hline
-    $\textsc{right-arc}_\ell$ & create arc $s_0 \to b_0$ with label $\ell \in \mathcal{L}$: \\
-    & $(\Sigma | i, \; j | B, \; A) \Rightarrow (\Sigma | i|j, \; j | B, \; A \cup \{(i,\ell,j)\})$   \\
-    & Condition: $i\not\to j$ \\
-    \hline
-    $\textsc{reduce}$ & remove $s_0$: \\
-    & $(\Sigma | i, \; B, \; A) \Rightarrow (\Sigma, \; B, \; A)$ \\
-    & Condition: $i$ has a head
-  \end{tabular}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Shift-reduce constituent parsing \cite{sagae2005classifier}}
-  Creates new nodes (constituents) with labels in $\mathcal{X}$:
-
-  \begin{tabular}{ll}
-    $\textsc{shift}$ & move one item from the buffer to the stack: \\
-    & $(\Sigma, \; i | B) \Rightarrow (\Sigma | i, \; B)$ \\
-    \hline
-    $\textsc{reduce}_X$ & create node $[s_1\;s_0]$ with label $X \in \mathcal{X}$: \\
-    & $(\Sigma | i|j \; B) \Rightarrow (\Sigma | [i\;j]_X, \; B)$ \\
-    \hline
-    $\textsc{unary}_X$ & create node $[s_0]$ with label $X \in \mathcal{X}$: \\
-    & $(\Sigma | i \; B) \Rightarrow (\Sigma | [i]_X, \; B)$
-  \end{tabular}
-  
-  \pause\vfill
-  
-  \ldots and these transition systems can be combined for
-  discontinuous constituency DAG parsing \cite{hershcovich2017a}.
-\end{frame}
-
 
 \begin{frame}[allowframebreaks]
 \frametitle{References}
