@@ -373,6 +373,36 @@
 \end{frame}
 
 \begin{frame}
+    \frametitle{Projectivity}
+    Projective tree (no crossing arcs):
+  \begin{center}
+	\begin{dependency}
+	\begin{deptext}[column sep=.7cm]
+	Alice \& saw \& Bob \\
+	\end{deptext}
+	\deproot{2}{root}
+	\depedge{2}{1}{nsubj}
+	\depedge{2}{3}{dobj}
+	\end{dependency}
+	\end{center}
+	
+	Non-projective tree (cannot be parsed by arc-standard):
+  \begin{center}
+    \begin{dependency}
+      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+        That \^ 's \^ what \^ they \^ 're \^ after \\
+      \end{deptext}
+      \depedge{2}{1}{nsubj}
+      \deproot{2}{root}
+      \depedge[edge start x offset=.75em]{6}{3}{pobj}
+      \depedge{5}{4}{nsubj}
+      \depedge[edge unit distance=.75em]{2}{5}{ccomp}
+      \depedge{5}{6}{prep}
+    \end{dependency}
+  \end{center}
+\end{frame}
+
+\begin{frame}
   \frametitle{Another example for arc-standard transition sequence}
     \scalebox{.5}{\begin{varwidth}{2.2\linewidth}
 	\minibox[frame]{
@@ -1412,7 +1442,52 @@
 \section{Broad-coverage parsing}
 
 \begin{frame}
+    \frametitle{Broad-coverage parsing}
+    Extending the class of parsed graphs (not just projective trees).
+    \begin{itemize}
+    \item {\only<2>{\bf}Non-projective trees.}
+    \item Directed acyclic graphs.
+    \item Beyond bi-lexical dependencies.
+    \end{itemize}
+    
+    \vfill
+    
+  \begin{center}
+    \scalebox{.7}{
+    \begin{dependency}
+      \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+        That \^ 's \^ what \^ they \^ 're \^ after \\
+      \end{deptext}
+      \depedge{2}{1}{nsubj}
+      \deproot{2}{root}
+      \only<1>{\depedge[edge start x offset=.75em]{6}{3}{pobj}}
+      \only<2>{\depedge[color=red,edge start x offset=.75em]{6}{3}{pobj}}
+      \depedge{5}{4}{nsubj}
+      \depedge[edge unit distance=.75em]{2}{5}{ccomp}
+      \depedge{5}{6}{prep}
+    \end{dependency}
+    }
+    \scalebox{.7}{
+    \begin{dependency}
+		\begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
+		Last \^ week \^ , \^ shareholders \^ took \^ their \^ money \^ and \^ ran \\
+		\end{deptext}
+		\deproot{5}{top}
+		\depedge{1}{2}{arg1}
+		\depedge{2}{5}{loc}
+		\depedge{5}{4}{arg1}
+		\depedge{5}{7}{arg2}
+		\depedge{5}{9}{_and_c}
+		\depedge{6}{7}{poss}
+		\depedge{9}{4}{arg1}
+	\end{dependency}
+    }
+  \end{center}
+\end{frame}
+
+\begin{frame}
   \frametitle{Non-projective parsing}
+	This tree cannot be parsed by either arc-standard or arc-eager:
   \begin{center}
     \begin{dependency}
       \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
@@ -1420,12 +1495,21 @@
       \end{deptext}
       \depedge{2}{1}{nsubj}
       \deproot{2}{root}
-      \depedge{6}{3}{}
+      \only<1>{\depedge[edge start x offset=.75em]{6}{3}{pobj}}
+      \only<2>{\depedge[color=red,edge start x offset=.75em]{6}{3}{pobj}}
       \depedge{5}{4}{nsubj}
-      \depedge[edge unit distance=.75em]{2}{5}{}
-      \depedge{5}{6}{}
+      \depedge[edge unit distance=.75em]{2}{5}{ccomp}
+      \depedge{5}{6}{prep}
     \end{dependency}
   \end{center}
+  
+  \pause\vfill
+  
+  The \textit{projectivity} property does not hold:
+  \[
+  \big(i\to k\quad\textrm{or}\quad k\to i\big)\quad\textrm{and}\quad i<j<k \quad\Rightarrow\quad
+  i\leadsto j\quad\textrm{or}\quad k\leadsto j
+  \]
 \end{frame}
 
 \begin{frame}
