@@ -1866,6 +1866,84 @@ Multitask TUPA output: \\
 \end{frame}
 
 
+\section{Cross-lingual Semantic Parsing with UCCA (SemEval'19)}
+
+\begin{frame}
+\frametitle{Shared Task}
+\begin{itemize}
+\item Data: UCCA English Wiki, English-French-German 20K
+\item Baseline: TUPA
+\item Evaluation period: January 10--31, 2019
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Participating Systems}
+ 8 groups in total:
+ \begin{itemize}
+ \item
+ {\it ​MaskParse@Deski\~{n}}  {\small Orange Labs, Aix-Marseille University}
+ \item
+ {\it HLT@SUDA} { \small  Soochow University}
+ \item
+ {\it T\"{u}Pa} {\small   University of T\"{u}bingen}
+ \item
+ {\it UC Davis} {\small   University of California, Davis}
+ \item    
+ {\it GCN-Sem}  {\small   University of Wolverhampton}
+ \item
+    {\it CUNY-PekingU} {\small 	 City University of New York, Peking University}
+ \item
+{\it DANGNT@UIT.VNU-HCM} {\small   University of Information Technology VNU-HCM}
+ \item
+{\it XLangMo} {\small  Zhejiang University}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{Capture}
+    \end{figure}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Main Findings}
+
+\begin{itemize}
+    \item
+        HLT@SUDA won 6/7 tracks: \\
+        Neural constituency parser + multi-task + BERT \\
+        French: trained on all languages, with language embedding
+    \pause\item
+        CUNY-PekingU won the French (open) track: \\
+        TUPA ensemble + synthetic data by machine translation
+\end{itemize}
+        \pause\vfill
+        Surprisingly, results in French were close to English and German
+    \begin{itemize}
+        \item 
+            Demonstrates viability of cross-lingual UCCA parsing
+        \item
+            Is this because of UCCA's stability in translation?
+    \end{itemize}    
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Shared Task Conclusion}
+\Large
+\begin{itemize}
+\item Substantial improvements to UCCA parsing 
+\item High variety of methods
+\item Successful cross-lingual transfer
+\end{itemize}
+
+\end{frame}
+
 \section{Content Differences in Syntactic and Semantic Representations (NAACL'19)}
 
 
@@ -2278,11 +2356,10 @@ Ongoing work:
 \vfill
 \begin{adjustbox}{padding=2mm,frame,minipage=\textwidth}
 \centering
-Please participate in the CoNLL 2019 Shared Task: \\
+CoNLL 2019 Shared Task: \\
 Cross-Framework Meaning Representation Parsing \\
-\quad SDP, EDS, AMR and UCCA \hfill
+SDP, EDS, AMR and UCCA \\
 \Large\texttt{{\color{violet}mrp}.{\color{red}nlpl}.{\color{blue}eu}}
-\hfill {\color{white}|}
 
 \vspace{5mm}
 \large Evaluation Period: July 8--22, 2019
