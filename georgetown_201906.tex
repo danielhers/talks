@@ -24,6 +24,8 @@
 \usepackage{pgf}
 \usepackage{collcell}
 \usepackage{booktabs}
+\usepackage{color,soul}
+
 \usetikzlibrary{arrows.meta,graphs,graphs.standard,graphdrawing,quotes,shapes}
 \usegdlibrary{layered,trees}
 
@@ -40,6 +42,26 @@
 
 \newfontfamily\hebfont[Script=Hebrew, Scale=MatchUppercase]{FreeSans}
 \newcommand{\heb}[1]{\bgroup\textdir TRT\hebfont #1\egroup}
+
+\newcommand{\ucca}[1]{\textcolor{gray}{\textbf{\textsf{#1}}}}
+\newcommand{\sst}[1]{\textsc{#1}}
+\newcommand{\lexcat}[1]{\textsl{#1}}
+
+\definecolor{orange}{rgb}{1,0.5,0}
+\definecolor{mdgreen}{rgb}{0.05,0.6,0.05}
+\definecolor{Acolor}{HTML}{EC5D57} % poppy red
+\definecolor{Pcolor}{HTML}{70BF41} % grass green
+\definecolor{Scolor}{HTML}{51A7F9} % sky blue
+\definecolor{Lcolor}{HTML}{B36AE2} % friendly purple
+\definecolor{mdblue}{rgb}{0,0,0.7}
+\definecolor{dkblue}{rgb}{0,0,0.5}
+\definecolor{dkgray}{rgb}{0.3,0.3,0.3}
+\definecolor{slate}{rgb}{0.25,0.25,0.4}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{ltgray}{rgb}{0.7,0.7,0.7}
+\definecolor{purple}{rgb}{0.7,0,1.0}
+\definecolor{lavender}{rgb}{0.65,0.55,1.0}
+
 
 \makeatletter
 \pgfdeclareshape{vector}{
@@ -1870,8 +1892,29 @@ Multitask TUPA output: \\
 
 \begin{frame}
 \frametitle{Shared Task}
+\Large
 \begin{itemize}
-\item Data: UCCA English Wiki, English-French-German 20K
+\item Data: English Wiki, English-French-German 20K
+     \begin{center}
+      \begin{tabular}{lcc}
+      & sentences & tokens \\
+          \hline
+          English-Wiki & 5,142      & 158,573 \\
+          English-20K  & 492       & 12,574  \\
+          French-20K   & 492       & 12,954  \\
+          German-20K   & 6,514      & 144,531
+      \end{tabular}
+      \end{center}
+\item Tracks:
+        \begin{itemize}
+            \item 
+                English $\{$in-domain/out-of-domain$\} \times 
+                \{$open/closed$\}$
+            \item
+                German in-domain $\{$open/closed$\}$
+            \item
+                French \textit{low-resource} (only 15 training sentences)
+        \end{itemize}
 \item Baseline: TUPA
 \item Evaluation period: January 10--31, 2019
 \end{itemize}
@@ -1933,16 +1976,6 @@ Multitask TUPA output: \\
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Shared Task Conclusion}
-\Large
-\begin{itemize}
-\item Substantial improvements to UCCA parsing 
-\item High variety of methods
-\item Successful cross-lingual transfer
-\end{itemize}
-
-\end{frame}
 
 \section{Content Differences in Syntactic and Semantic Representations (NAACL'19)}
 
@@ -2331,6 +2364,80 @@ head & 445 & 48 & 159 & 6388 & 717 & 142 & 564 & 83 & 2462 & 42 & 1 & 4163 & 120
     \end{dependency}
 \end{frame}
 
+\section{Ongoing Work}
+\begin{frame}
+\frametitle{UCCA in Terms of Syntax and Lexical Semantics}
+
+Complement syntax with \textit{lexical} semantics to make up for differences.
+
+\centering\setulcolor{orange}\setul{0.5ex}{0.3ex}
+\scalebox{.77}{
+\begin{tikzpicture}[->,level distance=12mm,line width=1pt,
+  level 2/.style={sibling distance=37mm},
+  level 3/.style={sibling distance=13mm},
+  every circle node/.append style={fill=black},
+  every node/.append style={text height=.6ex,text depth=0}]
+  \tikzstyle{word} = [font=\rmfamily,color=black]
+  \node (1_1) [circle] {}
+  {
+  child {node (1_2) [circle] {}
+    {
+    child {node {} {
+      child {node (1_4) [word] {\ul{Blue cross}}  edge from parent [draw=none]}
+    } edge from parent [draw=none]}
+    child {node {} {
+      child {node (1_5) [word] {has}  edge from parent [draw=none]}
+    } edge from parent [draw=none]}
+    child {node (1_6) [circle] {}
+      {
+      child {node (1_11) [word] {no}  edge from parent node[left]  {\ucca{E}}}
+      child {node (1_12) [word] {record}  edge from parent node[auto]  {\ucca{C}}}
+      } edge from parent node[auto]  {\ucca{D}}}
+    child [draw=Pcolor] {node (1_7) [circle] {}
+      {
+      child [draw=black] {node (1_8) [word] {of}  edge from parent node[above]  {\ucca{R}}}
+      child [draw=black] {node (1_9) [word] {a}  edge from parent node[auto]  {\ucca{F}}}
+      child [draw=black] {node (1_10) [word] {reversal}  edge from parent node[right]  {\ucca{C}}}
+      child [draw=black] {node (1_13) [word] {.}  edge from parent node[auto]  {\ucca{U}}}
+      } edge from parent node[auto]  {\ucca{\color{Pcolor}P}}}
+    } edge from parent node[auto]  {\ucca{H}}}
+  };
+  \draw[bend right,draw=Acolor] (1_2) to node [auto] {\ucca{\color{Acolor}A}} (1_4);
+  \draw (1_2) to node [auto] {\ucca{F}} (1_5);
+\end{tikzpicture}}
+
+{\sf\tiny
+\setlength\tabcolsep{12pt}
+\begin{tabular}{cccccccccccccc}
+n.GROUP &&& v.stative &&& n.COM- & \hspace{-4mm}p.Topic && \hspace{-2mm}n.EVENT \\
+&&&&&& MUNI- \\
+&&&&&& CATION
+\end{tabular}}
+\vspace{-3mm}
+
+\scalebox{.9}{
+\begin{dependency}[edge below]
+% sent_id = reviews-003418-0006
+% text = Blue cross has no record of aa reversal.
+\begin{deptext}[opacity=0]
+Blue  \& cross \& has \& no  \& record \& of  \& a  \& reversal \& .     \\
+\end{deptext}
+\begin{deptext}[font=\small\sc,column sep=.7em]
+propn \& propn{\color{white}---------} \& verb{\color{white}----------} \& det \& noun   \& adp \& det \& noun     \& punct \\
+\end{deptext}
+\depedge{2}{1}{compound}
+\depedge{3}{2}{nsubj}
+\deproot{3}{root}
+\depedge{5}{4}{det}
+\depedge{3}{5}{obj}
+\depedge{8}{6}{case}
+\depedge{8}{7}{det}
+\depedge{5}{8}{nmod}
+\depedge[edge unit distance=1em]{3}{9}{punct}
+\end{dependency}}
+
+\end{frame}
+
 
 \section*{}
 
@@ -2341,15 +2448,6 @@ head & 445 & 48 & 159 & 6388 & 717 & 142 & 564 & 83 & 2462 & 42 & 1 & 4163 & 120
  \item \parser{}, an accurate UCCA parser, is suited to many representations.\pause
  \item Multitask learning allows useful shared generalizations to emerge.\pause
  \item Divergences limit inter-scheme gain, but highlight relative strengths.\pause
-\end{itemize}
-
-\vfill
-\pause
-
-Ongoing work:
-\begin{itemize}
-  \item Complement syntax with \textit{lexical} semantics to make up for differences.\pause
-  \item Establish cross-framework meaning representation parsing as a task.
 \end{itemize}
 
 \pause
