@@ -122,61 +122,55 @@
 
 
 \title[]{Universal Meaning Representation Parsing}
-\author[Daniel Hershcovich]{Daniel Hershcovich}
-\date{November 18, 2019}
+\author{Daniel Hershcovich}
+\date{ML Section Meeting \\ November 18, 2019}
 
 \begin{frame}
 \titlepage
 \end{frame}
 
 \begin{frame}
-\frametitle{Natural Language Processing: What's It Good For?}
+\frametitle{What can we do with Natural Language Processing?}
 \onslide<2>{Machine translation:}
 \begin{center}
 \onslide<2,5>{
-  \fbox{After graduation, John moved to Copenhagen}
-
-  $\downarrow$
+  \fbox{\heb{דניאל עבר לקופנהגן אחרי שסיים את הלימודים}}
 }
 
 \only<2,4>{
-  \fbox{\heb{ג'ון עבר לקופנהגן אחרי שסיים את הלימודים}}
+  \fbox{After graduation, Daniel moved to Copenhagen}
 }
 \only<3,5->{
-  \fbox{\heb{\underline{\heb{ג'ון}} עבר ל\underline{\heb{קופנהגן}} אחרי שסיים את הלימודים}}
+  \fbox{After graduation, \underline{Daniel} moved to \underline{Copenhagen}}
 }
 \end{center}
 
 \vspace{-7mm}
   
 \only<3>{
-  \vspace{-5mm}
+  \vspace{-9mm}
 
-  Named entity \\
-  recognition:
+  Named \\ entity \\ recognition:
 
-  \hspace{71mm} $\downarrow$ \hspace{12mm} $\downarrow$
+  \hspace{54mm} $\downarrow$ \hspace{27mm} $\downarrow$
 
-  \hspace{65mm} Location \hspace{2mm} Person
+  \hspace{49mm} Person \hspace{17mm} Location
 }
 
 \only<4>{
   Text \\
   simplification:
-  
-  \vspace{-1cm}
 }
   
 \only<4->{  
-  \begin{center}
-  $\downarrow$
-  
-  \fbox{\heb{ג'ון סיים את הלימודים. ג'ון עבר לקופנהגן.}}
+  \begin{center}  
+  \fbox{Daniel graduated. Then Daniel moved to Copenhagen.}
   \end{center}
 }
 
 \only<5->{
-  Sequence-to-sequence sometimes works, but lacks inductive bias.
+  Neural models require the right \textit{inductive bias} for tasks
+  \cite{barrett-etal-2018-sequence,strubell-etal-2018-linguistically}.
 
   \begin{center}
     \begin{tikzpicture}[->]
@@ -203,8 +197,8 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Linguistic Structured Representations}
-Model explicit relations between words or concepts.
+\frametitle{Structured Inductive Bias}
+Symbolic relations between words or concepts.
 
 \vfill
 
@@ -215,7 +209,7 @@ Example: {\color{DarkBlue}syntactic}/{\color{DarkRed}semantic} bi-lexical depend
     \begin{adjustbox}{center}
     \begin{dependency}[line width=1.5pt]
         \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
-          After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+          After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
         \end{deptext}
         \depedge[edge below,draw=DarkRed,edge unit distance=3ex]{1}{2}{ARG2}
         \depedge[edge below,draw=DarkRed,edge unit distance=3ex]{5}{4}{ARG1}
@@ -237,103 +231,59 @@ Example: {\color{DarkBlue}syntactic}/{\color{DarkRed}semantic} bi-lexical depend
 \end{frame}
 
 \begin{frame}
-    \frametitle{Semantic Representations}
+    \frametitle{Meaning Representation}
 Abstract away from detail that does not affect meaning:
-\begin{center}
-    \fbox{\textrm{rest}} $\approx$ \fbox{\textrm{take a break}}
-    
-    \vspace{1cm}
-    
-    \fbox{\textrm{graduation}} $\approx$ \fbox{\heb{סיים את הלימודים}}
+\begin{center}    
+    \fbox{\textrm{graduation}} $\approx$ \fbox{\textrm{graduated}}
+    $\approx$ \fbox{\heb{סיים את הלימודים}} $\approx$ \fbox{\textrm{Abschluss}}
 \end{center}
-\end{frame}
 
-\begin{frame}
-    \frametitle{Semantic Representations}
+\pause\vfill
 
-      \begin{flushright}
-        \scalebox{.6}{
-\begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo]
-    \node[font=\bf\sffamily\Huge,Indigo] at (-3,0) {UCCA};
-    \node (ROOT) [fill=Indigo, circle] {}
-      child {node (After) {After} edge from parent node[left] {L\;}}
-      child {node (graduation) [fill=Indigo, circle] {}
-      {
-        child {node {graduation} edge from parent node[left] {P}}
-      } edge from parent node[left] {H} }
-      child {node {,} edge from parent node[right] {U}}
-      child {node (moved) [fill=Indigo, circle] {}
-      {
-        child {node (John) {John} edge from parent node[left] {A}}
-        child {node {moved} edge from parent node[left] {P}}
-        child {node [fill=Indigo, circle] {}
-        {
-          child {node {to} edge from parent node[left] {R}}
-          child {node {Copenhagen} edge from parent node[left] {C}}
-        } edge from parent node[left] {A} }
-      } edge from parent node[right] {H} }
-      ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
-\end{tikzpicture}
-        }
-      \end{flushright}
-    
-    \vspace{-23mm}
-    
-    \scalebox{.6}{
-\begin{tikzpicture}
-\node[font=\bf\sffamily\Huge,DarkGreen] at (0,6) {AMR};
-\graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
-a4 Copenhagen[as={Copenhagen}];
-a2 John[as={John}];
-a1[as={person}];
-a0[as={move-01}];
-a3[as={city}];
-a2[as={name}];
-a5[as={after}];
-a4[as={name}];
-a6[as={graduate-01}];
+But capture useful distinctions, such as:
+\vfill
 
-a1 ->  ["name"' above] a2;
-a0 ->  ["ARG0"' above] a1;
-a0 ->  ["ARG2"' above] a3;
-a0 ->  ["time"' above] a5;
-a3 ->  ["name"' above] a4;
-a2 ->  ["op1"' above] a2 John;
-a5 ->  ["op1"' above] a6;
-a4 ->  ["op1"' above] a4 Copenhagen;
-};
-\draw[->, above, DarkGreen] (a6) to node[sloped] {ARG0} (a1);
-\end{tikzpicture}
-      }
-    \vspace{-15mm}
-    
-    \begin{flushright}
-    \begin{minipage}{.01\textwidth}
-    {\color{DarkRed}\bf\sffamily\Large DM}
-    \end{minipage}
-    \begin{minipage}{.6\textwidth}
-        \rmfamily
-        \scalebox{.7}{
-\begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed},
-            text only label, label style={above, color=DarkRed, font=\bf\ttfamily}, font=\small]
-    \begin{deptext}[column sep=1em,ampersand replacement=\^]
-	After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
-    \end{deptext}
-    \deproot{5}{top}
-    \depedge{1}{2}{ARG2}
-    \depedge{1}{5}{ARG1}
-    \depedge{5}{4}{ARG1}
-    \depedge{6}{5}{ARG1}
-    \depedge{6}{7}{ARG2}
-\end{dependency}
-    }
-    \end{minipage}
-    \end{flushright}
-\end{frame}
+\begin{minipage}{.38\textwidth}
+\begin{itemize}
+\item {\only<2>{\color{red}}Scenes and participants}
+\item {\only<3>{\color{red}}Scene linkage}
+\item {\only<4>{\color{red}}Multi-word chunking}
+\end{itemize}
+\end{minipage}
+\begin{minipage}{.58\textwidth}\scalebox{.8}{
+            \begin{tikzpicture}[level distance=21mm, sibling distance=1mm,
+                every node/.append style={font=\rmfamily},
+            	every circle node/.append style={fill=Indigo}]
+                \begin{scope}[frontier/.style={distance from root=56mm},
+                    edge from parent/.append style={nodes={font=\scriptsize}}]
+                \Tree [.\node [circle] (root u) {};
+                  \edge node[auto=right,alt=<1>{draw=red}{}]{L}; \node {Nach};
+                  \edge node[auto=left]{H};
+                  [.\node[circle,alt=<2>{fill=red,draw=red}{}](abschluss) {};
+                    \edge node[auto=left]{P};
+                    [.\node [circle] {};
+                      \edge node[auto=right]{R}; \node {seinem};
+                      \edge node[right]{C}; \node (graduation) {Abschluss};
+                    ]
+                  ]
+                  \edge node[auto=left]{H};
+                  [.\node[circle]{};
+                    \edge node[auto=left]{P};
+                    [.\node[circle,xshift=8mm,alt=<3>{fill=red}{}](zogum) {};
+                      \edge node[auto=right]{}; \node {zog};
+                    ]
+                    \edge node[auto=right]{A}; \node(Daniel) {Daniel};
+                    \edge[draw=none]; \node(um) {um};
+                  ]
+                ]
+                \draw[dashed] (abschluss) to node[auto] {\scriptsize A} (Daniel);
+                \draw (zogum.south) to node[auto] {} (um);
+                \end{scope}
+            \end{tikzpicture}}
+\end{minipage}\end{frame}
 
 
-\section{Background: The UCCA Semantic Representation Scheme}
+\section{UCCA}
 
 \begin{frame}
 \frametitle{Universal Conceptual Cognitive Annotation (UCCA)}
@@ -356,12 +306,12 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
                 \Tree [.\node [circle] (root u) {};
                   \edge node [auto=right]{L}; \node (After u) {After};
                   \edge node[auto=left]{H};
-                  [.\node [circle,xshift=8mm](graduation John u) {};
+                  [.\node [circle,xshift=8mm](graduation Daniel u) {};
                     \edge node[auto=right]{P}; \node (graduation u) {graduation};
                   ]
                   \edge node[auto=left]{H};
-                  [.\node [circle](John moved to Copenhagen u) {};
-                    \edge node[auto=right]{A}; \node (John u) {John};
+                  [.\node [circle](Daniel moved to Copenhagen u) {};
+                    \edge node[auto=right]{A}; \node (Daniel u) {Daniel};
                     \edge node[auto=left]{P}; \node (moved u) {moved};
                     \edge node[auto=left]{A};
                     [.\node [circle](to Copenhagen u) {};
@@ -370,7 +320,7 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
                     ]
                   ]
                 ]
-                \draw[dashed] (graduation John u) to node[auto] {\scriptsize A} (John u);
+                \draw[dashed] (graduation Daniel u) to node[auto] {\scriptsize A} (Daniel u);
                 \end{scope}
                 \onslide<2->{
                   \begin{scope}[xshift=2cm,yshift=-58mm,grow'=up,level distance=9mm,
@@ -380,7 +330,7 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
                       edge from parent/.append style={nodes={font=\scriptsize}}]
                   \Tree [.\node [circle] (rootd) {};
                     \edge node[auto=left]{H};
-                    [.\node [circle,xshift=-5mm] (John siyem et halimudim d) {};
+                    [.\node [circle,xshift=-5mm] (Daniel siyem et halimudim d) {};
                       \edge node[auto=left]{P}; \node (halimudim d) {\heb{הלימודים}};
                       \edge node[auto=left]{F}; \node (et d) {\heb{את}};
                       \edge node[auto=right]{D}; \node (siyem d) {\heb{שסיים}};
@@ -390,16 +340,16 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
                     [.\node [circle] (hu avar lecopenhagen d) {};
                       \edge node[auto=left,anchor=south east]{A}; \node (lecopenhagen d) {\heb{לקופנהגן}};
                       \edge node[auto=left]{P}; \node (avar d) {\heb{עבר}};
-                      \edge node[auto=right]{A}; \node (John d) {\heb{ג'ון}};
+                      \edge node[auto=right]{A}; \node (Daniel d) {\heb{דניאל}};
                     ]
                   ]
-                  \draw[dashed] (John siyem et halimudim d) to[out=-15,in=-150] node[above] {\scriptsize A} (John d);
+                  \draw[dashed] (Daniel siyem et halimudim d) to[out=-15,in=-150] node[above] {\scriptsize A} (Daniel d);
                   \end{scope}
                 }\onslide<3>{
                   \begin{scope}[dashed,thick]
                     \draw[DarkRed] (After u) to[out=-45,in=135] (ahrei d);
-                    \draw[DarkGreen] (graduation u) to[out=-90,in=100] (John siyem et halimudim d);
-                    \draw[DarkBlue] (John u) -- (John d);
+                    \draw[DarkGreen] (graduation u) to[out=-90,in=100] (Daniel siyem et halimudim d);
+                    \draw[DarkBlue] (Daniel u) -- (Daniel d);
                     \draw[orange] (moved u) to[out=-30,in=90] (avar d);
                     \draw[magenta] (to Copenhagen u) to[out=-90,in=70] (lecopenhagen d);
                   \end{scope}
@@ -438,9 +388,9 @@ Semantics-based \textbf{evaluation} of
                 \edge node[auto=left]{}; \node (appleu) {apple};
                 ]
                 \edge node[auto=left]{};
-                [.\node [circle](for john) {};
+                [.\node [circle](for daniel) {};
                 \edge node[auto=right]{};\node (for) {for};
-                \edge node[auto=left]{}; \node (john) {john};
+                \edge node[auto=left]{}; \node (daniel) {daniel};
                 ]]
                 \end{scope}
                 \begin{scope}[yshift=-41mm,grow'=up,
@@ -450,7 +400,7 @@ Semantics-based \textbf{evaluation} of
                 \Tree [.\node [circle] (rootd) {};
                 \edge node [auto=left]{}; \node (Hed) {He};
                 \edge node[auto=right]{}; \node (gave) {gave};
-                \edge node[auto=right]{};\node (John) {John};
+                \edge node[auto=right]{};\node (Daniel) {Daniel};
                 \edge node[auto=right]{};
                 [.\node [circle] (an appled) {};
                 \edge node[auto=left]{}; \node (and) {an};
@@ -461,7 +411,7 @@ Semantics-based \textbf{evaluation} of
                 \begin{scope}[dashed]
                 \draw (Heu) -- (Hed);
                 \draw (gve) -- (gave);
-                \draw (John) -- (john);
+                \draw (Daniel) -- (daniel);
                 \draw (anu) -- (and);
                 \draw (appleu) -- (appled);
                 \end{scope}
@@ -547,7 +497,7 @@ Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. 
     \node (ROOT) [fill=blue, circle] {}
       child {node [fill=blue, circle] {}
       {
-        child {node {John} edge from parent node[left] {C}}
+        child {node {Daniel} edge from parent node[left] {C}}
         child {node {and} edge from parent node[left] {N}}
         child {node {Mary} edge from parent node[right] {C}}
       } edge from parent node[left] {A} }
@@ -566,7 +516,7 @@ Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. 
       every node/.append style={midway},
       edge from parent/.append style={nodes={font=\scriptsize}}]
     \node (ROOT) [fill=black, circle] {}
-      child {node {John} edge from parent node[left] {A}}
+      child {node {Daniel} edge from parent node[left] {A}}
       child {node [fill=black, circle] {}
       {
       	child {node {gave} edge from parent node[left] {C}}
@@ -594,7 +544,7 @@ Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. 
       child {node {,} edge from parent node[right] {U}}
       child {node (moved) [fill=black, circle] {}
       {
-        child {node (John) {John} edge from parent node[left] {A}}
+        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
         child {node {moved} edge from parent node[left] {P}}
         child {node [fill=black, circle] {}
         {
@@ -603,7 +553,7 @@ Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. 
         } edge from parent node[right] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->,orange,very thick] (graduation) to node [auto] {\scriptsize A} (John);
+    \draw[dashed,->,orange,very thick] (graduation) to node [auto] {\scriptsize A} (Daniel);
 \end{tikzpicture}}
 \end{frame}
 
@@ -649,7 +599,7 @@ Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. 
 
 
 
-\section[Transition-based UCCA Parser]{A Transition-Based DAG Parser for UCCA (ACL'17)}
+\section{Transition-based UCCA Parser}
 
 \begin{frame}
 \frametitle{TUPA: Transition-based UCCA Parser}
@@ -1021,7 +971,7 @@ with bi-lexical DAG parsers and transition-based tree parsers.
         child {node [word] {,} edge from parent node[right] {U}}
         child {node (moved) [circle] {}
         {
-          child {node (John) [word] {John} edge from parent node[left] {A}}
+          child {node (Daniel) [word] {Daniel} edge from parent node[left] {A}}
           child {node [word] {moved} edge from parent node[left] {P}}
           child {node [circle] {}
           {
@@ -1030,7 +980,7 @@ with bi-lexical DAG parsers and transition-based tree parsers.
           } edge from parent node[right] {A} }
         } edge from parent node[right] {H} }
         ;
-      \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+      \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
     \end{tikzpicture}
 \end{minipage}
 
@@ -1038,7 +988,7 @@ with bi-lexical DAG parsers and transition-based tree parsers.
 \begin{flushleft}
     \begin{dependency}
     \begin{deptext}[column sep=.7em,ampersand replacement=\^,font=\rmfamily, thick]
-	After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+	After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
     \depedge{2}{1}{L}
     \depedge{2}{3}{U}
@@ -1070,7 +1020,7 @@ with bi-lexical DAG parsers and transition-based tree parsers.
         child {node [word] {,} edge from parent node[right] {U}}
         child {node (moved) [circle] {}
         {
-          child {node (John) [word] {John} edge from parent node[left] {A}}
+          child {node (Daniel) [word] {Daniel} edge from parent node[left] {A}}
           child {node [word] {moved} edge from parent node[left] {P}}
           child {node [circle] {}
           {
@@ -1079,7 +1029,7 @@ with bi-lexical DAG parsers and transition-based tree parsers.
           } edge from parent node[right] {A} }
         } edge from parent node[right] {H} }
         ;
-      \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+      \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
       \node at (8,.7) {Automatically predicted graph for the same text};
       \node (ROOT_) at (7,0) [circle] {}
         child {node (After_) [word] {After} edge from parent node[left] {L}}
@@ -1090,13 +1040,13 @@ with bi-lexical DAG parsers and transition-based tree parsers.
         child {node [word] {,} edge from parent node[right] {U}}
         child {node (moved) [circle,xshift=3mm,yshift=-7mm] {}
         {
-          child {node (John_) [word] {John} edge from parent node[left] {A}}
+          child {node (Daniel_) [word] {Daniel} edge from parent node[left] {A}}
           child {node [word] {moved} edge from parent node[left] {P}}
           child[alt=<2>{red}{}] {node [word] {to} edge from parent node[left] {F}}
           child[alt=<2>{red}{}] {node (Copenhagen_) [word] {Copenhagen} edge from parent node[right] {A}}
         } edge from parent node[right] {H} }
         ;
-      \draw[dashed,->] (graduation_) to node [auto] {\scriptsize A} (John_);
+      \draw[dashed,->] (graduation_) to node [auto] {\scriptsize A} (Daniel_);
       \draw[bend left,dashed,->,alt=<2>{red}{}] (graduation_) to[in=90] node [auto] {\scriptsize A} (Copenhagen_);
     \end{tikzpicture}
 \end{adjustbox}
@@ -1224,7 +1174,7 @@ Up next:
 
 
 
-\section{Multitask Parsing across Semantic Representations (ACL'18)}
+\section{Multi-task Meaning Representation Parsing}
 
 
 \begin{frame}
@@ -1243,7 +1193,7 @@ Up next:
       child {node {,} edge from parent node[right] {U}}
       child {node (moved) [fill=Indigo, circle] {}
       {
-        child {node (John) {John} edge from parent node[left] {A}}
+        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
         child {node {moved} edge from parent node[left] {P}}
         child {node [fill=Indigo, circle] {}
         {
@@ -1252,7 +1202,7 @@ Up next:
         } edge from parent node[left] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
 \end{tikzpicture}
         }
       \end{flushright}
@@ -1264,7 +1214,7 @@ Up next:
 \node[font=\bf\sffamily\Huge,DarkGreen] at (0,6) {AMR};
 \graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
 a4 Copenhagen[as={Copenhagen}];
-a2 John[as={John}];
+a2 Daniel[as={Daniel}];
 a1[as={person}];
 a0[as={move-01}];
 a3[as={city}];
@@ -1278,7 +1228,7 @@ a0 ->  ["ARG0"' above] a1;
 a0 ->  ["ARG2"' above] a3;
 a0 ->  ["time"' above] a5;
 a3 ->  ["name"' above] a4;
-a2 ->  ["op1"' above] a2 John;
+a2 ->  ["op1"' above] a2 Daniel;
 a5 ->  ["op1"' above] a6;
 a4 ->  ["op1"' above] a4 Copenhagen;
 };
@@ -1299,7 +1249,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 \begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed}, alt=<2-3>{opacity=.3}{},
             text only label, label style={above, color=DarkRed, font=\bf\ttfamily}, font=\small, thick]
     \begin{deptext}[column sep=1em,ampersand replacement=\^]
-	After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+	After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
     \deproot{5}{top}
     \depedge{1}{2}{ARG2}
@@ -1323,7 +1273,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \begin{dependency}[text only label, edge style={-{Latex[length=2mm]}, color=DarkBlue}, thick,
                        label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
     \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
         \depedge{2}{1}{case}
         \depedge{2}{3}{punct}
@@ -1405,7 +1355,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
       } edge from parent [draw=none]}
       child {node {}
       {
-        child {node [word] (John) {John{\color{white}g}} edge from parent [draw=none]}
+        child {node [word] (Daniel) {Daniel{\color{white}g}} edge from parent [draw=none]}
       } edge from parent [draw=none]}
       child {node {}
       {
@@ -1418,7 +1368,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
       } edge from parent node {obl}}
       ;
       \draw (ROOT) to node {punct} (comma);
-      \draw (ROOT) to node {nsubj} (John);
+      \draw (ROOT) to node {nsubj} (Daniel);
       \draw (ROOT) to node {head} (moved);
   \end{tikzpicture}
 }
@@ -1455,15 +1405,15 @@ a4 ->  ["op1"' above] a4 Copenhagen;
       {
             child {node (graduation) [draw=DarkGreen,ellipse] {graduate-01} edge from parent node {op1} }
       } edge from parent node {time} }
-      child {node (John) [draw=DarkGreen,ellipse] {person}
+      child {node (Daniel) [draw=DarkGreen,ellipse] {person}
       {
         child {node [draw=DarkGreen,ellipse] {name}
         {
-            child {node [draw=DarkGreen,ellipse] {"John"} edge from parent node {op1} }
+            child {node [draw=DarkGreen,ellipse] {"Daniel"} edge from parent node {op1} }
         } edge from parent node {name} }
       } edge from parent node {ARG0} }
       ;
-      \draw (graduation) to node {ARG0} (John);
+      \draw (graduation) to node {ARG0} (Daniel);
   \end{tikzpicture}
   }
   
@@ -1472,7 +1422,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \begin{dependency}[theme=simple,text only label, font=\small, edge style={color=DarkRed},
                        label style={above, color=DarkRed, font=\bf\ttfamily}]
     \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
         \depedge{1}{2}{ARG2}
         \depedge{5}{4}{ARG1}
@@ -1489,7 +1439,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \begin{dependency}[text only label, edge style={color=DarkBlue},
                        label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
     \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
         \depedge{2}{1}{case}
         \depedge{2}{3}{punct}
@@ -1525,16 +1475,16 @@ a4 ->  ["op1"' above] a4 Copenhagen;
       {
             child {node (graduation) [word] {graduation} edge from parent node {op} }
       } edge from parent node {time} }
-      child {node (John) [fill=DarkGreen,circle] {}
+      child {node (Daniel) [fill=DarkGreen,circle] {}
       {
-        child {node [word] {John} edge from parent node {name} }
+        child {node [word] {Daniel} edge from parent node {name} }
       } edge from parent node {ARG0} }
       child {node [fill=DarkGreen,circle] {}
       {
         child {node [word] {Copenhagen} edge from parent node {name} }
       } edge from parent node {ARG2} }
       ;
-      \draw[dashed] (graduation) to node {ARG0} (John);
+      \draw[dashed] (graduation) to node {ARG0} (Daniel);
   \end{tikzpicture}}
 
   \vspace{5mm}
@@ -1561,7 +1511,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
       {
         child {node (moved) [fill=DarkRed,circle] {}
         {
-          child {node [word] {\quad{\color{white}g} John} edge from parent node {ARG1}}
+          child {node [word] {\quad{\color{white}g} Daniel} edge from parent node {ARG1}}
           child {node [word] {moved{\color{white}g}} edge from parent node {head}}
         } edge from parent [draw=none] }
       } edge from parent [draw=none] }
@@ -1594,7 +1544,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 
 
 \begin{frame}
-    \frametitle{Multitask}
+    \frametitle{Multi-task}
     \begin{minipage}{.05\pagewidth}
     \scalebox{6}{\{}
     \end{minipage}
@@ -1612,7 +1562,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
       child {node {,} edge from parent node[right] {U}}
       child {node (moved) [fill=Indigo, circle] {}
       {
-        child {node (John) {John} edge from parent node[left] {A}}
+        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
         child {node {moved} edge from parent node[left] {P}}
         child {node [fill=Indigo, circle] {}
         {
@@ -1621,7 +1571,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
         } edge from parent node[left] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
 \end{tikzpicture}
         }
     \end{minipage}
@@ -1630,7 +1580,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 \begin{tikzpicture}
 \graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
 a4 Copenhagen[as={Copenhagen}];
-a2 John[as={John}];
+a2 Daniel[as={Daniel}];
 a1[as={person}];
 a0[as={move-01}];
 a3[as={city}];
@@ -1644,7 +1594,7 @@ a0 ->  ["ARG0"' above] a1;
 a0 ->  ["ARG2"' above] a3;
 a0 ->  ["time"' above] a5;
 a3 ->  ["name"' above] a4;
-a2 ->  ["op1"' above] a2 John;
+a2 ->  ["op1"' above] a2 Daniel;
 a5 ->  ["op1"' above] a6;
 a4 ->  ["op1"' above] a4 Copenhagen;
 };
@@ -1658,7 +1608,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 \begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed},
             text only label, label style={above, color=DarkRed, font=\bf\ttfamily}, font=\small]
     \begin{deptext}[column sep=1.5em,ampersand replacement=\^]
-	After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+	After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
     \deproot{5}{top}
     \depedge{1}{2}{ARG2}
@@ -1673,7 +1623,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \begin{dependency}[edge style={-{Latex[length=2mm]}, color=DarkBlue},
         text only label, label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
     \begin{deptext}[column sep=1.5em,ampersand replacement=\^, color=DarkBlue]
-    After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
         \depedge[edge unit distance=1em]{2}{1}{case}
         \depedge[edge unit distance=1em]{2}{3}{punct}
@@ -1693,7 +1643,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     
     \vfill
     
-    Multitask TUPA model:
+    Multi-task TUPA model:
     
     \vspace{-7mm}
     
@@ -1833,7 +1783,7 @@ TUPA output: \\
 
 \vspace{-5mm}
 
-Multitask TUPA output: \\
+Multi-task TUPA output: \\
 (+AMR+DM+UD)
 
 \vspace{-5mm}
@@ -1888,7 +1838,7 @@ Multitask TUPA output: \\
 \end{frame}
 
 
-\section{Cross-lingual Semantic Parsing with UCCA (SemEval'19)}
+\section{Cross-lingual UCCA Parsing}
 
 \begin{frame}
 \frametitle{Shared Task}
@@ -1975,12 +1925,12 @@ Multitask TUPA output: \\
     \end{itemize}    
 \end{frame}
 
-\section{Cross-Framework Meaning Representation Parsing (CoNLL'19)}
+\section{Cross-framework Meaning Representation Parsing}
 
 
 
 
-\section{Content Differences in Syntactic and Semantic Representations (NAACL'19)}
+\section{What Distinguishes Meaning Representations?}
 
 
 \begin{frame}
@@ -2004,7 +1954,7 @@ Multitask TUPA output: \\
       child {node {,} edge from parent node[right] {U}}
       child {node (moved) [fill=Indigo, circle] {}
       {
-        child {node (John) {John} edge from parent node[left] {A}}
+        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
         child {node {moved} edge from parent node[left] {P}}
         child {node [fill=Indigo, circle] {}
         {
@@ -2013,7 +1963,7 @@ Multitask TUPA output: \\
         } edge from parent node[left] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
 \end{tikzpicture}
         }
     \end{minipage}
@@ -2036,7 +1986,7 @@ Multitask TUPA output: \\
     \begin{dependency}[text only label, edge style={-{Latex[length=2mm]}, color=DarkBlue, thick},
                        label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
     \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
         \depedge{2}{1}{case}
         \depedge{2}{3}{punct}
@@ -2062,7 +2012,7 @@ Multitask TUPA output: \\
     \begin{dependency}[text only label, edge style={color=DarkBlue},
                        label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
     \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
     \end{deptext}
         \depedge{2}{1}{case}
         \depedge{2}{3}{punct}
@@ -2110,7 +2060,7 @@ Now we can evaluate by matching edges (UCCA unlabeled evaluation)
       child {node {,} edge from parent node[right] {U}}
       child {node (moved) [fill=Indigo, circle] {}
       {
-        child {node (John) {John} edge from parent node[left] {A}}
+        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
         child {node {moved} edge from parent node[left] {P}}
         child {node [fill=Indigo, circle] {}
         {
@@ -2119,7 +2069,7 @@ Now we can evaluate by matching edges (UCCA unlabeled evaluation)
         } edge from parent node[left] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
 \end{tikzpicture}
 }
 \end{minipage}
@@ -2210,7 +2160,7 @@ head & 445 & 48 & 159 & 6388 & 717 & 142 & 564 & 83 & 2462 & 42 & 1 & 4163 & 120
       child {node {,} edge from parent node[right] {U}}
       child {node (moved) [fill=Indigo, circle] {}
       {
-        child {node (John) {John} edge from parent [alt=<3>{red}{Indigo}] node[above] {A}}
+        child {node (Daniel) {Daniel} edge from parent [alt=<3>{red}{Indigo}] node[above] {A}}
         child {node {moved} edge from parent [Indigo] node[left] {P}}
         child {node [fill=Indigo, circle] {}
         {
@@ -2219,7 +2169,7 @@ head & 445 & 48 & 159 & 6388 & 717 & 142 & 564 & 83 & 2462 & 42 & 1 & 4163 & 120
         } edge from parent [alt=<3>{red}{Indigo}] node[right] {A} }
       } edge from parent [alt=<2>{red}{}] node[above] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {A} (John);
+    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
 \end{tikzpicture}
 }
 \end{flushright}
@@ -2449,7 +2399,7 @@ propn \& propn{\color{white}---------} \& verb{\color{white}----------} \& det \
 \begin{itemize}
  \item Meaning representation is valuable for language understanding.\pause
  \item \parser{}, an accurate UCCA parser, is suited to many representations.\pause
- \item Multitask learning allows useful shared generalizations to emerge.\pause
+ \item Multi-task learning allows useful shared generalizations to emerge.\pause
  \item Divergences limit inter-scheme gain, but highlight relative strengths.\pause
 \end{itemize}
 
