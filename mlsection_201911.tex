@@ -444,9 +444,6 @@ Semantics-based \textbf{evaluation} of
 \end{frame}
 
 
-
-\section{Transition-based UCCA Parser}
-
 \begin{frame}
 \frametitle{TUPA: Transition-based UCCA Parser}
 
@@ -614,57 +611,14 @@ Learns to greedily predict transition based on current state.
 \section{Cross-lingual Parsing}
 
 \begin{frame}
-\frametitle{Shared Task}
+\frametitle{SemEval 2019 Shared Task: Cross-lingual UCCA Parsing}
 \Large
 \begin{itemize}
-\item Data: English Wiki, English-French-German 20K
-     \begin{center}
-      \begin{tabular}{lcc}
-      & sentences & tokens \\
-          \hline
-          English-Wiki & 5,142      & 158,573 \\
-          English-20K  & 492       & 12,574  \\
-          French-20K   & 492       & 12,954  \\
-          German-20K   & 6,514      & 144,531
-      \end{tabular}
-      \end{center}
-\item Tracks:
-        \begin{itemize}
-            \item 
-                English $\{$in-domain/out-of-domain$\} \times 
-                \{$open/closed$\}$
-            \item
-                German in-domain $\{$open/closed$\}$
-            \item
-                French \textit{low-resource} (only 15 training sentences)
-        \end{itemize}
+\item Data: English, French, German.
+\item Tracks: $\{$in-domain/out-of-domain$\} \times \{$open/closed$\}$.
 \item Baseline: TUPA
-\item Evaluation period: January 10--31, 2019
+\item Participants: 8 teams from China, Vietnam, France, Germany, U.S., U.K.
 \end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Participating Systems}
- 8 groups in total:
- \begin{itemize}
- \item
- {\it ​MaskParse@Deski\~{n}}  {\small Orange Labs, Aix-Marseille University}
- \item
- {\it HLT@SUDA} { \small  Soochow University}
- \item
- {\it T\"{u}Pa} {\small   University of T\"{u}bingen}
- \item
- {\it UC Davis} {\small   University of California, Davis}
- \item    
- {\it GCN-Sem}  {\small   University of Wolverhampton}
- \item
-    {\it CUNY-PekingU} {\small 	 City University of New York, Peking University}
- \item
-{\it DANGNT@UIT.VNU-HCM} {\small   University of Information Technology VNU-HCM}
- \item
-{\it XLangMo} {\small  Zhejiang University}
-\end{itemize}
-
 \end{frame}
 
 \begin{frame}
@@ -677,25 +631,13 @@ Learns to greedily predict transition based on current state.
 
 
 \begin{frame}
-\frametitle{Main Findings}
+\frametitle{UCCA Graph Parsing as Constituent Tree Parsing}
+Winning system: HLT@SUDA (Soochow University).
 
-\begin{itemize}
-    \item
-        HLT@SUDA won 6/7 tracks: \\
-        Neural constituency parser + multi-task + BERT \\
-        French: trained on all languages, with language embedding
-    \pause\item
-        CUNY-PekingU won the French (open) track: \\
-        TUPA ensemble + synthetic data by machine translation
-\end{itemize}
-        \pause\vfill
-        Surprisingly, results in French were close to English and German
-    \begin{itemize}
-        \item 
-            Demonstrates viability of cross-lingual UCCA parsing
-        \item
-            Is this because of UCCA's stability in translation?
-    \end{itemize}    
+Neural constituency parser + multi-task + BERT.
+\includegraphics[width=.3\textwidth]{hltsuda1}
+\includegraphics[width=.3\textwidth]{hltsuda2}
+\includegraphics[width=.3\textwidth]{hltsuda3}
 \end{frame}
 
 
