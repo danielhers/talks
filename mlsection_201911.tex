@@ -634,7 +634,7 @@ Learns to greedily predict transition based on current state.
 \frametitle{UCCA Graph Parsing as Constituent Tree Parsing}
 Winning system: HLT@SUDA (Soochow University).
 
-Neural constituency parser + multi-task + BERT.
+Neural constituency parser + multilingual BERT.
 \begin{center}
 %\includegraphics[width=.4\textwidth]{hltsuda1}$\to$
 %\includegraphics[width=.4\textwidth]{hltsuda2}
@@ -1242,7 +1242,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 		    axis x line=none,
 		    axis line style={draw=none},
 		    clip=false,
-		    title={French (in-domain)}
+		    title={French}
 		    ]
 %		    \addplot [fill=Crimson, point meta=explicit symbolic,nodes near coords,
 %		    nodes near coords align={anchor=west}] table [x=rf1,y expr=\coordindex,meta=rf1] {\frenchdata};
@@ -1269,7 +1269,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 		    axis x line=none,
 		    axis line style={draw=none},
 		    clip=false,
-		    title={German (in-domain)}
+		    title={German}
 		    ]
 %		    \addplot [fill=Crimson, point meta=explicit symbolic,nodes near coords,
 %		    nodes near coords align={anchor=west}] table [x=rf1,y expr=\coordindex,meta=rf1] {\germandata};
@@ -1397,6 +1397,241 @@ Multi-task TUPA output: \\
 \end{tikzpicture}}
 \end{frame}
 
+
+
+
+\pgfplotstableread{
+a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
+1 2 3 4 5 6 1	ERG	Composition	0.383	0.961	{}	0.952	{}	{}
+1 2 3 4 5 6 3	{TUPA single}	Transition	0.577	0.555	0.518	0.810	0.276	0.447
+1 2 3 4 5 6 3	{TUPA multi}	Transition	0.453	0.427	0.527	0.740	0.237	0.338
+1 2 3 4 5 6 2	SJTU--NICT	Factorization	0.853	0.955	0.912	0.899	0.778	0.720
+1 2 3 4 5 6 1	Saarland	Composition	0.819	0.947	0.913	0.891	0.676	0.667
+1 2 3 4 5 6 3	{{\'U}FAL MRPipe}	Transition	0.747	0.849	0.763	0.675	0.732	0.718
+1 2 3 4 5 6 3	ÚFAL--Oslo	Transition	0.344	0.805	0.609	0.306	{}	{}
+1 2 3 4 5 6 2	Hitachi	Factorization	0.760	0.910	0.912	0.837	0.704	0.439
+1 2 3 4 5 6 2	Amazon	Factorization	0.513	0.933	0.900	{}	{}	0.734
+1 2 3 4 5 6 4	Bocharov	{}	0.065	{}	{}	{}	{}	0.327
+1 2 3 4 5 6 3	HIT-SCIR	Transition	0.862	0.951	0.905	0.907	0.817	0.729
+1 2 3 4 5 6 3	SJTU	Transition	0.430	0.432	0.476	0.532	0.327	0.385
+1 2 3 4 5 6 2	SUDA--Alibaba	Factorization	0.840	0.923	0.856	0.918	0.784	0.717
+1 2 3 4 5 6 2	JBNU	Factorization	0.465	0.940	0.879	{}	0.507	{}
+1 2 3 4 5 6 4	HKUST	{}	0.245	0.370	0.353	{}	0.502	{}
+1 2 3 4 5 6 2	ShanghaiTech	Factorization	0.670	0.949	0.895	0.869	{}	0.636
+1 2 3 4 5 6 2	Peking	Factorization	0.711	0.944	0.894	0.945	0.772	{}
+1 2 3 4 5 6 1	Peking	Composition	0.711	0.944	0.894	0.945	0.772	{}
+1 2 3 4 5 6 4	Anonymous	{}	0.022	{}	0.109	{}	{}	{}
+1 2 3 4 5 6 3	CUHK	Transition	0.378	0.687	0.648	0.276	0.196	0.081
+}\approaches
+
+\begin{frame}[fragile]\includelogo
+  \frametitle{CoNLL 2019: Cross-framework MRP}
+  \begin{center}\footnotesize
+\begin{tikzpicture}
+    \begin{axis}[
+    enlarge x limits={abs=7mm},
+    enlarge y limits={value=0.1,upper},
+    ymin=0,
+    clip=true,
+    ymajorgrids=true,
+    width=\textwidth,
+    height=\textheight,
+    xtick={1,2,3,4,5,6},
+    xticklabels={Overall,DM,PSD,EDS,UCCA,AMR},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    tickwidth=0pt,
+    axis background/.style={fill=cyan!10},
+    scatter/classes={1={mark=square,red,draw opacity=.5},
+                   2={mark=triangle,black,draw opacity=.5},
+                   3={mark=o,blue,draw opacity=.5},
+                   4={mark=x,Purple,draw opacity=.5}
+                  },
+    scatter,only marks,mark size=4,scatter src=explicit symbolic,
+    legend style={font=\tiny}
+    ]
+    \addplot table[x=a,y=Overall,meta=shape]{\approaches};
+    \addplot table[x=b,y=DM,meta=shape]{\approaches};
+    \addplot table[x=c,y=PSD,meta=shape]{\approaches};
+    \addplot table[x=d,y=EDS,meta=shape]{\approaches};
+    \addplot table[x=e,y=UCCA,meta=shape]{\approaches};
+    \addplot table[x=f,y=AMR,meta=shape]{\approaches};
+    \legend{Composition,Factorization,Transition,?};
+    \end{axis}
+\end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]\includelogo
+  \frametitle{Composition-Based Approaches}
+  \begin{center}
+        \scalebox{0.7}{
+\begin{tikzpicture}
+    \begin{axis}[
+    enlarge x limits={abs=7mm},
+    ymin=0,
+    clip=true,
+    ymajorgrids=true,
+    width=1.4\textwidth,
+    height=\textheight,
+    xtick={1,2,3,4,5,6},
+    xticklabels={Overall,DM,PSD,EDS,UCCA,AMR},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    tickwidth=0pt,
+    axis background/.style={fill=cyan!10},
+    scatter/classes={1={mark=square,red},
+                   2={mark=triangle,gray,draw opacity=.3},
+                   3={mark=o,gray,draw opacity=.3},
+                   4={mark=x,gray,draw opacity=.3}
+                  },
+    scatter,only marks,mark size=5,scatter src=explicit symbolic,
+    ]
+    \addplot table[x=a,y=Overall,meta=shape]{\approaches};
+    \addplot table[x=b,y=DM,meta=shape]{\approaches};
+    \addplot table[x=c,y=PSD,meta=shape]{\approaches};
+    \addplot table[x=d,y=EDS,meta=shape]{\approaches};
+    \addplot table[x=e,y=UCCA,meta=shape]{\approaches};
+    \addplot table[x=f,y=AMR,meta=shape]{\approaches};
+    \end{axis}
+\end{tikzpicture}                
+        }
+      \begin{itemize}
+        \item Explicitly modeling the derivation process.
+        \item A parser evaluates a derivation licensed by a symbolic system. 
+      \end{itemize}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]\includelogo
+  \frametitle{Factorization-Based Approaches}
+  \begin{center}
+      \begin{center}
+        \scalebox{0.7}{
+\begin{tikzpicture}
+    \begin{axis}[
+    enlarge x limits={abs=7mm},
+    ymin=0,
+    clip=true,
+    ymajorgrids=true,
+    width=1.4\textwidth,
+    height=\textheight,
+    xtick={1,2,3,4,5,6},
+    xticklabels={Overall,DM,PSD,EDS,UCCA,AMR},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    tickwidth=0pt,
+    axis background/.style={fill=cyan!10},
+    scatter/classes={1={mark=square,gray,draw opacity=.3},
+                   2={mark=triangle,black},
+                   3={mark=o,gray,draw opacity=.3},
+                   4={mark=x,gray,draw opacity=.3}
+                  },
+    scatter,only marks,mark size=5,scatter src=explicit symbolic,
+    ]
+    \addplot table[x=a,y=Overall,meta=shape]{\approaches};
+    \addplot table[x=b,y=DM,meta=shape]{\approaches};
+    \addplot table[x=c,y=PSD,meta=shape]{\approaches};
+    \addplot table[x=d,y=EDS,meta=shape]{\approaches};
+    \addplot table[x=e,y=UCCA,meta=shape]{\approaches};
+    \addplot table[x=f,y=AMR,meta=shape]{\approaches};
+    \end{axis}
+\end{tikzpicture}        
+        }
+      \end{center}
+      \begin{itemize}
+        \item Inspired by graph-based dependency parsers.
+        \item Explicitly modeling the target structure.
+        \item A parser evaluates factors of a candidate graph.
+      \end{itemize}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]\includelogo
+  \frametitle{Transition-Based Approaches}
+  \begin{center}
+      \begin{center}
+        \scalebox{0.7}{
+\begin{tikzpicture}
+    \begin{axis}[
+    enlarge x limits={abs=7mm},
+    ymin=0,
+    clip=true,
+    ymajorgrids=true,
+    width=1.4\textwidth,
+    height=\textheight,
+    xtick={1,2,3,4,5,6},
+    xticklabels={Overall,DM,PSD,EDS,UCCA,AMR},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    tickwidth=0pt,
+    axis background/.style={fill=cyan!10},
+    scatter/classes={1={mark=square,gray,draw opacity=.3},
+                   2={mark=triangle,gray,draw opacity=.3},
+                   3={mark=o,blue},
+                   4={mark=x,gray,draw opacity=.3}
+                  },
+    scatter,only marks,mark size=5,scatter src=explicit symbolic,
+    ]
+    \addplot table[x=a,y=Overall,meta=shape]{\approaches};
+    \addplot table[x=b,y=DM,meta=shape]{\approaches};
+    \addplot table[x=c,y=PSD,meta=shape]{\approaches};
+    \addplot table[x=d,y=EDS,meta=shape]{\approaches};
+    \addplot table[x=e,y=UCCA,meta=shape]{\approaches};
+    \addplot table[x=f,y=AMR,meta=shape]{\approaches};
+    \end{axis}
+\end{tikzpicture}            
+        }
+      \end{center}
+      \begin{itemize}
+        \item Inspired by transition-based dependency parsers.
+        \item Incremental (left-to-right, word-by-word).
+        \item Partial parse constrains subsequent actions.
+        \item Greedy/beam search to get a parse.
+      \end{itemize}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]\includelogo
+  \frametitle{Score Distributions: Zoom In}
+  \begin{center}\footnotesize
+\begin{tikzpicture}
+    \begin{axis}[
+    enlarge x limits={abs=7mm},
+    ymin=.7,ymax=1,
+    clip=true,
+    ymajorgrids=true,
+    width=\textwidth,
+    height=\textheight,
+    xtick={1,2,3,4,5,6},
+    xticklabels={Overall,DM,PSD,EDS,UCCA,AMR},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    tickwidth=0pt,
+    axis background/.style={fill=cyan!10},
+    scatter/classes={1={mark=square,red,draw opacity=.5},
+                   2={mark=triangle,black,draw opacity=.5},
+                   3={mark=o,blue,draw opacity=.5},
+                   4={mark=x,Purple,draw opacity=.5}
+                  },
+    scatter,only marks,mark size=7,scatter src=explicit symbolic,
+    legend style={font=\tiny}
+    ]
+    \addplot table[x=a,y=Overall,meta=shape]{\approaches};
+    \addplot table[x=b,y=DM,meta=shape]{\approaches};
+    \addplot table[x=c,y=PSD,meta=shape]{\approaches};
+    \addplot table[x=d,y=EDS,meta=shape]{\approaches};
+    \addplot table[x=e,y=UCCA,meta=shape]{\approaches};
+    \addplot table[x=f,y=AMR,meta=shape]{\approaches};
+    \legend{Composition,Factorization,Transition,?};
+    \end{axis}
+\end{tikzpicture}
+  \end{center}
 
 
 \section{What Distinguishes Meaning Representations?}
