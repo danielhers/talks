@@ -1,3 +1,87 @@
+@preamble{"\providecommand{\fromto}[2]{#1$\,$--$\,$#2}"}
+@preamble{"\providecommand{\pages}[3]{#2$\,$--$\,$#3}"}
+@preamble{"\providecommand\Beek[1]{\mbox{#1}}"}
+@preamble{"\providecommand\Noord[1]{\mbox{#1}}"}
+@preamble{"\providecommand\Lohuizen[1]{\mbox{#1}}"}
+
+@string{S:PROCEEDINGS = {Proceedings}}
+
+@string{C:CONLL = {{C}onference on {N}atural {L}anguage {L}earning}}
+
+@string{CONLL:19 = S:PROCEEDINGS # { of the 23nd } # C:CONLL}
+@string{CONLL:19:U = S:PROCEEDINGS # { of the Shared Task on
+                     Cross-Framework Meaning Representation Parsing
+                     at the 2019 } # C:CONLL}
+@string{L:CONLL:19 = {Hong Kong, China}}
+
+@inproceedings{Oep:Abe:Haj:19,
+  author = {Oepen, Stephan and Abend, Omri and Haji\v{c}, Jan and
+            Hershcovich, Daniel and Kuhlmann, Marco and O'Gorman, Tim and
+            Xue, Nianwen and
+            Chun, Jayeol and Straka, Milan and Ure\v{s}ov{\'a}, Zde\v{n}ka},
+  title = {{MRP}~2019: {C}ross-Framework {M}eaning {R}epresentation {P}arsing},
+  booktitle = CONLL:19:U,
+  address = L:CONLL:19,
+  pages = {\pages{--}{1}{27}},
+  year = 2019
+}
+
+@inproceedings{Her:Arv:19,
+  author = {Hershcovich, Daniel and Arviv, Ofir},
+  title = {{TUPA} at {MRP}~2019: {A} Multi-Task Baseline System},
+  booktitle = CONLL:19:U,
+  address = L:CONLL:19,
+  pages = {\pages{--}{28}{39}},
+  year = 2019
+}
+
+@inproceedings{hershcovich2019content,
+    title = "Content Differences in Syntactic and Semantic Representation",
+    author = "Hershcovich, Daniel  and
+      Abend, Omri  and
+      Rappoport, Ari",
+  booktitle =   "Proc. of NAACL-HLT",
+    month = jun,
+    year = "2019",
+    address = "Minneapolis, Minnesota",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/N19-1047",
+    doi = "10.18653/v1/N19-1047",
+    pages = "478--488",
+    abstract = "Syntactic analysis plays an important role in semantic parsing, but the nature of this role remains a topic of ongoing debate. The debate has been constrained by the scarcity of empirical comparative studies between syntactic and semantic schemes, which hinders the development of parsing methods informed by the details of target schemes and constructions. We target this gap, and take Universal Dependencies (UD) and UCCA as a test case. After abstracting away from differences of convention or formalism, we find that most content divergences can be ascribed to: (1) UCCA{'}s distinction between a Scene and a non-Scene; (2) UCCA{'}s distinction between primary relations, secondary ones and participants; (3) different treatment of multi-word expressions, and (4) different treatment of inter-clause linkage. We further discuss the long tail of cases where the two schemes take markedly different approaches. Finally, we show that the proposed comparison methodology can be used for fine-grained evaluation of UCCA parsing, highlighting both challenges and potential sources for improvement. The substantial differences between the schemes suggest that semantic parsers are likely to benefit downstream text understanding applications beyond their syntactic counterparts.",
+}
+
+@InProceedings{hershcovich2019shared,
+  author =  "Hershcovich, Daniel
+    and Choshen, Leshem
+    and Sulem, Elior
+    and Aizenbud, Zohar
+    and Rappoport, Ari
+    and Abend, Omri",
+  title     = {{S}em{E}val 2019 Task 1: Cross-lingual Semantic Parsing with {UCCA}},
+  booktitle = {Proc. of SemEval},
+  year      = {2019},
+  url={https://danielhers.github.io/semeval2019.pdf}
+}
+@InProceedings{hershcovich2018multitask,
+  author    = {Hershcovich, Daniel  and  Abend, Omri  and  Rappoport, Ari},
+  title     = {Multitask Parsing Across Semantic Representations},
+  booktitle = {Proc. of ACL},
+  year      = {2018},
+  pages     = "373--385",
+  url       = {http://aclweb.org/anthology/P18-1035}}
+
+@InProceedings{hershcovich2018universal,
+  author =  "Hershcovich, Daniel
+    and Abend, Omri
+    and Rappoport, Ari",
+  title     = {Universal Dependency Parsing with a General Transition-Based {DAG} Parser},
+  booktitle = 	"Proc. of CoNLL UD Shared Task",
+  year =  "2018",
+  pages =   "103--112",
+  url =   "http://aclweb.org/anthology/K18-2010"
+}
+
 @inproceedings{barrett-etal-2018-sequence,
     title = "Sequence Classification with Human Attention",
     author = "Barrett, Maria  and

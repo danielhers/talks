@@ -277,7 +277,7 @@ But capture useful distinctions, such as:
                     \edge[draw=none]; \node[alt=<4>{text=red}{}] (um) {um};
                   ]
                 ]
-                \draw[dashed] (abschluss) to node[auto] {\scriptsize A} (Daniel);
+                \draw[dashed] (abschluss) to node[auto] {A} (Daniel);
                 \draw (zogum.south) to node[auto] {} (um);
                 \end{scope}
             \end{tikzpicture}}
@@ -321,7 +321,7 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
                     ]
                   ]
                 ]
-                \draw[dashed] (graduation Daniel u) to node[auto] {\scriptsize A} (Daniel u);
+                \draw[dashed] (graduation Daniel u) to node[auto] {A} (Daniel u);
                 \end{scope}
                 \onslide<2->{
                   \begin{scope}[xshift=2cm,yshift=-58mm,grow'=up,level distance=9mm,
@@ -344,7 +344,7 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
                       \edge node[auto=right]{A}; \node (Daniel d) {\heb{דניאל}};
                     ]
                   ]
-                  \draw[dashed] (Daniel siyem et halimudim d) to[out=-15,in=-150] node[above] {\scriptsize A} (Daniel d);
+                  \draw[dashed] (Daniel siyem et halimudim d) to[out=-15,in=-150] node[above] {A} (Daniel d);
                   \end{scope}
                 }\onslide<3>{
                   \begin{scope}[dashed,thick]
@@ -447,6 +447,8 @@ Semantics-based \textbf{evaluation} of
 \begin{frame}
 \frametitle{TUPA: Transition-based UCCA Parser}
 
+\cite{hershcovich2017a}
+
 Parses text $w_1 \ldots w_n$ to graph $G$ incrementally by applying transitions to the parser state,
 consisting of: stack, buffer and constructed graph.
 
@@ -505,8 +507,8 @@ An \textit{oracle} provides the transition sequence given the correct graph:
       } edge from parent [draw=none]}
       ;
     \draw(abouttakingashortbreak) to node [left] {\scriptsize P} (takingabreak); 
-    \draw(ROOT) to node [left] {\scriptsize A} (abouttakingashortbreak);
-    \draw[bend left,dashed] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
+    \draw(ROOT) to node [left] {A} (abouttakingashortbreak);
+    \draw[bend left,dashed] (abouttakingashortbreak) to node [auto] {A} (They);
     \draw[bend left] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
 \end{tikzpicture}}
 \[\Downarrow\]
@@ -612,7 +614,7 @@ Learns to greedily predict transition based on current state.
 
 \begin{frame}
 \frametitle{SemEval 2019: Cross-lingual UCCA Parsing}
-\Large
+\cite{hershcovich2019shared}
 \begin{itemize}
 \item Data: English, French, German.
 \item Tracks: $\{$in-domain/out-of-domain$\} \times \{$open/closed$\}$.
@@ -671,7 +673,7 @@ Neural constituency parser + multilingual BERT.
         } edge from parent node[left] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
+    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
 \end{tikzpicture}
         }
       \end{flushright}
@@ -1040,7 +1042,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
         } edge from parent node[left] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
+    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
 \end{tikzpicture}
         }
     \end{minipage}
@@ -1112,7 +1114,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     
     \vfill
     
-    Multi-task TUPA model:
+    Multi-task TUPA model \cite{hershcovich2018multitask}
     
     \vspace{-7mm}
     
@@ -1398,6 +1400,10 @@ Multi-task TUPA output: \\
 \end{frame}
 
 
+\begin{frame}
+  \frametitle{CoNLL 2019: Cross-framework MRP}
+  \cite{Oep:Abe:Haj:19}
+\end{frame}
 
 
 \pgfplotstableread{
@@ -1425,7 +1431,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
 }\approaches
 
 \begin{frame}[fragile]
-  \frametitle{CoNLL 2019: Cross-framework MRP}
+  \frametitle{Results}
   \begin{center}\footnotesize
 \begin{tikzpicture}
     \begin{axis}[
@@ -1435,7 +1441,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     clip=true,
     ymajorgrids=true,
     width=\textwidth,
-    height=\textheight,
+    height=.9\textheight,
     xtick={1,2,3,4,5,6},
     xticklabels={Overall,DM,PSD,EDS,UCCA,AMR},
     xticklabel style={font=\small,anchor=north},
@@ -1446,7 +1452,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     scatter/classes={1={mark=square,red,draw opacity=.5},
                    2={mark=triangle,black,draw opacity=.5},
                    3={mark=o,blue,draw opacity=.5},
-                   4={mark=x,Purple,draw opacity=.5}
+                   4={mark=x,Purple,draw opacity=0}
                   },
     scatter,only marks,mark size=4,scatter src=explicit symbolic,
     legend style={font=\tiny}
@@ -1457,7 +1463,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     \addplot table[x=d,y=EDS,meta=shape]{\approaches};
     \addplot table[x=e,y=UCCA,meta=shape]{\approaches};
     \addplot table[x=f,y=AMR,meta=shape]{\approaches};
-    \legend{Composition,Factorization,Transition,?};
+    \legend{Composition,Factorization,Transition};
     \end{axis}
 \end{tikzpicture}
   \end{center}
@@ -1485,7 +1491,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     scatter/classes={1={mark=square,red},
                    2={mark=triangle,gray,draw opacity=.3},
                    3={mark=o,gray,draw opacity=.3},
-                   4={mark=x,gray,draw opacity=.3}
+                   4={mark=x,gray,draw opacity=0}
                   },
     scatter,only marks,mark size=5,scatter src=explicit symbolic,
     ]
@@ -1528,7 +1534,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     scatter/classes={1={mark=square,gray,draw opacity=.3},
                    2={mark=triangle,black},
                    3={mark=o,gray,draw opacity=.3},
-                   4={mark=x,gray,draw opacity=.3}
+                   4={mark=x,gray,draw opacity=0}
                   },
     scatter,only marks,mark size=5,scatter src=explicit symbolic,
     ]
@@ -1573,7 +1579,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     scatter/classes={1={mark=square,gray,draw opacity=.3},
                    2={mark=triangle,gray,draw opacity=.3},
                    3={mark=o,blue},
-                   4={mark=x,gray,draw opacity=.3}
+                   4={mark=x,gray,draw opacity=0}
                   },
     scatter,only marks,mark size=5,scatter src=explicit symbolic,
     ]
@@ -1606,7 +1612,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     clip=true,
     ymajorgrids=true,
     width=\textwidth,
-    height=\textheight,
+    height=.9\textheight,
     xtick={1,2,3,4,5,6},
     xticklabels={Overall,DM,PSD,EDS,UCCA,AMR},
     xticklabel style={font=\small,anchor=north},
@@ -1617,7 +1623,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     scatter/classes={1={mark=square,red,draw opacity=.5},
                    2={mark=triangle,black,draw opacity=.5},
                    3={mark=o,blue,draw opacity=.5},
-                   4={mark=x,Purple,draw opacity=.5}
+                   4={mark=x,Purple,draw opacity=0}
                   },
     scatter,only marks,mark size=7,scatter src=explicit symbolic,
     legend style={font=\tiny}
@@ -1628,7 +1634,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     \addplot table[x=d,y=EDS,meta=shape]{\approaches};
     \addplot table[x=e,y=UCCA,meta=shape]{\approaches};
     \addplot table[x=f,y=AMR,meta=shape]{\approaches};
-    \legend{Composition,Factorization,Transition,?};
+    \legend{Composition,Factorization,Transition};
     \end{axis}
 \end{tikzpicture}
   \end{center}
@@ -1640,6 +1646,8 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
 
 \begin{frame}
 \frametitle{UCCA vs. UD}
+\cite{hershcovich2019content}
+
     \begin{minipage}[t]{.17\textwidth}
       \onslide<2->{
         \fbox{Many formal differences.}
@@ -1648,7 +1656,6 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
     \begin{minipage}{.5\textwidth}
         \scalebox{.77}{
 \begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick]
-    \node[anchor=west,font=\Large] at (-3,.5) {Semantic representation:};
     \node[anchor=west,font=\bf\sffamily\LARGE,Indigo] at (-3,0) {UCCA};
     \node (ROOT) [fill=Indigo, circle] {}
       child {node (After) {After} edge from parent node[left] {L\;}}
@@ -1668,7 +1675,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
         } edge from parent node[left] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
+    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
 \end{tikzpicture}
         }
     \end{minipage}
@@ -1678,14 +1685,10 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
         \vspace{4cm}
       }
     \end{minipage}
-      
-    \vspace{-1cm}
-      
-    Syntactic representation:
     
     {\color{DarkBlue}\bf\sffamily\Large UD}
     
-    \vspace{-4mm}
+    \vspace{-14mm}
     
     \rmfamily
     \begin{dependency}[text only label, edge style={-{Latex[length=2mm]}, color=DarkBlue, thick},
@@ -1774,7 +1777,7 @@ Now we can evaluate by matching edges (UCCA unlabeled evaluation)
         } edge from parent node[left] {A} }
       } edge from parent node[right] {H} }
       ;
-    \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (Daniel);
+    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
 \end{tikzpicture}
 }
 \end{minipage}
@@ -2022,77 +2025,12 @@ head & 445 & 48 & 159 & 6388 & 717 & 142 & 564 & 83 & 2462 & 42 & 1 & 4163 & 120
     \end{dependency}
 \end{frame}
 
-\section{Ongoing Work}
 \begin{frame}
 \frametitle{UCCA in Terms of Syntax and Lexical Semantics}
 
 Complement syntax with \textit{lexical} semantics to make up for differences.
 
-\centering\setulcolor{orange}\setul{0.5ex}{0.3ex}
-\scalebox{.77}{
-\begin{tikzpicture}[->,level distance=12mm,line width=1pt,
-  level 2/.style={sibling distance=37mm},
-  level 3/.style={sibling distance=13mm},
-  every circle node/.append style={fill=black},
-  every node/.append style={text height=.6ex,text depth=0}]
-  \tikzstyle{word} = [font=\rmfamily,color=black]
-  \node (1_1) [circle] {}
-  {
-  child {node (1_2) [circle] {}
-    {
-    child {node {} {
-      child {node (1_4) [word] {\ul{Blue cross}}  edge from parent [draw=none]}
-    } edge from parent [draw=none]}
-    child {node {} {
-      child {node (1_5) [word] {has}  edge from parent [draw=none]}
-    } edge from parent [draw=none]}
-    child {node (1_6) [circle] {}
-      {
-      child {node (1_11) [word] {no}  edge from parent node[left]  {\ucca{E}}}
-      child {node (1_12) [word] {record}  edge from parent node[auto]  {\ucca{C}}}
-      } edge from parent node[auto]  {\ucca{D}}}
-    child [draw=Pcolor] {node (1_7) [circle] {}
-      {
-      child [draw=black] {node (1_8) [word] {of}  edge from parent node[above]  {\ucca{R}}}
-      child [draw=black] {node (1_9) [word] {a}  edge from parent node[auto]  {\ucca{F}}}
-      child [draw=black] {node (1_10) [word] {reversal}  edge from parent node[right]  {\ucca{C}}}
-      child [draw=black] {node (1_13) [word] {.}  edge from parent node[auto]  {\ucca{U}}}
-      } edge from parent node[auto]  {\ucca{\color{Pcolor}P}}}
-    } edge from parent node[auto]  {\ucca{H}}}
-  };
-  \draw[bend right,draw=Acolor] (1_2) to node [auto] {\ucca{\color{Acolor}A}} (1_4);
-  \draw (1_2) to node [auto] {\ucca{F}} (1_5);
-\end{tikzpicture}}
-
-{\sf\tiny
-\setlength\tabcolsep{12pt}
-\begin{tabular}{cccccccccccccc}
-n.GROUP &&& v.stative &&& n.COM- & \hspace{-4mm}p.Topic && \hspace{-2mm}n.EVENT \\
-&&&&&& MUNI- \\
-&&&&&& CATION
-\end{tabular}}
-\vspace{-3mm}
-
-\scalebox{.9}{
-\begin{dependency}[edge below]
-% sent_id = reviews-003418-0006
-% text = Blue cross has no record of aa reversal.
-\begin{deptext}[opacity=0]
-Blue  \& cross \& has \& no  \& record \& of  \& a  \& reversal \& .     \\
-\end{deptext}
-\begin{deptext}[font=\small\sc,column sep=.7em]
-propn \& propn{\color{white}---------} \& verb{\color{white}----------} \& det \& noun   \& adp \& det \& noun     \& punct \\
-\end{deptext}
-\depedge{2}{1}{compound}
-\depedge{3}{2}{nsubj}
-\deproot{3}{root}
-\depedge{5}{4}{det}
-\depedge{3}{5}{obj}
-\depedge{8}{6}{case}
-\depedge{8}{7}{det}
-\depedge{5}{8}{nmod}
-\depedge[edge unit distance=1em]{3}{9}{punct}
-\end{dependency}}
+\includegraphics[width=\textwidth]{ex-ucca-streusle.pdf}
 
 \end{frame}
 
@@ -2103,10 +2041,14 @@ propn \& propn{\color{white}---------} \& verb{\color{white}----------} \& det \
 \frametitle{Conclusion}
 \begin{itemize}
  \item Meaning representation is valuable for language understanding.\pause
- \item \parser{}, an accurate UCCA parser, is suited to many representations.\pause
- \item Multi-task learning allows useful shared generalizations to emerge.\pause
- \item Divergences limit inter-scheme gain, but highlight relative strengths.\pause
+ \item Transition-based parsers excel across frameworks and languages.\pause
+ \item Cross-framework unification by multi-task and linguistic analysis.
 \end{itemize}
+
+\vfill
+\begin{flushright}
+Thanks!
+\end{flushright}
 
 \end{frame}
 
