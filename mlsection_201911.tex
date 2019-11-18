@@ -170,8 +170,8 @@
 }
 
 \only<5->{
-  Neural models require the right \textit{inductive bias} for tasks
-  \cite{barrett-etal-2018-sequence,strubell-etal-2018-linguistically}.
+  Neural models require the right \textit{inductive bias}
+  \cite{barrett-etal-2018-sequence}.
 
   \begin{center}
     \begin{tikzpicture}[->]
@@ -191,6 +191,7 @@
         \path[gray!50] (h\i) edge (o\j);
       }
     }
+    \path [alt=<6>{red,line width=1pt}{}] (h1) edge (o7);
     \end{tikzpicture}
   \end{center}
 }
@@ -650,7 +651,7 @@ Neural constituency parser + multilingual BERT.
 
       \begin{flushright}
         \scalebox{.6}{
-\begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick, alt=<3->{opacity=.3}{}]
+\begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick]
     \node[font=\bf\sffamily\Huge,Indigo] at (-3,0) {UCCA};
     \node (ROOT) [fill=Indigo, circle] {}
       child {node (After) {After} edge from parent node[left] {L\;}}
@@ -678,7 +679,7 @@ Neural constituency parser + multilingual BERT.
     \vspace{-23mm}
     
     \scalebox{.6}{
-\begin{tikzpicture}[alt=<2>{opacity=.3}{},alt=<4->{opacity=.3}{}, thick]
+\begin{tikzpicture}[thick]
 \node[font=\bf\sffamily\Huge,DarkGreen] at (0,6) {AMR};
 \graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
 a4 Copenhagen[as={Copenhagen}];
@@ -707,14 +708,14 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     
     \begin{flushright}
     \begin{minipage}{.01\textwidth}
-      \begin{tikzpicture}[alt=<2-3>{opacity=.3}{}]
+      \begin{tikzpicture}
         \node[font=\bf\sffamily\Large,DarkRed] {DM};
       \end{tikzpicture}
     \end{minipage}
     \begin{minipage}{.6\textwidth}
         \rmfamily
         \scalebox{.7}{
-\begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed}, alt=<2-3>{opacity=.3}{},
+\begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed},
             text only label, label style={above, color=DarkRed, font=\bf\ttfamily}, font=\small, thick]
     \begin{deptext}[column sep=1em,ampersand replacement=\^]
 	After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
