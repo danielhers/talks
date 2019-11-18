@@ -3,7 +3,7 @@
 \mode<presentation>
 \usetheme{Warsaw}
 \useoutertheme{infolines} 
-
+\usepackage{natbib}
 \usepackage{fontspec}
 \usepackage{lmodern}
 \usepackage{amsmath}
@@ -171,7 +171,7 @@
 
 \only<5->{
   Neural models require the right \textit{inductive bias}
-  \cite{barrett-etal-2018-sequence}.
+  \citep{barrett-etal-2018-sequence}.
 
   \begin{center}
     \begin{tikzpicture}[->]
@@ -274,12 +274,12 @@ But capture useful distinctions, such as:
                     [.\node[circle,xshift=8mm](zogum) {};
                       \edge node[auto=right]{}; \node[alt=<4>{text=red}{}] {zog};
                     ]
-                    \edge node[auto=right]{A}; \node[alt=<2>{text=red}{}] (Daniel) {Daniel};
+                    \edge node[right]{A}; \node[alt=<2>{text=red}{}] (Daniel) {Daniel};
                     \edge[draw=none]; \node[alt=<4>{text=red}{}] (um) {um};
                   ]
                 ]
                 \draw[dashed] (abschluss) to node[auto] {A} (Daniel);
-                \draw (zogum.south) to node[auto] {} (um);
+                \draw (zogum.south) to node[left] {} (um);
                 \end{scope}
             \end{tikzpicture}}
 \end{minipage}\end{frame}
@@ -290,9 +290,9 @@ But capture useful distinctions, such as:
 \begin{frame}
 \frametitle{Universal Conceptual Cognitive Annotation (UCCA)}
 Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
-\only<1>{\cite{abend2013universal}}
+\only<1>{\citep{abend2013universal}}
 \onslide<2->{
-  Cross-linguistically applicable and stable \cite{sulem2015conceptual}.
+  Cross-linguistically applicable and stable \citep{sulem2015conceptual}.
 }
 
 \vfill
@@ -322,7 +322,7 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
                     ]
                   ]
                 ]
-                \draw[dashed] (graduation Daniel u) to node[auto] {A} (Daniel u);
+                \draw[dashed] (graduation Daniel u) to node[auto,style={font=\scriptsize}] {A} (Daniel u);
                 \end{scope}
                 \onslide<2->{
                   \begin{scope}[xshift=2cm,yshift=-58mm,grow'=up,level distance=9mm,
@@ -345,7 +345,7 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
                       \edge node[auto=right]{A}; \node (Daniel d) {\heb{דניאל}};
                     ]
                   ]
-                  \draw[dashed] (Daniel siyem et halimudim d) to[out=-15,in=-150] node[above] {A} (Daniel d);
+                  \draw[dashed] (Daniel siyem et halimudim d) to[out=-15,in=-150] node[above,style={font=\scriptsize}] {A} (Daniel d);
                   \end{scope}
                 }\onslide<3>{
                   \begin{scope}[dashed,thick]
@@ -365,12 +365,14 @@ Supports rapid and intuitive annotation of linguistic semantic phenomena. \\
 \frametitle{UCCA Applications}
 Semantics-based \textbf{evaluation} of
   \begin{itemize}
-    \item Machine translation \cite{birch2016hume}.
-    \item Text simplification \cite{sulem2018semantic}.
-    \item Grammatical error correction \cite{choshen2018reference}.
+    \item Machine translation \citep{birch2016hume}.
+    \item Text simplification \citep{sulem2018semantic}.
+    \item {\only<2>{\color{red}}Grammatical error correction} \citep{choshen2018reference}.
   \end{itemize}
 
-\onslide<2>{Sentence splitting for text simplification \cite{sulem2018simple}.}
+{\only<3>{\color{red}}Sentence splitting for text simplification} \citep{sulem2018simple}.
+
+\pause
 
     \begin{minipage}{0.47\textwidth}
         \centering
@@ -420,27 +422,26 @@ Semantics-based \textbf{evaluation} of
                 \end{tikzpicture}
         }
     \end{minipage}
-\only<2>{
+\pause
     \begin{minipage}{0.43\textwidth}
         \includegraphics[width=1.2\textwidth,height=48mm]{ucca_simplification}  
     \end{minipage}
-}
+
 \end{frame}
 
 \begin{frame}
 \frametitle{UCCA Data}
 \begin{itemize}
- \item English Wikipedia articles (Wiki).
- \item English-French-German parallel corpus from \\ \textit{Twenty Thousand Leagues Under the Sea} (20K).
- \item Reviews from the English Web Treebank (EWT).
+ \item English Wikipedia articles.
+ \item English-French-German \textit{Twenty Thousand Leagues Under the Sea}.
+ \item English Web Treebank reviews.
 \end{itemize}
 
 \vfill
 \begin{center}
-  \begin{minipage}{.3\textwidth}\includegraphics[width=\textwidth]{wikipedia.png}\end{minipage}
+  \begin{minipage}{.26\textwidth}\includegraphics[width=\textwidth]{wikipedia.png}\end{minipage}
   \begin{minipage}{.3\textwidth}\includegraphics[width=\textwidth]{squid.jpg}\end{minipage}
-  
-  \includegraphics[width=.3\textwidth]{five-stars.png}
+  \begin{minipage}{.3\textwidth}\includegraphics[width=\textwidth]{five-stars.png}\end{minipage}
 \end{center}
 \end{frame}
 
@@ -449,7 +450,7 @@ Semantics-based \textbf{evaluation} of
 \frametitle{TUPA: Transition-based UCCA Parser}
 
 Parses text $w_1 \ldots w_n$ to graph $G$ incrementally by applying transitions to the parser state,
-consisting of: stack, buffer and constructed graph \cite{hershcovich2017a}.
+consisting of: stack, buffer and constructed graph \citep*{hershcovich2017a}.
 
 \pause
 \vfill
@@ -613,7 +614,7 @@ Learns to greedily predict transition based on current state.
 
 \begin{frame}
 \frametitle{SemEval 2019: Cross-lingual UCCA Parsing}
-Shared task \cite{hershcovich2019shared}.
+Shared task: parsing text to UCCA graphs \citep*{hershcovich2019shared}.
 \begin{itemize}
 \item Data: UCCA for English, French, German.
 \item Baseline: TUPA.
@@ -766,7 +767,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \begin{minipage}{.7\textwidth}
     \pgfplotstableread[row sep=\\,col sep=&]{
     	corpus & total \\
-        \color{DarkBlue} UD & 17062 \\
+        \color{DarkBlue} UD & 35791 \\
         \color{DarkRed} DM & 33964 \\
         \color{DarkGreen} AMR & 36521 \\
         \color{Indigo} UCCA & 5141 \\
@@ -784,7 +785,6 @@ a4 ->  ["op1"' above] a4 Copenhagen;
         axis x line=none,
         ]
         \addplot [fill=Navy, point meta=explicit symbolic,
-        nodes near coords={\pgfmathprintnumber\pgfplotspointmeta~sentences},
         nodes near coords align={anchor=west}] table [x=total,y expr=\coordindex,meta=total] {\english};
         \end{axis}
         \end{tikzpicture}
@@ -800,7 +800,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \begin{center}
     \begin{tabular}{llll}
         \color{Indigo} UCCA  & \color{DarkGreen} AMR  & \color{DarkRed} DM  & \color{NavyBlue} UD  \\
-    	Wikipedia & blogs & news & blogs \\ books & news && news \\ & emails && emails \\ & reviews && reviews \\ &&& Q\&A
+    	Wikipedia & blogs & news & blogs \\ books & news && news \\ reviews & emails && emails \\ & reviews && reviews \\ &&& Q\&A
     \end{tabular}
     \end{center}
 \end{frame}
@@ -1112,9 +1112,9 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     
     \vfill
     
-    Multi-task TUPA model \cite{hershcovich2018multitask}
+    Multi-task TUPA model \citep*{hershcovich2018multitask}
     
-    \vspace{-7mm}
+    \vspace{-2mm}
     
     \begin{center}\scalebox{.3}{\Huge
        \begin{tikzpicture}[-{Latex[length=3mm]},very thick]
@@ -1177,7 +1177,6 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 	Single & 72.5 & 27.1 \\
 }\germandata
 
-\begin{center}
     \small
 	\begin{minipage}{.4\textwidth}
 	\begin{tikzpicture}
@@ -1203,7 +1202,6 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 		    \end{axis}
 	\end{tikzpicture}
 	\end{minipage}
-	\hfill
 	\begin{minipage}{.23\textwidth}
 	\vspace{-3.5mm}
 	\begin{tikzpicture}
@@ -1279,7 +1277,6 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 		    \end{axis}
 	\end{tikzpicture}
 	\end{minipage}
-\end{center}
 \end{frame}
 
 \begin{frame}
@@ -1400,7 +1397,7 @@ Multi-task TUPA output: \\
 
 \begin{frame}
   \frametitle{CoNLL 2019: Cross-framework MRP}
-  Shared task \cite{Oep:Abe:Haj:19}.
+  Shared task: parsing text to graphs in five frameworks \citep*{Oep:Abe:Haj:19}.
 \begin{itemize}
 \item Data: DM, PSD, EDS, UCCA and AMR for English.
 \item Baseline: TUPA.
@@ -1591,7 +1588,7 @@ Transition-based parser (similar to TUPA) + efficient training + BERT.
 \pause
 \vfill
 
-Evaluate by matching edges \cite{hershcovich2019content}.
+Evaluate by matching edges \citep*{hershcovich2019content}.
 
 \pause
 \vfill
@@ -1835,8 +1832,178 @@ Thanks!
 
 \begin{frame}[allowframebreaks]
 \frametitle{References}
-\bibliographystyle{apalike}
+\bibliographystyle{plainnat}
 \tiny\bibliography{references}
+\end{frame}
+
+\begin{frame}
+\frametitle{Structural Properties}
+\noindent
+\centering
+\begin{minipage}{.5\linewidth}{\centering
+(1) {\color{blue} non-terminal nodes}
+
+\scalebox{.8}{
+  \begin{tikzpicture}[level distance=12mm, sibling distance=16mm, ->, thick,
+      every node/.append style={midway},
+      edge from parent/.append style={nodes={font=\scriptsize}}]
+    \node (ROOT) [fill=blue, circle] {}
+      child {node [fill=blue, circle] {}
+      {
+        child {node {John} edge from parent node[left] {C}}
+        child {node {and} edge from parent node[left] {N}}
+        child {node {Mary} edge from parent node[right] {C}}
+      } edge from parent node[left] {A} }
+      child {node {went} edge from parent node[left] {P}}
+      child {node {home} edge from parent node[right] {A}}
+      ;
+  \end{tikzpicture}
+  }}
+\end{minipage}
+\hfill
+\begin{minipage}{.48\linewidth}{\centering
+(2) {\color{red} discontinuity}
+
+\scalebox{.8}{
+  \begin{tikzpicture}[level distance=12mm, sibling distance=2cm, ->, thick,
+      every node/.append style={midway},
+      edge from parent/.append style={nodes={font=\scriptsize}}]
+    \node (ROOT) [fill=black, circle] {}
+      child {node {John} edge from parent node[left] {A}}
+      child {node [fill=black, circle] {}
+      {
+      	child {node {gave} edge from parent node[left] {C}}
+      	child {node (everything) {everything} edge from parent[white]}
+      	child {node {up} edge from parent node[right] {C}}
+      } edge from parent node[right] {P} }
+      ;
+    \draw[bend right,->,red,very thick] (ROOT) to[out=-20, in=180] node [left] {\scriptsize A} (everything);
+  \end{tikzpicture}
+  }}
+\end{minipage}
+
+\vfill
+(3) {\color{orange} reentrancy}
+
+\scalebox{.8}{
+\begin{tikzpicture}[level distance=14mm, sibling distance=17mm, ->, thick,
+    edge from parent/.append style={nodes={font=\scriptsize}}]
+    \node (ROOT) [fill=black, circle] {}
+      child {node (After) {After} edge from parent node[left] {L\;}}
+      child {node (graduation) [fill=black, circle] {}
+      {
+        child {node {graduation} edge from parent node[left] {P}}
+      } edge from parent node[left] {H} }
+      child {node {,} edge from parent node[right] {U}}
+      child {node (moved) [fill=black, circle] {}
+      {
+        child {node (John) {John} edge from parent node[left] {A}}
+        child {node {moved} edge from parent node[left] {P}}
+        child {node [fill=black, circle] {}
+        {
+          child {node {to} edge from parent node[left] {R}}
+          child {node {Copenhagen} edge from parent node[right] {C}}
+        } edge from parent node[right] {A} }
+      } edge from parent node[right] {H} }
+      ;
+    \draw[dashed,->,orange,very thick] (graduation) to node [auto] {\scriptsize A} (John);
+\end{tikzpicture}}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Data Statistics}
+\centering
+\def\arraystretch{1.5}
+\begin{tabular}{l|r|rrr|r}
+    & \multicolumn{1}{c|}{Wiki} & \multicolumn{3}{c|}{20K} & \multicolumn{1}{c}{EWT} \\
+    & \multicolumn{1}{c|}{en} & \multicolumn{1}{c}{en} & \multicolumn{1}{c}{fr} & \multicolumn{1}{c|}{de} & \multicolumn{1}{c}{en} \\
+    \hline
+    \# sentences&5,141&492&492&6,514&3,520 \\
+    \# tokens&158,739&12,638&13,021&144,529&51,042 \\
+    \hline
+    \# {\color{blue} non-terminal nodes}&62,002&4,699&5,110&51,934&18,156 \\
+    \% {\color{red}discontinuous}&1.71&3.19&4.64&8.87&3.87 \\
+    \% {\color{orange}reentrant}&1.84&0.89&0.65&0.31&0.83 \\
+    \hline
+    \# edges&208,937&16,803&17,520&187,533&60,739 \\
+    \% primary&97.40&96.79&97.02&97.32&97.32 \\
+    \% remote&2.60&3.21&2.98&2.68&2.68
+\end{tabular}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Evaluation}
+\begin{adjustbox}{frame,scale=.75,center}
+    \begin{tikzpicture}[level distance=12mm, sibling distance=15mm, ->,
+        every circle node/.append style={fill=black},
+        edge from parent/.append style={nodes={font=\scriptsize}},
+        edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
+      \tikzstyle{word} = [font=\rmfamily,color=black]
+      \node at (0,.7) {True (human-annotated) graph};
+      \node (ROOT) at (0,0) [circle] {}
+        child {node (After) [word] {After} edge from parent node[left] {L}}
+        child {node (graduation) [circle] {}
+        {
+          child {node [word] {graduation} edge from parent node[left] {P}}
+        } edge from parent node[left] {H} }
+        child {node [word] {,} edge from parent node[right] {U}}
+        child {node (moved) [circle] {}
+        {
+          child {node (John) [word] {John} edge from parent node[left] {A}}
+          child {node [word] {moved} edge from parent node[left] {P}}
+          child {node [circle] {}
+          {
+            child {node [word] {to} edge from parent node[left] {R}}
+            child {node [word] {Copenhagen} edge from parent node[right] {C}}
+          } edge from parent node[right] {A} }
+        } edge from parent node[right] {H} }
+        ;
+      \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+      \node at (8,.7) {Automatically predicted graph for the same text};
+      \node (ROOT_) at (7,0) [circle] {}
+        child {node (After_) [word] {After} edge from parent node[left] {L}}
+        child {node (graduation_) [circle] {}
+        {
+          child[alt=<2>{red}{}] {node [word] {graduation} edge from parent node[left] {S}}
+        } edge from parent node[left] {H} }
+        child {node [word] {,} edge from parent node[right] {U}}
+        child {node (moved) [circle,xshift=3mm,yshift=-7mm] {}
+        {
+          child {node (John_) [word] {John} edge from parent node[left] {A}}
+          child {node [word] {moved} edge from parent node[left] {P}}
+          child[alt=<2>{red}{}] {node [word] {to} edge from parent node[left] {F}}
+          child[alt=<2>{red}{}] {node (Copenhagen_) [word] {Copenhagen} edge from parent node[right] {A}}
+        } edge from parent node[right] {H} }
+        ;
+      \draw[dashed,->] (graduation_) to node [auto] {\scriptsize A} (John_);
+      \draw[bend left,dashed,->,alt=<2>{red}{}] (graduation_) to[in=90] node [auto] {\scriptsize A} (Copenhagen_);
+    \end{tikzpicture}
+\end{adjustbox}
+\vfill
+
+\begin{enumerate}
+  \item Match primary edges between the graphs by terminal yield and label.
+  \item Calculate \textbf{precision, recall and F1} scores.
+  \item Repeat for remote edges.
+\end{enumerate}
+
+\pause
+\vfill
+\begin{adjustbox}{center}
+    \begin{tabular}{c|c|c}
+        \multicolumn{3}{l}{Primary} \\
+        \textbf{P} & \textbf{R} & \textbf{F1} \\ \hline
+        $\frac69=67\%$ & $\frac6{10}=60\%$ & 64\%
+    \end{tabular}
+    \hspace{1cm}
+    \begin{tabular}{c|c|c}
+        \multicolumn{3}{l}{Remote} \\
+        \textbf{P} & \textbf{R} & \textbf{F1} \\ \hline
+        $\frac12=50\%$ & $\frac11=100\%$ & 67\%
+    \end{tabular}
+\end{adjustbox}
 \end{frame}
 
 \end{document}
