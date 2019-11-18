@@ -447,10 +447,8 @@ Semantics-based \textbf{evaluation} of
 \begin{frame}
 \frametitle{TUPA: Transition-based UCCA Parser}
 
-\cite{hershcovich2017a}
-
 Parses text $w_1 \ldots w_n$ to graph $G$ incrementally by applying transitions to the parser state,
-consisting of: stack, buffer and constructed graph.
+consisting of: stack, buffer and constructed graph \cite{hershcovich2017a}.
 
 \pause
 \vfill
@@ -614,12 +612,12 @@ Learns to greedily predict transition based on current state.
 
 \begin{frame}
 \frametitle{SemEval 2019: Cross-lingual UCCA Parsing}
-\cite{hershcovich2019shared}
+Shared task \cite{hershcovich2019shared}.
 \begin{itemize}
-\item Data: English, French, German.
+\item Data: UCCA for English, French, German.
 \item Tracks: $\{$in-domain/out-of-domain$\} \times \{$open/closed$\}$.
-\item Baseline: TUPA
-\item Participants: 8 teams from 6 countries
+\item Baseline: TUPA.
+\item Participants: 8 teams from 6 countries.
 \end{itemize}
 \end{frame}
 
@@ -634,7 +632,7 @@ Learns to greedily predict transition based on current state.
 
 \begin{frame}
 \frametitle{UCCA Graph Parsing as Constituent Tree Parsing}
-Winning system: HLT@SUDA (Soochow University).
+Winning system: HLT@SUDA (Suzhou, China).
 
 Neural constituency parser + multilingual BERT.
 \begin{center}
@@ -1402,7 +1400,12 @@ Multi-task TUPA output: \\
 
 \begin{frame}
   \frametitle{CoNLL 2019: Cross-framework MRP}
-  \cite{Oep:Abe:Haj:19}
+  Shared task \cite{Oep:Abe:Haj:19}.
+\begin{itemize}
+\item Data: DM, PSD, EDS, UCCA and AMR for English.
+\item Baseline: TUPA.
+\item Participants: 18 teams from 8 countries.
+\end{itemize}
 \end{frame}
 
 
@@ -1640,13 +1643,23 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
   \end{center}
 \end{frame}
 
+\begin{frame}
+\frametitle{Unified Pipeline for Meaning Representation Parsing}
+Winning system: HIT-SCIR (Harbin, China).
+
+Transition-based parser (similar to TUPA) + efficient training + BERT.
+
+\begin{center}
+\includegraphics[width=\textwidth]{hitscir1}
+\end{center}
+\end{frame}
+
 
 \section{What Distinguishes Meaning Representations?}
 
 
 \begin{frame}
 \frametitle{UCCA vs. UD}
-\cite{hershcovich2019content}
 
     \begin{minipage}[t]{.17\textwidth}
       \onslide<2->{
@@ -1750,7 +1763,7 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
 \pause
 \vfill
 
-Now we can evaluate by matching edges (UCCA unlabeled evaluation)
+Evaluate by matching edges \cite{hershcovich2019content}.
 
 \pause
 \vfill
@@ -1790,66 +1803,6 @@ Now we can evaluate by matching edges (UCCA unlabeled evaluation)
     \end{tabular}
     \vspace{1cm}
 \end{minipage}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Confusion Matrix}
-\centering
-\setlength\tabcolsep{1pt}
-\def\arraystretch{.5}
-\scalebox{.7}{
-\begin{tabular}{lRRRRRRRRRRRRRRRR|R}
- &&&&&&&&&&&&&&&&& \multicolumn{1}{|c}{\textsc{No}} \\
- & \multicolumn{1}{c}{\textbf{A}}
- & \multicolumn{1}{c}{\textbf{A\big|P}} & \multicolumn{1}{c}{\textbf{A\big|S}}
- & \multicolumn{1}{c}{\textbf{C}}
- & \multicolumn{1}{c}{\textbf{D}}
- & \multicolumn{1}{c}{\textbf{E}}
- & \multicolumn{1}{c}{\textbf{F}}
- & \multicolumn{1}{c}{\textbf{G}}
- & \multicolumn{1}{c}{\textbf{H}}
- & \multicolumn{1}{c}{\textbf{L}}
- & \multicolumn{1}{c}{\textbf{N}}
- & \multicolumn{1}{c}{\textbf{P}}
- & \multicolumn{1}{c}{\textbf{Q}}
- & \multicolumn{1}{c}{\textbf{R}}
- & \multicolumn{1}{c}{\textbf{S}}
- & \multicolumn{1}{c}{\textbf{T}}
- & \multicolumn{1}{|c}{\textsc{Match}} \\
-\texttt{acl} & 58 &  &  & 1 & 4 & 249 & 1 &  & 48 &  &  & 6 &  &  & 1 & 1 & 409 \\
-\texttt{advcl} & 14 &  &  & 12 & 2 & 2 &  & 6 & 512 & 4 &  & 11 &  &  &  &  & 423 \\
-\texttt{advmod} & 225 &  & 1 & 69 & 1778 & 332 & 27 & 135 & 14 & 258 & 2 & 2 & 15 & 44 & 9 & 368 & 273 \\
-\texttt{amod} & 25 &  &  & 134 & 647 & 837 &  & 1 & 28 &  &  & 7 & 130 & 3 & 269 & 25 & 176 \\
-\texttt{appos} & 21 &  &  & 39 & 2 & 34 &  &  & 18 &  &  &  &  &  & 8 &  & 33 \\
-\texttt{aux} &  &  &  &  & 384 & 2 & 1335 &  &  & 2 &  & 1 &  & 1 &  &  & 17 \\
-\texttt{case} & 11 &  &  & 31 & 27 & 25 & 123 &  &  & 213 & 26 & 11 & 1 & 2629 & 154 & 1 & 262 \\
-\texttt{cc} &  &  &  & 8 & 4 & 1 & 4 & 1 & 1 & 1567 & 381 &  & 6 & 12 &  &  & 52 \\
-\texttt{ccomp} & 345 &  &  & 1 &  & 1 &  &  & 36 &  &  & 2 &  &  & 1 & 1 & 166 \\
-\texttt{compound} & 225 &  &  & 116 & 67 & 586 & 21 &  & 2 &  &  & 32 & 19 & 1 & 12 & 24 & 683 \\
-\texttt{conj} & 10 &  &  & 449 & 4 & 5 &  & 1 & 1262 & 1 &  & 6 & 2 &  & 10 &  & 497 \\
-\texttt{cop} &  &  &  & 1 &  &  & 1312 &  &  & 1 &  & 9 &  & 10 & 178 &  & 7 \\
-\texttt{csubj} & 13 &  &  &  &  &  &  &  & 3 &  &  &  &  &  &  &  & 46 \\
-\texttt{det} & 10 &  &  & 17 & 119 & 440 & 2963 &  &  &  & 1 &  & 129 & 16 & 1 &  & 124 \\
-\texttt{discourse} & 1 &  &  & 2 & 1 &  & 25 & 29 & 27 & 16 &  &  &  &  & 5 &  & 19 \\
-\texttt{expl} & 21 &  &  & 1 &  &  & 98 &  &  &  &  &  &  &  & 17 &  & 3 \\
-\texttt{iobj} & 131 &  &  & 1 &  &  & 1 &  &  &  &  &  &  &  &  &  & 10 \\
-\texttt{list} & 3 &  &  & 7 & 2 & 1 &  &  & 27 &  &  &  &  &  & 1 &  & 6 \\
-\texttt{mark} &  &  &  & 9 & 7 & 1 & 531 & 1 &  & 654 &  &  &  & 407 & 1 & 5 & 143 \\
-\texttt{nmod} & 844 & 1 & 1 & 20 & 9 & 786 & 8 & 4 & 12 & 1 & 1 & 20 & 2 & 2 & 11 & 27 & 488 \\
-\texttt{nsubj} & 4296 & 7 & 21 & 25 & 3 & 2 & 55 & 1 & 5 & 61 &  & 58 & 1 & 80 & 14 & 4 & 247 \\
-\texttt{nummod} & 2 &  &  & 33 & 12 & 17 &  & 4 &  & 4 &  &  & 334 &  &  &  & 64 \\
-\texttt{obj} & 1845 &  & 1 & 54 & 21 & 6 & 11 & 1 & 4 & 23 &  & 52 & 1 & 23 & 3 & 11 & 583 \\
-\texttt{obl} & 1195 &  &  & 19 & 115 & 41 & 1 & 17 & 39 & 34 &  & 6 & 6 & 26 & 7 & 302 & 611 \\
-\texttt{parataxis} & 6 &  & 1 & 5 &  & 4 &  & 6 & 285 &  &  &  &  &  & 3 &  & 180 \\
-\texttt{vocative} & 17 &  &  &  &  &  &  & 8 &  &  &  &  &  &  &  &  &  \\
-\texttt{xcomp} & 121 &  &  & 4 & 25 &  &  &  & 8 &  &  & 38 &  &  & 38 &  & 526 \\
-\hline
-head & 445 & 48 & 159 & 6388 & 717 & 142 & 564 & 83 & 2462 & 42 & 1 & 4163 & 120 & 52 & 1547 & 32 & 2235 \\
-\hline
-\textsc{No Match} & 1421 & 37 & 58 & 640 & 417 & 291 & 14 & 33 & 2291 & 146 & 6 & 802 & 94 & 52 & 369 & 96 & 
-\end{tabular}
-}
 \end{frame}
 
 
@@ -2026,7 +1979,7 @@ head & 445 & 48 & 159 & 6388 & 717 & 142 & 564 & 83 & 2462 & 42 & 1 & 4163 & 120
 \end{frame}
 
 \begin{frame}
-\frametitle{UCCA in Terms of Syntax and Lexical Semantics}
+\frametitle{Ongoing Work}
 
 Complement syntax with \textit{lexical} semantics to make up for differences.
 
