@@ -2331,8 +2331,6 @@ Complement syntax with \textit{lexical} semantics to make up for differences.
 \begin{frame}
 \frametitle{UCCA in Terms of Syntax and Lexical Semantics}
 
-Complement syntax with \textit{lexical} semantics to make up for differences.
-
 \centering\setulcolor{orange}\setul{0.5ex}{0.3ex}
 \scalebox{.77}{
 \begin{tikzpicture}[->,level distance=12mm,line width=1pt,
@@ -2363,7 +2361,7 @@ Complement syntax with \textit{lexical} semantics to make up for differences.
       child [draw=black] {node (1_10) [word] {reversal}  edge from parent node[right]  {\ucca{C}}}
       child [draw=black] {node (1_13) [word] {.}  edge from parent node[auto]  {\ucca{U}}}
       } edge from parent node[auto]  {\ucca{\color{Pcolor}P}}}
-    } edge from parent node[auto]  {\ucca{H}}}
+    } edge from parent[anchor=east,bend=right] node[auto]  {\ucca{H}}}
   };
   \draw[bend right,draw=Acolor] (1_2) to node [auto] {\ucca{\color{Acolor}A}} (1_4);
   \draw (1_2) to node [auto] {\ucca{F}} (1_5);
