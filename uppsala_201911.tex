@@ -426,7 +426,137 @@ Semantics-based \textbf{evaluation} of
     \begin{minipage}{0.43\textwidth}
         \includegraphics[width=1.2\textwidth,height=48mm]{ucca_simplification}  
     \end{minipage}
+\end{frame}
 
+\begin{frame}
+\frametitle{Graph Structure}
+UCCA structures are directed acyclic graphs (DAGs) with labeled edges. \\
+Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. \\
+\onslide<2->{
+  Phrases may be {\color{red} discontinuous}.
+}
+\onslide<3->{
+  \textit{Remote edges} enable {\color{orange} reentrancy}. \\
+}
+
+\hspace*{1cm}
+\begin{tikzpicture}[level distance=18mm, sibling distance=28mm, ->, thick,
+  level 2/.style={sibling distance=12mm},
+  level 3/.style={sibling distance=18mm},
+  edge from parent/.append style={nodes={font=\scriptsize}}]
+  \tikzstyle{word} = [font=\rmfamily,color=black]
+    \node (ROOT) [fill=blue, circle] {}
+      child {node (They) [word] {They} edge from parent node[left] {A}}
+      child {node [word] {thought} edge from parent node[left] {P}}
+      child {node (abouttakingashortbreak) [fill=blue, circle] {}
+      {
+        child {node [word] {about} edge from parent node[left] {R}}
+        child {node (takingabreak) [fill=blue, circle] {}
+        {
+          child {node [word] {taking} edge from parent node[above] {F}}
+          child {node [word] {a} edge from parent node[right] {F}}
+          child {node [word] (short) {short} edge from parent[draw=none]}
+          child {node [word] {break} edge from parent node[right] {C}}
+        } edge from parent node[right] {P} }
+      } edge from parent node[right] {A} }
+      ;
+    \draw[bend left,dashed,->,visible on=<-2>] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
+    \draw[bend left,dashed,->,orange,very thick,visible on=<3->] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
+    \draw[bend left,->,visible on=<1>] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
+    \draw[bend left,->,visible on=<3->] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
+    \draw[bend left,->,red,very thick,visible on=<2>] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
+    \node[visible on=<3->] at (6,-.4) {\Large ----- primary edge};
+    \node[visible on=<3->] at (6,-1.4) {\Large - - - remote edge};
+\end{tikzpicture}
+
+\onslide<2->{
+  \vspace{-26mm}
+  \begin{adjustbox}{margin=1pt,frame,scale=.9}
+    \begin{tabular}{c>{\small\it}l}
+        P & Process \\
+        A & Participant \\
+        C & Center \\
+        D & Adverbial \\
+        R & Relator \\
+        F & Function
+    \end{tabular}
+  \end{adjustbox}
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Structural Properties}
+\noindent
+\centering
+\begin{minipage}{.5\linewidth}{\centering
+(1) {\color{blue} non-terminal nodes}
+
+\scalebox{.8}{
+  \begin{tikzpicture}[level distance=12mm, sibling distance=16mm, ->, thick,
+      every node/.append style={midway},
+      edge from parent/.append style={nodes={font=\scriptsize}}]
+    \node (ROOT) [fill=blue, circle] {}
+      child {node [fill=blue, circle] {}
+      {
+        child {node {John} edge from parent node[left] {C}}
+        child {node {and} edge from parent node[left] {N}}
+        child {node {Mary} edge from parent node[right] {C}}
+      } edge from parent node[left] {A} }
+      child {node {went} edge from parent node[left] {P}}
+      child {node {home} edge from parent node[right] {A}}
+      ;
+  \end{tikzpicture}
+  }}
+\end{minipage}
+\hfill
+\begin{minipage}{.48\linewidth}{\centering
+(2) {\color{red} discontinuity}
+
+\scalebox{.8}{
+  \begin{tikzpicture}[level distance=12mm, sibling distance=2cm, ->, thick,
+      every node/.append style={midway},
+      edge from parent/.append style={nodes={font=\scriptsize}}]
+    \node (ROOT) [fill=black, circle] {}
+      child {node {John} edge from parent node[left] {A}}
+      child {node [fill=black, circle] {}
+      {
+      	child {node {gave} edge from parent node[left] {C}}
+      	child {node (everything) {everything} edge from parent[white]}
+      	child {node {up} edge from parent node[right] {C}}
+      } edge from parent node[right] {P} }
+      ;
+    \draw[bend right,->,red,very thick] (ROOT) to[out=-20, in=180] node [left] {\scriptsize A} (everything);
+  \end{tikzpicture}
+  }}
+\end{minipage}
+
+\vfill
+(3) {\color{orange} reentrancy}
+
+\scalebox{.8}{
+\begin{tikzpicture}[level distance=14mm, sibling distance=17mm, ->, thick,
+    edge from parent/.append style={nodes={font=\scriptsize}}]
+    \node (ROOT) [fill=black, circle] {}
+      child {node (After) {After} edge from parent node[left] {L\;}}
+      child {node (graduation) [fill=black, circle] {}
+      {
+        child {node {graduation} edge from parent node[left] {P}}
+      } edge from parent node[left] {H} }
+      child {node {,} edge from parent node[right] {U}}
+      child {node (moved) [fill=black, circle] {}
+      {
+        child {node (John) {John} edge from parent node[left] {A}}
+        child {node {moved} edge from parent node[left] {P}}
+        child {node [fill=black, circle] {}
+        {
+          child {node {to} edge from parent node[left] {R}}
+          child {node {Copenhagen} edge from parent node[right] {C}}
+        } edge from parent node[right] {A} }
+      } edge from parent node[right] {H} }
+      ;
+    \draw[dashed,->,orange,very thick] (graduation) to node [auto] {\scriptsize A} (John);
+\end{tikzpicture}}
 \end{frame}
 
 \begin{frame}
@@ -443,6 +573,27 @@ Semantics-based \textbf{evaluation} of
   \begin{minipage}{.3\textwidth}\includegraphics[width=\textwidth]{squid.jpg}\end{minipage}
   \begin{minipage}{.3\textwidth}\includegraphics[width=\textwidth]{five-stars.png}\end{minipage}
 \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Data Statistics}
+\centering
+\def\arraystretch{1.5}
+\begin{tabular}{l|r|rrr|r}
+    & \multicolumn{1}{c|}{Wiki} & \multicolumn{3}{c|}{20K} & \multicolumn{1}{c}{EWT} \\
+    & \multicolumn{1}{c|}{en} & \multicolumn{1}{c}{en} & \multicolumn{1}{c}{fr} & \multicolumn{1}{c|}{de} & \multicolumn{1}{c}{en} \\
+    \hline
+    \# sentences&5,141&492&492&6,514&3,520 \\
+    \# tokens&158,739&12,638&13,021&144,529&51,042 \\
+    \hline
+    \# {\color{blue} non-terminal nodes}&62,002&4,699&5,110&51,934&18,156 \\
+    \% {\color{red}discontinuous}&1.71&3.19&4.64&8.87&3.87 \\
+    \% {\color{orange}reentrant}&1.84&0.89&0.65&0.31&0.83 \\
+    \hline
+    \# edges&208,937&16,803&17,520&187,533&60,739 \\
+    \% primary&97.40&96.79&97.02&97.32&97.32 \\
+    \% remote&2.60&3.21&2.98&2.68&2.68
+\end{tabular}
 \end{frame}
 
 
@@ -478,6 +629,9 @@ Initial state:
 
 \{\textsc{Shift, Reduce, {\color{blue}Node$_X$}, Left-Edge$_X$, Right-Edge$_X$,}\\
 \hspace{5mm}\textsc{{\color{orange}Left-Remote$_X$}, {\color{orange}Right-Remote$_X$}, {\color{red}Swap}, Finish}\}
+
+\vfill
+These transitions enable {\color{blue}non-terminal nodes}, {\color{orange}reentrancy} and {\color{red}discontinuity}.
 \end{frame}
 
 \begin{frame}
@@ -518,9 +672,144 @@ An \textit{oracle} provides the transition sequence given the correct graph:
 \end{flushleft}
 \end{frame}
 
+
+\begin{frame}
+\frametitle{Example: TUPA Transition Sequence}
+\begin{minipage}[t][8mm][t]{\textwidth}
+    $\Rightarrow$\textsc{
+        \only<1>{Shift}\only<2>{Right-Edge$_A$}\only<3>{Shift}\only<4>{Swap}\only<5>{Right-Edge$_P$}\only<6>{Reduce}\only<7>{Shift}\only<8>{Shift}\only<9>{Node$_R$}\only<10>{Reduce}\only<11>{Shift}\only<12>{Left-Remote$_A$}\only<13>{Shift}\only<14>{Node$_C$}\only<15>{Reduce}\only<16>{Shift}\only<17>{Right-Edge$_P$}\only<18>{Shift}\only<19>{Right-Edge$_F$}\only<20>{Reduce}\only<21>{Shift}\only<22>{Swap}\only<23>{Right-Edge$_D$}\only<24>{Reduce}\only<25>{Swap}\only<26>{Right-Edge$_A$}\only<27>{Reduce}\only<28>{Reduce}\only<29>{Shift}\only<30>{Reduce}\only<31>{Shift}\only<32>{Right-Edge$_C$}\only<33>{Finish}
+    }
+\end{minipage}
+
+\vfill
+
+\scalebox{.9}{
+\begin{tikzpicture}[xscale=1.4,every node/.append style={font=\rmfamily, thick,
+                    anchor=west,text height=.6ex,text depth=0}]
+    \begin{scope}[style={font=\sffamily}]
+      \node at (-.1,.8) {stack};
+      \node at (8,  .8) {buffer};
+    \end{scope}
+    \begin{scope}[xstep=1,ystep=.5,color=red,line width=1pt]
+      \only<31>    \draw (-.01,0) grid (1,.5);
+      \only<1,7>   \draw (.99, 0) grid (2,.5);
+      \only<2,5,26>\draw (-.01,0) grid (2,.5);
+      \only<3,8,11>\draw (1.99,0) grid (3,.5);
+      \only<13,16> \draw (2.99,0) grid (4,.5);
+      \only<18,21> \draw (3.99,0) grid (5,.5);
+      \only<17>    \draw (1.99,0) grid (4,.5);
+      \only<19>    \draw (2.99,0) grid (5,.5);
+      \only<4>     \draw (3,   0) grid (4,.5);
+      \only<9>     \draw (4,   0) grid (5,.5);
+      \only<14>    \draw (5,   0) grid (6,.5);
+      \only<22>    \draw (7,   0) grid (8,.5);
+      \only<25>    \draw (6,   0) grid (7,.5);
+      \only<23>    \draw (1.99,0) grid (4,.5);
+      \only<32>    \draw (-.01,0) grid (2,.5);
+      \only<12>    \draw (.99, 0) grid (3,.5);
+    \end{scope}
+    \begin{scope}[xstep=1,ystep=.5,color=gray]
+      \only<6,27,29,31->         \draw (-.01,0) grid (1, .5);
+      \only<-2,4-5,7,10,25-26,33>\draw (-.01,0) grid (2, .5);
+      \only<3,8-9,11-12,15,24>   \draw (-.01,0) grid (3, .5);
+      \only<13-14,16-17,20,22-23>\draw (-.01,0) grid (4, .5);
+      \only<18-19,21>            \draw (-.01,0) grid (5, .5);
+      \only<-2,4-6>              \draw (3,   0) grid (9,.5);
+      \only<3,5-7,9-10>          \draw (4,   0) grid (9,.5);
+      \only<8,11-12,14-15>       \draw (5,   0) grid (9,.5);
+      \only<13,16-17,25-28>      \draw (6,   0) grid (9,.5);
+      \only<18-20,22-24,29-30>   \draw (7,   0) grid (9,.5);
+      \only<21,31>               \draw (8,   0) grid (9,.5);
+    \end{scope}
+    \begin{scope}[xstep=.1,ystep=.5,color=gray]
+      \only<28,30> \draw (-.01,0) grid (.1,.5);
+      \only<32->   \draw (8.89,0) grid (9.01,.5);
+    \end{scope}
+    \only<-27>      \node[fill=black, circle] at (.3, .25) {};
+    \only<25-26>    \node[fill=blue,  circle] at (1.3,.25) {};
+    \only<11-24>    \node[fill=blue,  circle] at (2.3,.25) {};
+    \only<31->      \node[fill=red,   circle] at (.3, .25) {};
+    \only<16-21>    \node[fill=red,   circle] at (3.3,.25) {};
+    \only<9-10>     \node[fill=blue,  circle] at (4.3,.25) {};
+    \only<14-15>    \node[fill=red,   circle] at (5.3,.25) {};
+    \only<22-30>    \node[fill=red,   circle] at (7.3,.25) {};
+    \only<29>       \node at (0,.2) {\small They};
+    \only<1-3,7-24> \node at (1,.2) {\small They};
+    \only<4-5>      \node at (1,.2) {\small thought};
+    \only<3>        \node at (2,.2) {\small thought};
+    \only<8-9>      \node at (2,.2) {\small about};
+    \only<13-14>    \node at (3,.2) {\small taking};
+    \only<18-19>    \node at (4,.2) {\small a};
+    \only<21>       \node at (4,.2) {\small short};
+    \only<22-23>    \node at (3,.2) {\small short};
+    \only<32->      \node at (1,.2) {\small break};
+    \only<4-6>      \node at (3,.2) {\small They};
+    \only<25-28>    \node at (6,.2) {\small They};
+    \only<-2>       \node at (3,.2) {\small thought};
+    \only<-7>       \node at (4,.2) {\small about};
+    \only<-12>      \node at (5,.2) {\small taking};
+    \only<-17>      \node at (6,.2) {\small a};
+    \only<-20>      \node at (7,.2) {\small short};
+    \only<-31>      \node at (8,.2) {\small break};
+\end{tikzpicture}}
+\vfill
+\fbox{
+\begin{tikzpicture}[level distance=14mm, sibling distance=26mm, ->,
+    every node/.append style={font=\rmfamily},
+    edge from parent/.append style={nodes={font=\scriptsize}},
+    edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
+    \node[anchor=west,style={font=\sffamily}] at (0,0) {graph};
+    \node(ROOT)[fill=black, circle, visible on=<1->] at (3,0) {}
+      child [visible on=<2->,alt=<2>{draw=red}{}] {node (They) {They} edge from parent node [left] {A}}
+      child [visible on=<5->,alt=<5>{draw=red}{}] {node (thought) {thought} edge from parent node [left] {P}}
+      child [visible on=<9->] {node (abouttakingashortbreak) [fill=blue, circle] {}
+      {
+        child [visible on=<9->,alt=<9>{draw=red}{}] {node (to) {about} edge from parent node [right] {R}}
+        child [visible on=<14->] {node (takingabreak) [fill=red, circle] {}
+        {
+          child [visible on=<14->] {node (take) {taking} edge from parent node [above] {F}}
+          child [visible on=<19->,alt=<19>{draw=red}{}] {node (a) {a} edge from parent node [right] {F}}
+          child [visible on=<23->,alt=<23>{draw=red}{}] {node (short) {short} edge from parent [draw=none]}
+          child [visible on=<32->,alt=<32>{draw=red}{}] {node (break) {break} edge from parent node [above] {C}}
+        } edge from parent [draw=none]}
+      } edge from parent [draw=none]}
+      ;
+    \draw[visible on=<17->,alt=<17>{draw=red}{}] (abouttakingashortbreak) to node [left] {\scriptsize P} (takingabreak);
+    \draw[visible on=<26->,alt=<26>{draw=red}{}] (ROOT) to node [left] {\scriptsize A} (abouttakingashortbreak);
+    \draw[bend left,dashed, visible on=<12->,alt=<12>{draw=red}{}] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
+    \draw[bend left, visible on=<23->,alt=<23>{draw=red}{}] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
+\end{tikzpicture}}
+\end{frame}
+
 \begin{frame}
 \frametitle{\parser{} Model}
 Learns to greedily predict transition based on current state.
+
+\only<1>{
+
+\vspace{1cm}
+
+Features include:
+
+\{words, parts of speech, syntactic dependencies, existing edge labels\} \\
+from the stack and buffer + parents, children, grandchildren.
+
+\vspace{5mm}
+\begin{tikzpicture}
+    \draw[xstep=1cm,ystep=5mm,color=gray] (-.01,0) grid (4,.5);
+    \draw[xstep=1cm,ystep=5mm,color=gray] (5,0) grid (10,.5);
+    \node[anchor=west] at (-.1,1) {stack};
+    \node[anchor=west] at (8.9,1) {buffer};
+    \foreach \i in {0.5,8.5,9.5} {
+        \node[fill=gray, circle] at (\i,.25) {};
+    }
+    \foreach \i in {1.5,2.5,3.5,5.5,6.5,7.5} {
+        \node[fill=black, circle] at (\i,.25) {};
+    }
+\end{tikzpicture}
+}
+
+\pause
 
 \centering
 \fbox{\scalebox{.65}{
@@ -609,6 +898,169 @@ Learns to greedily predict transition based on current state.
 }
 \end{frame}
 
+\begin{frame}
+\frametitle{Comparing to Existing Methods}
+Using conversion-based approximation as baseline, \\
+with bi-lexical DAG parsers and transition-based tree parsers.
+
+\vfill
+\begin{center}
+    \begin{dependency}
+    \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily, thick]
+	They \^ thought \^ about \^ taking \^ a \^ short \^ break \\
+    \end{deptext}
+    \depedge{2}{1}{A}
+    \depedge[dashed,edge start x offset=6pt,edge end x offset=-6pt,edge unit distance=3.5ex]{7}{1}{A}
+    \depedge{7}{3}{R}
+    \depedge{7}{4}{F}
+    \depedge{7}{5}{F}
+    \depedge{7}{6}{D}
+    \depedge{2}{7}{A}
+    \end{dependency}
+    \captionof{figure}{UCCA bi-lexical DAG approximation.}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Bi-lexical Graph Approximation}
+\begin{enumerate}
+ \item Convert UCCA to bi-lexical DAGs.
+ \item Train bi-lexical parsers.
+ \item Parse test set.
+ \item Convert to UCCA.
+ \item Evaluate.
+\end{enumerate}
+
+\vspace{-15mm}
+
+\begin{minipage}{.225\textwidth}
+  \vspace{1cm}
+  \begin{flushright}
+    \begin{tikzpicture}[<->]
+      \draw [ultra thick,red] (1,1) to[out=180,in=90] (0,0);
+    \end{tikzpicture}
+  \end{flushright}
+\end{minipage}
+\begin{minipage}{.7\textwidth}
+    \begin{tikzpicture}[level distance=13mm, sibling distance=17mm, ->, thick,
+        every circle node/.append style={fill=black},
+        edge from parent/.append style={nodes={font=\scriptsize}},
+        edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
+      \tikzstyle{word} = [font=\rmfamily,color=black]
+      \node (ROOT) [circle] {}
+        child {node (After) [word] {After} edge from parent node[left] {L}}
+        child {node (graduation) [circle] {}
+        {
+          child {node [word] {graduation} edge from parent node[left] {P}}
+        } edge from parent node[left] {H} }
+        child {node [word] {,} edge from parent node[right] {U}}
+        child {node (moved) [circle] {}
+        {
+          child {node (John) [word] {John} edge from parent node[left] {A}}
+          child {node [word] {moved} edge from parent node[left] {P}}
+          child {node [circle] {}
+          {
+            child {node [word] {to} edge from parent node[left] {R}}
+            child {node [word] {Copenhagen} edge from parent node[right] {C}}
+          } edge from parent node[right] {A} }
+        } edge from parent node[right] {H} }
+        ;
+      \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+    \end{tikzpicture}
+\end{minipage}
+
+\vspace{-14mm}
+\begin{flushleft}
+    \begin{dependency}
+    \begin{deptext}[column sep=.7em,ampersand replacement=\^,font=\rmfamily, thick]
+	After \^ graduation \^ , \^ John \^ moved \^ to \^ Copenhagen \\
+    \end{deptext}
+    \depedge{2}{1}{L}
+    \depedge{2}{3}{U}
+    \depedge[dashed]{2}{4}{A}
+    \depedge{5}{4}{A}
+    \depedge{2}{5}{H}
+    \depedge{7}{6}{R}
+    \depedge{5}{7}{A}
+    \end{dependency}
+\end{flushleft}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Evaluation}
+\begin{adjustbox}{frame,scale=.75,center}
+    \begin{tikzpicture}[level distance=12mm, sibling distance=15mm, ->,
+        every circle node/.append style={fill=black},
+        edge from parent/.append style={nodes={font=\scriptsize}},
+        edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
+      \tikzstyle{word} = [font=\rmfamily,color=black]
+      \node at (0,.7) {True (human-annotated) graph};
+      \node (ROOT) at (0,0) [circle] {}
+        child {node (After) [word] {After} edge from parent node[left] {L}}
+        child {node (graduation) [circle] {}
+        {
+          child {node [word] {graduation} edge from parent node[left] {P}}
+        } edge from parent node[left] {H} }
+        child {node [word] {,} edge from parent node[right] {U}}
+        child {node (moved) [circle] {}
+        {
+          child {node (John) [word] {John} edge from parent node[left] {A}}
+          child {node [word] {moved} edge from parent node[left] {P}}
+          child {node [circle] {}
+          {
+            child {node [word] {to} edge from parent node[left] {R}}
+            child {node [word] {Copenhagen} edge from parent node[right] {C}}
+          } edge from parent node[right] {A} }
+        } edge from parent node[right] {H} }
+        ;
+      \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
+      \node at (8,.7) {Automatically predicted graph for the same text};
+      \node (ROOT_) at (7,0) [circle] {}
+        child {node (After_) [word] {After} edge from parent node[left] {L}}
+        child {node (graduation_) [circle] {}
+        {
+          child[alt=<2>{red}{}] {node [word] {graduation} edge from parent node[left] {S}}
+        } edge from parent node[left] {H} }
+        child {node [word] {,} edge from parent node[right] {U}}
+        child {node (moved) [circle,xshift=3mm,yshift=-7mm] {}
+        {
+          child {node (John_) [word] {John} edge from parent node[left] {A}}
+          child {node [word] {moved} edge from parent node[left] {P}}
+          child[alt=<2>{red}{}] {node [word] {to} edge from parent node[left] {F}}
+          child[alt=<2>{red}{}] {node (Copenhagen_) [word] {Copenhagen} edge from parent node[right] {A}}
+        } edge from parent node[right] {H} }
+        ;
+      \draw[dashed,->] (graduation_) to node [auto] {\scriptsize A} (John_);
+      \draw[bend left,dashed,->,alt=<2>{red}{}] (graduation_) to[in=90] node [auto] {\scriptsize A} (Copenhagen_);
+    \end{tikzpicture}
+\end{adjustbox}
+\vfill
+
+\begin{enumerate}
+  \item Match primary edges between the graphs by terminal yield and label.
+  \item Calculate \textbf{precision, recall and F1} scores.
+  \item Repeat for remote edges.
+\end{enumerate}
+
+\pause
+\vfill
+\begin{adjustbox}{center}
+    \begin{tabular}{c|c|c}
+        \multicolumn{3}{l}{Primary} \\
+        \textbf{P} & \textbf{R} & \textbf{F1} \\ \hline
+        $\frac69=67\%$ & $\frac6{10}=60\%$ & 64\%
+    \end{tabular}
+    \hspace{1cm}
+    \begin{tabular}{c|c|c}
+        \multicolumn{3}{l}{Remote} \\
+        \textbf{P} & \textbf{R} & \textbf{F1} \\ \hline
+        $\frac12=50\%$ & $\frac11=100\%$ & 67\%
+    \end{tabular}
+\end{adjustbox}
+\end{frame}
+
 
 \section{Cross-lingual Parsing}
 
@@ -642,6 +1094,7 @@ Neural constituency parser + multilingual BERT.
 \includegraphics[width=.6\textwidth]{hltsuda3}
 \end{center}
 \end{frame}
+
 
 
 \section{Cross-framework Parsing}
@@ -1803,12 +2256,148 @@ Evaluate by matching edges \citep*{hershcovich2019content}.
     \end{dependency}
 \end{frame}
 
+
+\begin{frame}
+\frametitle{Confusion Matrix}
+\centering
+\setlength\tabcolsep{1pt}
+\def\arraystretch{.5}
+\scalebox{.7}{
+\begin{tabular}{lRRRRRRRRRRRRRRRR|R}
+ &&&&&&&&&&&&&&&&& \multicolumn{1}{|c}{\textsc{No}} \\
+ & \multicolumn{1}{c}{\textbf{A}}
+ & \multicolumn{1}{c}{\textbf{A\big|P}} & \multicolumn{1}{c}{\textbf{A\big|S}}
+ & \multicolumn{1}{c}{\textbf{C}}
+ & \multicolumn{1}{c}{\textbf{D}}
+ & \multicolumn{1}{c}{\textbf{E}}
+ & \multicolumn{1}{c}{\textbf{F}}
+ & \multicolumn{1}{c}{\textbf{G}}
+ & \multicolumn{1}{c}{\textbf{H}}
+ & \multicolumn{1}{c}{\textbf{L}}
+ & \multicolumn{1}{c}{\textbf{N}}
+ & \multicolumn{1}{c}{\textbf{P}}
+ & \multicolumn{1}{c}{\textbf{Q}}
+ & \multicolumn{1}{c}{\textbf{R}}
+ & \multicolumn{1}{c}{\textbf{S}}
+ & \multicolumn{1}{c}{\textbf{T}}
+ & \multicolumn{1}{|c}{\textsc{Match}} \\
+\texttt{acl} & 58 &  &  & 1 & 4 & 249 & 1 &  & 48 &  &  & 6 &  &  & 1 & 1 & 409 \\
+\texttt{advcl} & 14 &  &  & 12 & 2 & 2 &  & 6 & 512 & 4 &  & 11 &  &  &  &  & 423 \\
+\texttt{advmod} & 225 &  & 1 & 69 & 1778 & 332 & 27 & 135 & 14 & 258 & 2 & 2 & 15 & 44 & 9 & 368 & 273 \\
+\texttt{amod} & 25 &  &  & 134 & 647 & 837 &  & 1 & 28 &  &  & 7 & 130 & 3 & 269 & 25 & 176 \\
+\texttt{appos} & 21 &  &  & 39 & 2 & 34 &  &  & 18 &  &  &  &  &  & 8 &  & 33 \\
+\texttt{aux} &  &  &  &  & 384 & 2 & 1335 &  &  & 2 &  & 1 &  & 1 &  &  & 17 \\
+\texttt{case} & 11 &  &  & 31 & 27 & 25 & 123 &  &  & 213 & 26 & 11 & 1 & 2629 & 154 & 1 & 262 \\
+\texttt{cc} &  &  &  & 8 & 4 & 1 & 4 & 1 & 1 & 1567 & 381 &  & 6 & 12 &  &  & 52 \\
+\texttt{ccomp} & 345 &  &  & 1 &  & 1 &  &  & 36 &  &  & 2 &  &  & 1 & 1 & 166 \\
+\texttt{compound} & 225 &  &  & 116 & 67 & 586 & 21 &  & 2 &  &  & 32 & 19 & 1 & 12 & 24 & 683 \\
+\texttt{conj} & 10 &  &  & 449 & 4 & 5 &  & 1 & 1262 & 1 &  & 6 & 2 &  & 10 &  & 497 \\
+\texttt{cop} &  &  &  & 1 &  &  & 1312 &  &  & 1 &  & 9 &  & 10 & 178 &  & 7 \\
+\texttt{csubj} & 13 &  &  &  &  &  &  &  & 3 &  &  &  &  &  &  &  & 46 \\
+\texttt{det} & 10 &  &  & 17 & 119 & 440 & 2963 &  &  &  & 1 &  & 129 & 16 & 1 &  & 124 \\
+\texttt{discourse} & 1 &  &  & 2 & 1 &  & 25 & 29 & 27 & 16 &  &  &  &  & 5 &  & 19 \\
+\texttt{expl} & 21 &  &  & 1 &  &  & 98 &  &  &  &  &  &  &  & 17 &  & 3 \\
+\texttt{iobj} & 131 &  &  & 1 &  &  & 1 &  &  &  &  &  &  &  &  &  & 10 \\
+\texttt{list} & 3 &  &  & 7 & 2 & 1 &  &  & 27 &  &  &  &  &  & 1 &  & 6 \\
+\texttt{mark} &  &  &  & 9 & 7 & 1 & 531 & 1 &  & 654 &  &  &  & 407 & 1 & 5 & 143 \\
+\texttt{nmod} & 844 & 1 & 1 & 20 & 9 & 786 & 8 & 4 & 12 & 1 & 1 & 20 & 2 & 2 & 11 & 27 & 488 \\
+\texttt{nsubj} & 4296 & 7 & 21 & 25 & 3 & 2 & 55 & 1 & 5 & 61 &  & 58 & 1 & 80 & 14 & 4 & 247 \\
+\texttt{nummod} & 2 &  &  & 33 & 12 & 17 &  & 4 &  & 4 &  &  & 334 &  &  &  & 64 \\
+\texttt{obj} & 1845 &  & 1 & 54 & 21 & 6 & 11 & 1 & 4 & 23 &  & 52 & 1 & 23 & 3 & 11 & 583 \\
+\texttt{obl} & 1195 &  &  & 19 & 115 & 41 & 1 & 17 & 39 & 34 &  & 6 & 6 & 26 & 7 & 302 & 611 \\
+\texttt{parataxis} & 6 &  & 1 & 5 &  & 4 &  & 6 & 285 &  &  &  &  &  & 3 &  & 180 \\
+\texttt{vocative} & 17 &  &  &  &  &  &  & 8 &  &  &  &  &  &  &  &  &  \\
+\texttt{xcomp} & 121 &  &  & 4 & 25 &  &  &  & 8 &  &  & 38 &  &  & 38 &  & 526 \\
+\hline
+head & 445 & 48 & 159 & 6388 & 717 & 142 & 564 & 83 & 2462 & 42 & 1 & 4163 & 120 & 52 & 1547 & 32 & 2235 \\
+\hline
+\textsc{No Match} & 1421 & 37 & 58 & 640 & 417 & 291 & 14 & 33 & 2291 & 146 & 6 & 802 & 94 & 52 & 369 & 96 & 
+\end{tabular}
+}
+\end{frame}
+
+
+
 \begin{frame}
 \frametitle{Ongoing Work}
 
 Complement syntax with \textit{lexical} semantics to make up for differences.
 
 \includegraphics[width=\textwidth]{ex-ucca-streusle.pdf}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{UCCA in Terms of Syntax and Lexical Semantics}
+
+Complement syntax with \textit{lexical} semantics to make up for differences.
+
+\centering\setulcolor{orange}\setul{0.5ex}{0.3ex}
+\scalebox{.77}{
+\begin{tikzpicture}[->,level distance=12mm,line width=1pt,
+  level 2/.style={sibling distance=37mm},
+  level 3/.style={sibling distance=13mm},
+  every circle node/.append style={fill=black},
+  every node/.append style={text height=.6ex,text depth=0}]
+  \tikzstyle{word} = [font=\rmfamily,color=black]
+  \node (1_1) [circle] {}
+  {
+  child {node (1_2) [circle] {}
+    {
+    child {node {} {
+      child {node (1_4) [word] {\ul{Blue cross}}  edge from parent [draw=none]}
+    } edge from parent [draw=none]}
+    child {node {} {
+      child {node (1_5) [word] {has}  edge from parent [draw=none]}
+    } edge from parent [draw=none]}
+    child {node (1_6) [circle] {}
+      {
+      child {node (1_11) [word] {no}  edge from parent node[left]  {\ucca{E}}}
+      child {node (1_12) [word] {record}  edge from parent node[auto]  {\ucca{C}}}
+      } edge from parent node[auto]  {\ucca{D}}}
+    child [draw=Pcolor] {node (1_7) [circle] {}
+      {
+      child [draw=black] {node (1_8) [word] {of}  edge from parent node[above]  {\ucca{R}}}
+      child [draw=black] {node (1_9) [word] {a}  edge from parent node[auto]  {\ucca{F}}}
+      child [draw=black] {node (1_10) [word] {reversal}  edge from parent node[right]  {\ucca{C}}}
+      child [draw=black] {node (1_13) [word] {.}  edge from parent node[auto]  {\ucca{U}}}
+      } edge from parent node[auto]  {\ucca{\color{Pcolor}P}}}
+    } edge from parent node[auto]  {\ucca{H}}}
+  };
+  \draw[bend right,draw=Acolor] (1_2) to node [auto] {\ucca{\color{Acolor}A}} (1_4);
+  \draw (1_2) to node [auto] {\ucca{F}} (1_5);
+\end{tikzpicture}}
+
+{\sf\tiny
+\setlength\tabcolsep{12pt}
+\begin{tabular}{cccccccccccccc}
+n.GROUP &&& v.stative &&& n.COM- & \hspace{-4mm}p.Topic && \hspace{-2mm}n.EVENT \\
+&&&&&& MUNI- \\
+&&&&&& CATION
+\end{tabular}}
+\vspace{-3mm}
+
+\scalebox{.9}{
+\begin{dependency}[edge below]
+% sent_id = reviews-003418-0006
+% text = Blue cross has no record of aa reversal.
+\begin{deptext}[opacity=0]
+Blue  \& cross \& has \& no  \& record \& of  \& a  \& reversal \& .     \\
+\end{deptext}
+\begin{deptext}[font=\small\sc,column sep=.7em]
+propn \& propn{\color{white}---------} \& verb{\color{white}----------} \& det \& noun   \& adp \& det \& noun     \& punct \\
+\end{deptext}
+\depedge{2}{1}{compound}
+\depedge{3}{2}{nsubj}
+\deproot{3}{root}
+\depedge{5}{4}{det}
+\depedge{3}{5}{obj}
+\depedge{8}{6}{case}
+\depedge{8}{7}{det}
+\depedge{5}{8}{nmod}
+\depedge[edge unit distance=1em]{3}{9}{punct}
+\end{dependency}}
 
 \end{frame}
 
@@ -1834,176 +2423,6 @@ Thanks!
 \frametitle{References}
 \bibliographystyle{plainnat}
 \tiny\bibliography{references}
-\end{frame}
-
-\begin{frame}
-\frametitle{Structural Properties}
-\noindent
-\centering
-\begin{minipage}{.5\linewidth}{\centering
-(1) {\color{blue} non-terminal nodes}
-
-\scalebox{.8}{
-  \begin{tikzpicture}[level distance=12mm, sibling distance=16mm, ->, thick,
-      every node/.append style={midway},
-      edge from parent/.append style={nodes={font=\scriptsize}}]
-    \node (ROOT) [fill=blue, circle] {}
-      child {node [fill=blue, circle] {}
-      {
-        child {node {John} edge from parent node[left] {C}}
-        child {node {and} edge from parent node[left] {N}}
-        child {node {Mary} edge from parent node[right] {C}}
-      } edge from parent node[left] {A} }
-      child {node {went} edge from parent node[left] {P}}
-      child {node {home} edge from parent node[right] {A}}
-      ;
-  \end{tikzpicture}
-  }}
-\end{minipage}
-\hfill
-\begin{minipage}{.48\linewidth}{\centering
-(2) {\color{red} discontinuity}
-
-\scalebox{.8}{
-  \begin{tikzpicture}[level distance=12mm, sibling distance=2cm, ->, thick,
-      every node/.append style={midway},
-      edge from parent/.append style={nodes={font=\scriptsize}}]
-    \node (ROOT) [fill=black, circle] {}
-      child {node {John} edge from parent node[left] {A}}
-      child {node [fill=black, circle] {}
-      {
-      	child {node {gave} edge from parent node[left] {C}}
-      	child {node (everything) {everything} edge from parent[white]}
-      	child {node {up} edge from parent node[right] {C}}
-      } edge from parent node[right] {P} }
-      ;
-    \draw[bend right,->,red,very thick] (ROOT) to[out=-20, in=180] node [left] {\scriptsize A} (everything);
-  \end{tikzpicture}
-  }}
-\end{minipage}
-
-\vfill
-(3) {\color{orange} reentrancy}
-
-\scalebox{.8}{
-\begin{tikzpicture}[level distance=14mm, sibling distance=17mm, ->, thick,
-    edge from parent/.append style={nodes={font=\scriptsize}}]
-    \node (ROOT) [fill=black, circle] {}
-      child {node (After) {After} edge from parent node[left] {L\;}}
-      child {node (graduation) [fill=black, circle] {}
-      {
-        child {node {graduation} edge from parent node[left] {P}}
-      } edge from parent node[left] {H} }
-      child {node {,} edge from parent node[right] {U}}
-      child {node (moved) [fill=black, circle] {}
-      {
-        child {node (John) {John} edge from parent node[left] {A}}
-        child {node {moved} edge from parent node[left] {P}}
-        child {node [fill=black, circle] {}
-        {
-          child {node {to} edge from parent node[left] {R}}
-          child {node {Copenhagen} edge from parent node[right] {C}}
-        } edge from parent node[right] {A} }
-      } edge from parent node[right] {H} }
-      ;
-    \draw[dashed,->,orange,very thick] (graduation) to node [auto] {\scriptsize A} (John);
-\end{tikzpicture}}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Data Statistics}
-\centering
-\def\arraystretch{1.5}
-\begin{tabular}{l|r|rrr|r}
-    & \multicolumn{1}{c|}{Wiki} & \multicolumn{3}{c|}{20K} & \multicolumn{1}{c}{EWT} \\
-    & \multicolumn{1}{c|}{en} & \multicolumn{1}{c}{en} & \multicolumn{1}{c}{fr} & \multicolumn{1}{c|}{de} & \multicolumn{1}{c}{en} \\
-    \hline
-    \# sentences&5,141&492&492&6,514&3,520 \\
-    \# tokens&158,739&12,638&13,021&144,529&51,042 \\
-    \hline
-    \# {\color{blue} non-terminal nodes}&62,002&4,699&5,110&51,934&18,156 \\
-    \% {\color{red}discontinuous}&1.71&3.19&4.64&8.87&3.87 \\
-    \% {\color{orange}reentrant}&1.84&0.89&0.65&0.31&0.83 \\
-    \hline
-    \# edges&208,937&16,803&17,520&187,533&60,739 \\
-    \% primary&97.40&96.79&97.02&97.32&97.32 \\
-    \% remote&2.60&3.21&2.98&2.68&2.68
-\end{tabular}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Evaluation}
-\begin{adjustbox}{frame,scale=.75,center}
-    \begin{tikzpicture}[level distance=12mm, sibling distance=15mm, ->,
-        every circle node/.append style={fill=black},
-        edge from parent/.append style={nodes={font=\scriptsize}},
-        edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
-      \tikzstyle{word} = [font=\rmfamily,color=black]
-      \node at (0,.7) {True (human-annotated) graph};
-      \node (ROOT) at (0,0) [circle] {}
-        child {node (After) [word] {After} edge from parent node[left] {L}}
-        child {node (graduation) [circle] {}
-        {
-          child {node [word] {graduation} edge from parent node[left] {P}}
-        } edge from parent node[left] {H} }
-        child {node [word] {,} edge from parent node[right] {U}}
-        child {node (moved) [circle] {}
-        {
-          child {node (John) [word] {John} edge from parent node[left] {A}}
-          child {node [word] {moved} edge from parent node[left] {P}}
-          child {node [circle] {}
-          {
-            child {node [word] {to} edge from parent node[left] {R}}
-            child {node [word] {Copenhagen} edge from parent node[right] {C}}
-          } edge from parent node[right] {A} }
-        } edge from parent node[right] {H} }
-        ;
-      \draw[dashed,->] (graduation) to node [auto] {\scriptsize A} (John);
-      \node at (8,.7) {Automatically predicted graph for the same text};
-      \node (ROOT_) at (7,0) [circle] {}
-        child {node (After_) [word] {After} edge from parent node[left] {L}}
-        child {node (graduation_) [circle] {}
-        {
-          child[alt=<2>{red}{}] {node [word] {graduation} edge from parent node[left] {S}}
-        } edge from parent node[left] {H} }
-        child {node [word] {,} edge from parent node[right] {U}}
-        child {node (moved) [circle,xshift=3mm,yshift=-7mm] {}
-        {
-          child {node (John_) [word] {John} edge from parent node[left] {A}}
-          child {node [word] {moved} edge from parent node[left] {P}}
-          child[alt=<2>{red}{}] {node [word] {to} edge from parent node[left] {F}}
-          child[alt=<2>{red}{}] {node (Copenhagen_) [word] {Copenhagen} edge from parent node[right] {A}}
-        } edge from parent node[right] {H} }
-        ;
-      \draw[dashed,->] (graduation_) to node [auto] {\scriptsize A} (John_);
-      \draw[bend left,dashed,->,alt=<2>{red}{}] (graduation_) to[in=90] node [auto] {\scriptsize A} (Copenhagen_);
-    \end{tikzpicture}
-\end{adjustbox}
-\vfill
-
-\begin{enumerate}
-  \item Match primary edges between the graphs by terminal yield and label.
-  \item Calculate \textbf{precision, recall and F1} scores.
-  \item Repeat for remote edges.
-\end{enumerate}
-
-\pause
-\vfill
-\begin{adjustbox}{center}
-    \begin{tabular}{c|c|c}
-        \multicolumn{3}{l}{Primary} \\
-        \textbf{P} & \textbf{R} & \textbf{F1} \\ \hline
-        $\frac69=67\%$ & $\frac6{10}=60\%$ & 64\%
-    \end{tabular}
-    \hspace{1cm}
-    \begin{tabular}{c|c|c}
-        \multicolumn{3}{l}{Remote} \\
-        \textbf{P} & \textbf{R} & \textbf{F1} \\ \hline
-        $\frac12=50\%$ & $\frac11=100\%$ & 67\%
-    \end{tabular}
-\end{adjustbox}
 \end{frame}
 
 \end{document}
