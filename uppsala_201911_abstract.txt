@@ -1,0 +1,18 @@
+Natural language understanding requires the ability to comprehend text, reason
+about it, and act upon it intelligently.  While simplistic approaches such as
+end-to-end sequence-to-sequence models go a long way, symbolic meaning
+representation can provide an invaluable inductive bias.  Among coverage of
+semantic phenomena and ease of annotation, important design principles
+for meaning representations include cross-linguistic applicability and
+stability.  I will present experiments in three languages with a
+transition-based meaning representation parser (which parses text to UCCA, AMR,
+DM and UD), and show that multi-task learning across meaning representation
+frameworks improves its performance by effectively learning shared
+generalizations.  The results of two shared tasks on meaning representation
+parsing (in SemEval and CoNLL 2019) further highlight the contribution of
+cross-lingual learning, but raise questions about the comparability and
+information between meaning representation frameworks.  I will also present an
+empirical comparison of the content of semantic and syntactic representations,
+revealing several aspects of divergence, which have profound impact on the
+potential contribution of syntax to semantic parsing, and on the usefulness of
+each for natural language processing.  
