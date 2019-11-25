@@ -1,3 +1,14 @@
+Website: https://danielhers.github.io
+
+Bio:
+Daniel is a postdoctoral researcher at the University of Copenhagen, working on
+meaning representations and semantic parsing. He completed his Ph.D. at the
+Hebrew University of Jerusalem with Ari Rappoport and Omri Abend, and his B.Sc.
+in Mathematics and Computer Science at the Open University of Israel. During
+2008-2019, Daniel was a software engineer at IBM Research, where he was part of
+Project Debater.
+
+Abstract:
 Natural language understanding requires the ability to comprehend text, reason
 about it, and act upon it intelligently.  While simplistic approaches such as
 end-to-end sequence-to-sequence models go a long way, symbolic meaning
