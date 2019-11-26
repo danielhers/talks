@@ -123,34 +123,33 @@
 
 \title[]{Universal Meaning Representation Parsing}
 \author{Daniel Hershcovich}
-\date{Uppsala \\ November 29, 2019}
+\date[November 29, 2019]{Seminar in Computational Linguistics \\ November 29, 2019 \\ Uppsala}
 
 \begin{frame}
 \titlepage
 \end{frame}
 
 \begin{frame}
-\frametitle{What can we do with Natural Language Processing?}
-\onslide<2>{Machine translation:}
+\frametitle{What can we teach computers to do with language?}
+\only<1>{\includegraphics[width=\textwidth]{lostbook.jpg}}
+\onslide<2>{Translate:}
 \begin{center}
-\onslide<2,5>{
+\onslide<2,6>{
   \fbox{\heb{דניאל עבר לקופנהגן אחרי שסיים את הלימודים}}
 }
 
-\only<2,4>{
+\only<2,4,5>{
   \fbox{After graduation, Daniel moved to Copenhagen}
 }
-\only<3,5->{
+\only<3,6->{
   \fbox{After graduation, \underline{Daniel} moved to \underline{Copenhagen}}
 }
 \end{center}
 
-\vspace{-7mm}
+\vspace{-12mm}
   
 \only<3>{
-  \vspace{-9mm}
-
-  Named \\ entity \\ recognition:
+  Recognize \\ entities:
 
   \hspace{54mm} $\downarrow$ \hspace{27mm} $\downarrow$
 
@@ -158,20 +157,32 @@
 }
 
 \only<4>{
-  Text \\
-  simplification:
+  \vspace{5mm}
+  
+  Infer:
 }
   
-\only<4->{
-  \vspace{1mm}
+\only<4>{
+  \begin{center}
+  $\downarrow$
+  
+  \fbox{Daniel graduated.}
+  \end{center}
+}
+
+\only<5>{
+  Simplify:
+}
+  
+\only<5->{
+  \vspace{4mm}
   \begin{center}  
   \fbox{Daniel graduated. Then Daniel moved to Copenhagen.}
   \end{center}
 }
 
-\only<5->{
-  Neural models require the right \textit{inductive bias}
-  \citep{barrett-etal-2018-sequence}.
+\only<6->{
+  Neural models require the right \textit{inductive bias}.
 
   \begin{center}
     \begin{tikzpicture}[->]
@@ -191,7 +202,7 @@
         \path[gray!50] (h\i) edge (o\j);
       }
     }
-    \path [alt=<6>{red,line width=1pt}{}] (h1) edge (o7);
+    \path [alt=<7>{red,line width=1pt}{}] (h1) edge (o7);
     \end{tikzpicture}
   \end{center}
 }
