@@ -175,7 +175,7 @@
 }
   
 \only<5->{
-  \vspace{4mm}
+  \vspace{6mm}
   
   \begin{center}  
   \fbox{Daniel graduated. Then Daniel moved to Copenhagen.}
@@ -2387,9 +2387,71 @@ Complement syntax with \textit{lexical} semantics to make up for differences.
 \end{itemize}
 
 \vfill
-\begin{flushright}
+\begin{minipage}{.8\textwidth}
+\begin{adjustbox}{scale=.6}
+            \begin{tikzpicture}[level distance=7mm, sibling distance=6mm,
+                every node/.append style={font=\rmfamily},
+            	every circle node/.append style={fill=Indigo}]
+                \begin{scope}[frontier/.style={distance from root=23mm},
+                    edge from parent path={(\tikzparentnode.center)
+                	.. controls +(0,-.25) and +(0,.25) .. (\tikzchildnode.north)},
+                    edge from parent/.append style={nodes={font=\scriptsize}}]
+                \Tree [.\node [circle] (root u) {};
+                  \edge node [auto=right]{L}; \node (After u) {After};
+                  \edge node[auto=left]{H};
+                  [.\node [circle,xshift=8mm](graduation Daniel u) {};
+                    \edge node[auto=right]{P}; \node (graduation u) {graduation};
+                  ]
+                  \edge node[auto=left]{H};
+                  [.\node [circle](Daniel moved to Copenhagen u) {};
+                    \edge node[auto=right]{A}; \node (Daniel u) {Daniel};
+                    \edge node[auto=left]{P}; \node (moved u) {moved};
+                    \edge node[auto=left]{A};
+                    [.\node [circle](to Copenhagen u) {};
+                      \edge node[auto=right]{R}; \node (to u) {to};
+                      \edge node[auto=left]{C}; \node (Copenhagen u) {Copenhagen};
+                    ]
+                  ]
+                ]
+                \draw[dashed] (graduation Daniel u) to node[auto,style={font=\scriptsize}] {A} (Daniel u);
+                \end{scope}
+                \onslide<2->{
+                  \begin{scope}[xshift=2cm,yshift=-58mm,grow'=up,level distance=9mm,
+                      sibling distance=4mm, frontier/.style={distance from root=19mm},
+                      edge from parent path={(\tikzparentnode.center) ..
+                      controls +(0,.25) and +(0,-.25) .. (\tikzchildnode.south)},
+                      edge from parent/.append style={nodes={font=\scriptsize}}]
+                  \Tree [.\node [circle] (rootd) {};
+                    \edge node[auto=left]{H};
+                    [.\node [circle,xshift=-5mm] (Daniel siyem et halimudim d) {};
+                      \edge node[auto=left]{P}; \node (halimudim d) {\heb{הלימודים}};
+                      \edge node[auto=left]{F}; \node (et d) {\heb{את}};
+                      \edge node[auto=right]{D}; \node (siyem d) {\heb{שסיים}};
+                    ]
+                    \edge node [auto=left,anchor=south east]{L}; \node (ahrei d) {\heb{אחרי}};
+                    \edge node[auto=right]{H};
+                    [.\node [circle] (hu avar lecopenhagen d) {};
+                      \edge node[auto=left,anchor=south east]{A}; \node (lecopenhagen d) {\heb{לקופנהגן}};
+                      \edge node[auto=left]{P}; \node (avar d) {\heb{עבר}};
+                      \edge node[auto=right]{A}; \node (Daniel d) {\heb{דניאל}};
+                    ]
+                  ]
+                  \draw[dashed] (Daniel siyem et halimudim d) to[out=-15,in=-150] node[above,style={font=\scriptsize}] {A} (Daniel d);
+                  \end{scope}
+                }
+                  \begin{scope}[dashed,thick]
+                    \draw[DarkRed] (After u) to[out=-45,in=135] (ahrei d);
+                    \draw[DarkGreen] (graduation u) to[out=-90,in=100] (Daniel siyem et halimudim d);
+                    \draw[DarkBlue] (Daniel u) -- (Daniel d);
+                    \draw[orange] (moved u) to[out=-30,in=90] (avar d);
+                    \draw[magenta] (to Copenhagen u) to[out=-90,in=70] (lecopenhagen d);
+                  \end{scope}
+            \end{tikzpicture}
+\end{adjustbox}
+\end{minipage}
+\begin{minipage}{.15\textwidth}
 Thanks!
-\end{flushright}
+\end{minipage}
 
 \end{frame}
 
