@@ -466,18 +466,20 @@ Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. 
         child {node [word] {about} edge from parent node[left] {R}}
         child {node (takingabreak) [fill=blue, circle] {}
         {
-          child {node [word] {taking} edge from parent node[above] {F}}
-          child {node [word] {a} edge from parent node[right] {F}}
+          child {node [word] (taking) {taking} edge from parent node[above] {F}}
+          child {node [word] (a) {a} edge from parent node[right] {F}}
           child {node [word] (short) {short} edge from parent[draw=none]}
-          child {node [word] {break} edge from parent node[right] {C}}
+          child {node [word] (break) {break} edge from parent node[right] {C}}
         } edge from parent node[right] {P} }
       } edge from parent node[right] {A} }
       ;
     \draw[bend left,dashed,->,visible on=<-2>] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
     \draw[bend left,dashed,->,orange,very thick,visible on=<3->] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
     \draw[bend left,->,visible on=<1>] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
+    \draw[red,very thick,->,visible on=<2>] (takingabreak) to node [auto] {} (taking);
+    \draw[red,very thick,->,visible on=<2>] (takingabreak) to node [auto] {} (a);
+    \draw[red,very thick,->,visible on=<2>] (takingabreak) to node [auto] {} (break);
     \draw[bend left,->,visible on=<3->] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
-    \draw[bend left,->,red,very thick,visible on=<2>] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
     \node[visible on=<3->] at (6,-.4) {\Large ----- primary edge};
     \node[visible on=<3->] at (6,-1.4) {\Large - - - remote edge};
 \end{tikzpicture}
