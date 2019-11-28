@@ -476,9 +476,9 @@ Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. 
     \draw[bend left,dashed,->,visible on=<-2>] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
     \draw[bend left,dashed,->,orange,very thick,visible on=<3->] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
     \draw[bend left,->,visible on=<1>] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
-    \draw[red,very thick,->,visible on=<2>] (takingabreak) to node [auto] {} (taking);
-    \draw[red,very thick,->,visible on=<2>] (takingabreak) to node [auto] {} (a);
-    \draw[red,very thick,->,visible on=<2>] (takingabreak) to node [auto] {} (break);
+    \draw[red,very thick,->,visible on=<2>] (takingabreak.south) to node [auto] {} (taking.north);
+    \draw[red,very thick,->,visible on=<2>] (takingabreak.south) to node [auto] {} (a.north);
+    \draw[red,very thick,->,visible on=<2>] (takingabreak.south) to node [auto] {} (break.north);
     \draw[bend left,->,visible on=<3->] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
     \node[visible on=<3->] at (6,-.4) {\Large ----- primary edge};
     \node[visible on=<3->] at (6,-1.4) {\Large - - - remote edge};
