@@ -613,6 +613,41 @@ Text tokens are terminals, complex units are {\color{blue} non-terminal nodes}. 
 
 
 \begin{frame}
+\frametitle{UCCA Parsing}
+\centering
+They thought about taking a short break
+
+\[\Downarrow\]
+
+\scalebox{.8}{
+\begin{tikzpicture}[level distance=15mm, sibling distance=2cm, ->, thick,
+    every node/.append style={font=\rmfamily},
+    edge from parent/.append style={nodes={font=\scriptsize}},
+    edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
+    \node(ROOT)[fill=black, circle] at (3,0) {}
+      child {node (They) {They} edge from parent node [left] {A}}
+      child {node (thought) {thought} edge from parent node [left] {P}}
+      child {node (abouttakingashortbreak) [fill=blue, circle] {} 
+      { 
+        child {node (to) {about} edge from parent node [right] {R}}
+        child {node (takingabreak) [fill=red, circle] {}
+        {
+          child {node (take) {taking} edge from parent node [above] {F}}      
+          child {node (a) {a} edge from parent node [right] {F}} 
+          child {node (short) {short} edge from parent [draw=none]}
+          child {node (break) {break} edge from parent node [above] {C}}  
+        } edge from parent [draw=none]}
+      } edge from parent [draw=none]}
+      ;
+    \draw(abouttakingashortbreak) to node [left] {\scriptsize P} (takingabreak); 
+    \draw(ROOT) to node [left] {A} (abouttakingashortbreak);
+    \draw[bend left,dashed] (abouttakingashortbreak) to node [auto] {A} (They);
+    \draw[bend left] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
+\end{tikzpicture}}
+\end{frame}
+
+
+\begin{frame}
 \frametitle{TUPA: Transition-based UCCA Parser}
 
 Parses text $w_1 \ldots w_n$ to graph $G$ incrementally by applying transitions to the parser state,
