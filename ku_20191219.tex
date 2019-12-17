@@ -113,10 +113,6 @@
 
 \MakePerPage{footnote}
 
-% Outline slides
-%\AtBeginSection[]
-%{\begin{frame} \frametitle{Outline} \tableofcontents[currentsection,currentsubsection] \end{frame}}
-
 
 \begin{document}
 
@@ -263,8 +259,6 @@ But capture useful distinctions, such as:
             \end{tikzpicture}}
 \end{minipage}\end{frame}
 
-
-\section{UCCA}
 
 \begin{frame}
 \frametitle{Universal Conceptual Cognitive Annotation (UCCA)}
@@ -472,8 +466,6 @@ Learns to predict next transition based on current state.
 \end{frame}
 
 
-\section{Cross-lingual Parsing}
-
 \begin{frame}
 \frametitle{Cross-lingual UCCA Parsing}
 SemEval 2019: parsing to UCCA \citep{hershcovich2019shared}.
@@ -491,8 +483,6 @@ SemEval 2019: parsing to UCCA \citep{hershcovich2019shared}.
     \end{figure}
 \end{frame}
 
-
-\section{Cross-framework Parsing}
 
 
 \begin{frame}
@@ -872,329 +862,23 @@ AMR	Amazon	0.734	HIT-SCIR	0.729	SJTU--NICT	0.720	Saarland	0.731	Amazon	0.711	{{\
   \end{center}
 \end{frame}
 
-
-\section{What Distinguishes Meaning Representations?}
-
-
 \begin{frame}
-\frametitle{UCCA vs. UD}
+\frametitle{Form and Meaning}
+Content Differences in Syntactic and Semantic Representations \citep*{hershcovich2019content}
 
-    \begin{minipage}[t]{.17\textwidth}
-      \onslide<2->{
-        \fbox{Many formal differences.}
-      }
-    \end{minipage}
-    \begin{minipage}{.5\textwidth}
-        \scalebox{.77}{
-\begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick]
-    \node[anchor=west,font=\bf\sffamily\LARGE,Indigo] at (-3,0) {UCCA};
-    \node (ROOT) [fill=Indigo, circle] {}
-      child {node (After) {After} edge from parent node[left] {L\;}}
-      child {node (graduation) [fill=Indigo, circle] {}
-      {
-        child {node {graduation} edge from parent node[left] {P}}
-      } edge from parent node[left] {H} }
-      child {node {,} edge from parent node[right] {U}}
-      child {node (moved) [fill=Indigo, circle] {}
-      {
-        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
-        child {node {moved} edge from parent node[left] {P}}
-        child {node [fill=Indigo, circle] {}
-        {
-          child {node {to} edge from parent node[left] {R}}
-          child {node {Copenhagen} edge from parent node[left] {C}}
-        } edge from parent node[left] {A} }
-      } edge from parent node[right] {H} }
-      ;
-    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
-\end{tikzpicture}
-        }
-    \end{minipage}
-    \begin{minipage}{.2\textwidth}
-      \onslide<3->{
-        \fbox{What about \textit{content}?}
-        \vspace{4cm}
-      }
-    \end{minipage}
-    
-    {\color{DarkBlue}\bf\sffamily\Large UD}
-    
-    \vspace{-14mm}
-    
-    \rmfamily
-    \begin{dependency}[text only label, edge style={-{Latex[length=2mm]}, color=DarkBlue, thick},
-                       label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
-    \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
-    \end{deptext}
-        \depedge{2}{1}{case}
-        \depedge{2}{3}{punct}
-        \depedge{5}{4}{nsubj}
-        \depedge[edge end x offset=-2pt]{5}{2}{obl}
-        \depedge{7}{6}{case}
-        \deproot[edge unit distance=2.5ex]{5}{root}
-        \depedge{5}{7}{obl}
-    \end{dependency}
-\end{frame}
+\begin{adjustbox}{frame,center,minipage=[r][0.1\textheight][b]{.7\textwidth}}
+From the moment you enter the restaurant, you are greeted with a breathtaking view of Manhattan.
+\end{adjustbox}
 
-
-\begin{frame}
-\frametitle{Assimilating the Graph Structures}
-
-\begin{minipage}{.04\textwidth}
-\color{DarkBlue} UD
-\end{minipage}
-\only<-2>{
-\begin{minipage}{.45\textwidth}
-  \centering
-  \scalebox{.6}{
-    \begin{dependency}[text only label, edge style={color=DarkBlue},
-                       label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
-    \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
-    \end{deptext}
-        \depedge{2}{1}{case}
-        \depedge{2}{3}{punct}
-        \depedge{5}{4}{nsubj}
-        \depedge[edge end x offset=-2pt]{5}{2}{obl}
-        \depedge{7}{6}{case}
-        \deproot[edge unit distance=2.5ex]{5}{root}
-        \depedge{5}{7}{obl}
-    \end{dependency}
-    }
-\end{minipage}
-\begin{minipage}{.02\textwidth}
-\Rightarrow
-\end{minipage}
-\begin{minipage}{.4\textwidth}
-  \centering
-  \scalebox{.55}{\convertedudgraduation}
-\end{minipage}
-}
-\only<3->{
-\begin{minipage}{.9\textwidth}
-  \centering
-  \scalebox{.9}{\convertedudgraduation}
-\end{minipage}
-}
-
-\pause
-\vfill
-
-Evaluate by matching edges \citep*{hershcovich2019content}.
-
-\pause
-\vfill
-
-\begin{minipage}{.5\textwidth}
-\scalebox{.7}{
-\begin{tikzpicture}[level distance=17mm, sibling distance=25mm, ->, draw=Indigo, thick]
-    \node[anchor=west,font=\sffamily\LARGE,Indigo] at (-4,0) {UCCA};
-    \node (ROOT) [fill=Indigo, circle] {}
-      child {node (After) {After} edge from parent node[left] {L\;}}
-      child {node (graduation) [fill=Indigo, circle] {}
-      {
-        child {node {graduation} edge from parent node[left] {P}}
-      } edge from parent node[left] {H} }
-      child {node {,} edge from parent node[right] {U}}
-      child {node (moved) [fill=Indigo, circle] {}
-      {
-        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
-        child {node {moved} edge from parent node[left] {P}}
-        child {node [fill=Indigo, circle] {}
-        {
-          child {node {to} edge from parent node[left] {R}}
-          child {node {Copenhagen} edge from parent node[left] {C}}
-        } edge from parent node[left] {A} }
-      } edge from parent node[right] {H} }
-      ;
-    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
-\end{tikzpicture}
-}
-\end{minipage}
-\pause
-\begin{minipage}[b]{.4\textwidth}
-    \large
-    \begin{tabular}{c|c|c}
-        \textbf{P} & \textbf{R} & \textbf{F1} \\ \hline
-        $\frac89=89\%$ & $\frac8{10}=80\%$ & 84\%
-    \end{tabular}
-    \vspace{1cm}
-\end{minipage}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Events and non-Events, Relations and Participants}
-\begin{flushright}
-\scalebox{.9}{
-\begin{tikzpicture}[level distance=15mm, sibling distance=21mm, ->, draw=Indigo, thick]
-    \node[anchor=west,font=\sffamily\LARGE,Indigo] at (-4,0) {UCCA};
-    \node (ROOT) [fill=Indigo, circle] {}
-      child {node (After) {After} edge from parent node[above] {L\;}}
-      child {node (graduation) [fill=Indigo, circle] {}
-      {
-        child {node {graduation} edge from parent [Indigo] node[left] {P}}
-      } edge from parent [alt=<2>{red}{}] node[left] {H} }
-      child {node {,} edge from parent node[right] {U}}
-      child {node (moved) [fill=Indigo, circle] {}
-      {
-        child {node (Daniel) {Daniel} edge from parent [alt=<3>{red}{Indigo}] node[above] {A}}
-        child {node {moved} edge from parent [Indigo] node[left] {P}}
-        child {node [fill=Indigo, circle] {}
-        {
-          child {node {to} edge from parent [Indigo] node[left] {R}}
-          child {node {Copenhagen} edge from parent [Indigo] node[right] {C}}
-        } edge from parent [alt=<3>{red}{Indigo}] node[right] {A} }
-      } edge from parent [alt=<2>{red}{}] node[above] {H} }
-      ;
-    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
-\end{tikzpicture}
-}
-\end{flushright}
-
-\vspace{-13mm}
-
-{\color{DarkBlue}\Large\sffamily Converted UD}
-
-\vspace{-1mm}
-
-\scalebox{.9}{\convertedudgraduation}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Multi-word Expressions}
+\begin{center}
+\includegraphics[width=.7\textwidth]{chart-house.jpg}
+\end{center}
 
 \begin{flushright}
-\scalebox{.9}{
-\begin{tikzpicture}[level distance=15mm, sibling distance=28mm, ->, draw=Indigo, thick,
-  level 2/.style={sibling distance=16mm}]
-  \tikzstyle{word} = [color=black]
-    \node[anchor=west,font=\sffamily\LARGE,Indigo] at (-4,0) {UCCA};
-    \node (ROOT) [fill=Indigo, circle] {}
-      child {node (They) [word] {They} edge from parent node[above] {A}}
-      child {node [word] {thought} edge from parent node[left] {P}}
-      child {node (abouttakingashortbreak) [fill=Indigo, circle] {}
-      {
-        child {node [word] {about} edge from parent [Indigo] node[left] {R}}
-        child {node (takingabreak) [fill=Indigo, circle] {}
-        {
-          child {node [word] {taking} edge from parent [alt=<3>{red}{Indigo}] node[above] {F}}
-          child {node [word] {a} edge from parent [alt=<3>{red}{Indigo}] node[right] {F}}
-          child {node [word] (short) {short} edge from parent[draw=none]}
-          child {node [word] {break} edge from parent [alt=<3>{red}{Indigo}] node[right] {C}}
-        } edge from parent [Indigo] node[right] {P} }
-      } edge from parent node[above] {A} }
-      ;
-    \draw[bend left,dashed,->] (abouttakingashortbreak) to node [auto] {A} (They);
-    \draw[bend left,->] (abouttakingashortbreak) to node [auto] {D} (short);
-\end{tikzpicture}
-}
+\tiny\url{https://www.tripadvisor.com/LocationPhotoDirectLink-g46907-d7289700-i131403948}
 \end{flushright}
-
-\vspace{-12mm}
-
-\only<1>{
-    {\color{DarkBlue}\Large\sffamily UD}
-
-     \begin{dependency}[line width=1.5pt]
-        \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
-       They \^ thought \^ about \^ taking \^ a \^ short \^ break \\
-         \end{deptext}
-        \deproot[draw=DarkBlue]{2}{root}
-        \depedge[draw=DarkBlue]{2}{1}{nsubj}
-        \depedge[edge start x offset=-4pt,draw=DarkBlue]{2}{4}{advcl}
-        \depedge[draw=DarkBlue]{4}{3}{mark}
-        \depedge[draw=DarkBlue]{4}{7}{dobj}
-        \depedge[draw=DarkBlue]{7}{5}{det}
-        \depedge[draw=DarkBlue]{7}{6}{amod}
-    \end{dependency}
-}
-\only<2->{
-  \vspace{-16mm}
-    
-  {\color{DarkBlue}\Large\sffamily Converted UD}
-  
-  \scalebox{.9}{
-  \begin{tikzpicture}[level distance=17mm, sibling distance=28mm, ->, draw=DarkBlue, thick,
-      every node/.append style={sloped,anchor=south,auto=false,font=\scriptsize},
-      level 2/.style={sibling distance=19mm},
-      edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
-    \tikzstyle{word} = [font=\rmfamily,color=black]
-    \node (ROOT) [fill=DarkBlue, circle] {}
-      child {node (They) [word] {They} edge from parent node {nsubj}}
-      child {node [word] {thought} edge from parent node {head}}
-      child {node (abouttakingashortbreak) [fill=DarkBlue, circle] {}
-      {
-        child {node [word] {about} edge from parent node {mark}}
-        child {node (takingabreak) [fill=DarkBlue, circle] {}
-        {
-          child {node [word] {taking} edge from parent node {head}}
-          child {node [word] {a} edge from parent node {det}}
-          child {node [word] (short) {short} edge from parent node {\;amod}}
-          child {node [word] {break} edge from parent node {head}}
-        } edge from parent node {dobj} }
-      } edge from parent node {advcl} }
-      ;
-  \end{tikzpicture}
-  }
-}
 \end{frame}
 
-
-\begin{frame}
-\frametitle{Linkage between Events}
-
-\begin{flushright}    
-    \scalebox{.8}{
-    \begin{tikzpicture}[level distance=15mm, sibling distance=39mm, ->, draw=Indigo, thick,
-  level 2/.style={sibling distance=16mm},
-  every circle node/.append style={fill=Indigo}]
-  \tikzstyle{word} = [color=black]
-    \node[anchor=west,font=\sffamily\LARGE,Indigo] at (-6,0) {UCCA};
-      \node (ROOT) [circle] {}
-        child {node [circle] {}
-        {
-          child {node [word] {From} edge from parent [Indigo] node[left] {R}}
-          child {node [word] {the} edge from parent [Indigo] node[left] {E}}
-          child {node [word] {{\color{white}F}\color{black}moment} edge from parent [Indigo] node[right] {C}}
-        } edge from parent [alt=<2>{red}{}] node[above] {L} }
-        child {node [circle] {}
-        {
-          child {node [word] {you{\color{white}k}} edge from parent node[left] {A}}
-          child {node [word] {{\color{white}y}enter} edge from parent node[right] {P}}
-        } edge from parent node[left] {H} }
-        child {node [circle] {}
-        {
-          child {node (comma) [word] {,} edge from parent [draw=none]}
-          child {node [word] {you{\color{white}k}} edge from parent node[left] {A}}
-          child {node [word] {{\color{white}y}know} edge from parent node[right] {S}}
-        } edge from parent node[above] {H} }
-        ;
-      \draw[->] (ROOT) to node [right] {U} (comma);
-    \end{tikzpicture}
-    }
-\end{flushright}
-
-    {\color{DarkBlue}\Large\sffamily UD}
-    
-    \vspace{-5mm}
-    
-    \begin{dependency}[line width=1.5pt]
-        \begin{deptext}[column sep=1.5em,ampersand replacement=\^,font=\rmfamily]
-        From \^ the \^ moment \^ you \^ enter \^ , \^ you \^ know \\
-        \end{deptext}
-        \depedge[draw=DarkBlue]{3}{1}{case}
-        \depedge[draw=DarkBlue]{3}{2}{det}
-        \depedge[draw=DarkBlue]{8}{3}{obl}
-        \depedge[draw=DarkBlue]{3}{5}{acl}
-        \depedge[draw=DarkBlue,edge start x offset=-5pt]{5}{4}{nsubj}
-        \depedge[draw=DarkBlue]{8}{6}{punct}
-        \depedge[draw=DarkBlue,edge start x offset=-10pt]{8}{7}{nsubj}
-        \deproot[draw=DarkBlue]{8}{root}
-    \end{dependency}
-\end{frame}
 
 \begin{frame}
 \frametitle{Ongoing Work}
@@ -1205,8 +889,6 @@ Complement syntax with \textit{lexical} semantics to make up for differences.
 
 \end{frame}
 
-
-\section*{}
 
 \begin{frame}
 \frametitle{Conclusion}
