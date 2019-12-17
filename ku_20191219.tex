@@ -38,7 +38,6 @@
 }
 
 \captionsetup{labelformat=empty}
-\newcommand{\parser}[1]{TUPA\textsubscript{#1}}
 
 \newfontfamily\hebfont[Script=Hebrew, Scale=MatchUppercase]{FreeSans}
 \newcommand{\heb}[1]{\bgroup\textdir TRT\hebfont #1\egroup}
@@ -178,6 +177,12 @@
   \end{center}
 }
 
+\only<2-5>{\vfill
+\begin{center}
+\includegraphics[width=.2\textwidth]{graduation.png}
+\includegraphics[width=.7\textwidth]{FRB-slot-676x320}
+\end{center}}
+
 \only<6->{
 Identify relations between concepts (\textbf{parsing}, various frameworks):
 
@@ -276,7 +281,7 @@ Multilingual meaning representation framework \citep{abend2013universal,abend201
 
 
 \begin{frame}
-\frametitle{TUPA: Transition-based UCCA Parser}
+\frametitle{Transition-based UCCA Parser (TUPA)}
 
 \textit{A Transition-Based Directed Acyclic Graph Parser for UCCA}
 \citep*{hershcovich2017a}. ACL, Outstanding Paper Award.
@@ -316,7 +321,7 @@ Multilingual meaning representation framework \citep{abend2013universal,abend201
 \end{frame}
 
 \begin{frame}
-\frametitle{\parser{} Model}
+\frametitle{TUPA Model}
 Learns to predict next transition based on current state.
 
 \centering
