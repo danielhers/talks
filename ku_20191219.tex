@@ -281,7 +281,7 @@ Multilingual meaning representation framework \citep{abend2013universal,abend201
 
 
 \begin{frame}
-\frametitle{Transition-based UCCA Parser (TUPA)}
+\frametitle{First UCCA Parser (TUPA)}
 
 \textit{A Transition-Based Directed Acyclic Graph Parser for UCCA}
 \citep*{hershcovich2017a}. ACL, Outstanding Paper Award.
@@ -413,7 +413,7 @@ Learns to predict next transition based on current state.
 
 
 \begin{frame}
-    \frametitle{Meaning Representations}
+    \frametitle{Many Meaning Representation Frameworks}
 
       \begin{flushright}
         \scalebox{.6}{
@@ -499,64 +499,6 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Syntactic Representations}
-    {\color{DarkBlue}\bf\sffamily\Large UD} (Universal Dependencies)
-    
-    \begin{center}
-    \rmfamily
-    \begin{dependency}[text only label, edge style={-{Latex[length=2mm]}, color=DarkBlue}, thick,
-                       label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
-    \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
-    \end{deptext}
-        \depedge{2}{1}{case}
-        \depedge{2}{3}{punct}
-        \depedge{5}{4}{nsubj}
-        \depedge[edge end x offset=-2pt]{5}{2}{obl}
-        \depedge{7}{6}{case}
-        \deproot[edge unit distance=2.5ex]{5}{root}
-        \depedge{5}{7}{obl}
-    \end{dependency}
-    \end{center}
-\end{frame}
-
-
-\begin{frame}
-    \frametitle{Data}
-    \fbox{UCCA training data is scarce}
-    \begin{center}
-    \begin{minipage}{.15\textwidth}
-      (English)
-    \end{minipage}
-    \begin{minipage}{.7\textwidth}
-    \pgfplotstableread[row sep=\\,col sep=&]{
-    	corpus & total \\
-        \color{DarkBlue} UD & 35791 \\
-        \color{DarkRed} DM & 33964 \\
-        \color{DarkGreen} AMR & 36521 \\
-        \color{Indigo} UCCA & 5141 \\
-        }\english
-        \begin{tikzpicture}
-        \begin{axis}[
-        xbar stacked,
-        width=10cm,
-        height=39mm,
-        xmin=0,
-        xmax=60000,
-        xtick=\empty,
-        ytick=data,
-        yticklabels from table={\english}{corpus},
-        axis x line=none,
-        ]
-        \addplot [fill=Navy, point meta=explicit symbolic,
-        nodes near coords align={anchor=west}] table [x=total,y expr=\coordindex,meta=total] {\english};
-        \end{axis}
-        \end{tikzpicture}
-    \end{minipage}
-    \end{center}
-\end{frame}
-
 \def\convertedudgraduation{
   \begin{tikzpicture}[level distance=15mm, ->, draw=DarkBlue, thick,
       every node/.append style={sloped,anchor=south,auto=false,font=\scriptsize},
@@ -596,7 +538,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 
 
 \begin{frame}
-    \frametitle{Multi-task TUPA}
+    \frametitle{Sharing for Better Generalization}
     
     \textit{Multitask Parsing Across Semantic Representations}
     \citep*{hershcovich2018multitask}. ACL.
@@ -695,74 +637,81 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \scalebox{6}{\}}
     \end{minipage}
     
+    \vfill
     \pause
     
-    \vfill
-    
-    Sharing for generalization.
-    
-    \vspace{-2mm}
-    
-    \begin{center}\scalebox{.3}{\Huge
-       \begin{tikzpicture}[-{Latex[length=3mm]},very thick]
-       \tikzstyle{main}=[rounded rectangle, minimum size=25mm, draw=black!80, node distance=12mm]
-       \node[main] (specific) at (0,12) {Task-specific};
-       \node[main,color=DarkCyan] (shared) at (22,12) {Shared};
-       \foreach \i/\word in {-4/{After},4/{graduation},17/{to},25/{Copenhagen}} {
-           \node (x\i) at (\i,3) {\word};
-           \node[main, minimum size=16mm, fill=DarkCyan, draw=none] (e\i) at (\i,6) {};
-           \path[color=DarkCyan] (x\i) edge (e\i);
-           \path (e\i) edge (specific);
-           \path[color=DarkCyan] (e\i) edge (shared);
-       }
-        \node (x4) at (10.5,3) {\ldots};
-        \node[main] (mlp) at (10.5,15) {};
-        \path (specific) edge (mlp);
-        \path[color=DarkCyan] (shared) edge (mlp);
-        \node (transition) at (10.5,17.8) {};
-        \path (mlp) edge node[right] {} (transition);
-       \end{tikzpicture}}
-    \end{center}
+    Improved UCCA parsing in English, French and German.
 \end{frame}
 
 
 
 \begin{frame}
-\frametitle{Parsing Shared Tasks}
+\frametitle{Shared Tasks: Parsing Competitions}
 \textit{SemEval 2019 Task 1: Cross-lingual Semantic Parsing with UCCA}
 \citep*{hershcovich2019shared}.
+
+\begin{minipage}{.6\textwidth}
 \begin{itemize}
-\item Training and evaluation in English, French, and German.
-\item Baseline: TUPA.
-\item Participants: 8 teams from 6 countries.
+\item 3 languages.
+\item 8 teams from 6 countries.
 \end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.1\textwidth}
+\includegraphics[width=\textwidth]{type_writer2.png}
+\end{minipage}
 
 \pause
 \vfill
 
 \textit{MRP 2019: Cross-Framework Meaning Representation Parsing}
 \citep*{Oep:Abe:Haj:19}. CoNLL.
+
+\begin{minipage}{.6\textwidth}
 \begin{itemize}
-\item Training and evaluation on DM, PSD, EDS, UCCA and AMR.
-\item Baseline: TUPA.
-\item Participants: 18 teams from 8 countries.
+\item 5 frameworks.
+\item 18 teams from 8 countries.
 \end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.1\textwidth}
+\includegraphics[width=\textwidth]{logo.png}
+\end{minipage}
 
 \pause
 \vfill
 
-Winning system: HIT-SCIR (Harbin, China).
-
-Transition-based parser (similar to TUPA) + efficient training + BERT.
+Winning system (Harbin, China): transition-based parser (like TUPA).
 \end{frame}
 
+\begin{frame}
+\frametitle{Syntactic Representations}
+    {\color{DarkBlue}\bf\sffamily\Large UD} (Universal Dependencies)
+    
+    \begin{center}
+    \rmfamily
+    \begin{dependency}[text only label, edge style={-{Latex[length=2mm]}, color=DarkBlue}, thick,
+                       label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
+    \begin{deptext}[column sep=.8em,ampersand replacement=\^]
+    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
+    \end{deptext}
+        \depedge{2}{1}{case}
+        \depedge{2}{3}{punct}
+        \depedge{5}{4}{nsubj}
+        \depedge[edge end x offset=-2pt]{5}{2}{obl}
+        \depedge{7}{6}{case}
+        \deproot[edge unit distance=2.5ex]{5}{root}
+        \depedge{5}{7}{obl}
+    \end{dependency}
+    \end{center}
+\end{frame}
 
 \begin{frame}
 \frametitle{Form and Meaning}
 \textit{Content Differences in Syntactic and Semantic Representations} \citep*{hershcovich2019content}
 
 \begin{adjustbox}{frame,center,minipage=[r][0.1\textheight][b]{.7\textwidth}}
-From the moment you enter the restaurant, you are greeted with a breathtaking view of Manhattan.
+{\only<2>{\color{red}}From the moment} you enter the restaurant, you are greeted with a {\only<3>{\color{red}}breathtaking view} of Manhattan.
 \end{adjustbox}
 
 \begin{center}
@@ -774,30 +723,13 @@ From the moment you enter the restaurant, you are greeted with a breathtaking vi
 \end{flushright}
 \end{frame}
 
-
-\begin{frame}
-\frametitle{Ongoing Work}
-
-Complement syntax with \textit{lexical} semantics to make up for differences.
-
-\includegraphics[width=\textwidth]{ex-ucca-streusle.pdf}
-
-\end{frame}
-
-
 \begin{frame}
 \frametitle{Conclusion}
 \begin{itemize}
  \item Meaning representation is valuable for language understanding.\pause
  \item Transition-based parsers excel across frameworks and languages.\pause
- \item Cross-framework unification by multi-task and linguistic analysis.
+ \item Cross-framework unification by multitask and linguistic analysis.
 \end{itemize}
-
-\vfill
-\begin{flushright}
-Thanks!
-\end{flushright}
-
 \end{frame}
 
 \begin{frame}[allowframebreaks]
