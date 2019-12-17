@@ -179,95 +179,36 @@
 }
 
 \only<6->{
-Identify symbolic relations between words or concepts (\textbf{parsing}):
-
-\vfill
+Identify relations between concepts (\textbf{parsing}, various frameworks):
 
     \begin{adjustbox}{center}
-    \begin{dependency}[line width=2pt,label style={line width=.5pt,draw=black}]
-        \begin{deptext}[column sep=1.5em]
+    \begin{dependency}[line width=2pt,label style={line width=.5pt,draw=black},opacity=.16]
+        \begin{deptext}[column sep=1.5em,opacity=1]
           After \& graduation \& , \& Daniel \& moved \& to \& Copenhagen \\
         \end{deptext}
         \depedge[edge below,draw=DarkRed,edge unit distance=3ex]{1}{2}{ARG2}
-        \depedge[edge below,draw=DarkRed,edge unit distance=3ex]{5}{4}{ARG1}
+        \depedge[edge below,draw=DarkRed,edge unit distance=3ex,opacity=1]{5}{4}{ARG1}
         \depedge[edge below,draw=DarkRed,edge unit distance=2ex, edge end x offset=-2pt]{1}{5}{ARG1}
         \deproot[edge below,draw=DarkRed,edge unit distance=3ex]{5}{top}
-        \depedge[edge below,draw=DarkRed,edge unit distance=4ex, edge start x offset=-1pt, edge end x offset=3pt]{5}{7}{ARG2}
+        \depedge[edge below,draw=DarkRed,edge unit distance=4ex, edge start x offset=-1pt, edge end x offset=3pt,opacity=1]{5}{7}{ARG2}
         \depedge[edge below,draw=DarkRed,edge unit distance=3ex, edge end x offset=5pt]{6}{5}{ARG1}
         \depedge[edge below,draw=DarkRed,edge unit distance=3ex]{6}{7}{ARG2}
         \depedge[draw=DarkBlue,edge unit distance=3ex]{2}{1}{case}
         \depedge[draw=DarkBlue,edge unit distance=3ex]{2}{3}{punct}
-        \depedge[draw=DarkBlue,edge unit distance=3ex]{5}{4}{nsubj}
+        \depedge[draw=DarkBlue,edge unit distance=3ex,opacity=1]{5}{4}{nsubj}
         \depedge[draw=DarkBlue,edge unit distance=3ex, edge end x offset=-2pt]{5}{2}{obl}
         \depedge[draw=DarkBlue,edge unit distance=3ex]{7}{6}{case}
         \deproot[draw=DarkBlue,edge unit distance=3ex]{5}{root}
-        \depedge[draw=DarkBlue,edge unit distance=4ex]{5}{7}{obl}
+        \depedge[draw=DarkBlue,edge unit distance=4ex,opacity=1]{5}{7}{obl}
     \end{dependency}    
     \end{adjustbox}
 }
 \end{frame}
 
-\begin{frame}
-    \frametitle{Meaning Representation}
-Abstract away from detail that does not affect meaning:
-\begin{center}    
-    \fbox{\textrm{graduation}} $\approx$ \fbox{\textrm{graduated}}
-    $\approx$ \fbox{\heb{סיים את הלימודים}} $\approx$ \fbox{\textrm{Abschluss}}
-\end{center}
-
-\pause\vfill
-
-But capture useful distinctions, such as:
-\vfill
-
-\begin{minipage}{.38\textwidth}
-\begin{itemize}
-\item {\only<2>{\color{red}}Events and participants}
-\item {\only<3>{\color{red}}Event linkage}
-\item {\only<4>{\color{red}}Multi-word chunking}
-\end{itemize}
-\end{minipage}
-\begin{minipage}{.58\textwidth}\scalebox{.8}{
-            \begin{tikzpicture}[level distance=21mm, sibling distance=1mm,
-                every node/.append style={font=\rmfamily},
-            	every circle node/.append style={fill=Indigo}]
-                \begin{scope}[frontier/.style={distance from root=56mm},
-                    edge from parent/.append style={nodes={font=\scriptsize}}]
-                \Tree [.\node [circle] (root u) {};
-                  \edge node[auto=right]{L}; \node[alt=<3>{text=red}{}] {Nach};
-                  \edge node[auto=left]{H};
-                  [.\node[circle](abschluss) {};
-                    \edge node[auto=left]{P};
-                    [.\node [circle] {};
-                      \edge node[auto=right]{R}; \node {seinem};
-                      \edge node[right]{C}; \node[alt=<2>{text=red}{}] (graduation) {Abschluss};
-                    ]
-                  ]
-                  \edge node[auto=left]{H};
-                  [.\node[circle]{};
-                    \edge node[auto=left]{P};
-                    [.\node[circle,xshift=8mm](zogum) {};
-                      \edge node[auto=right]{}; \node[alt=<4>{text=red}{}] {zog};
-                    ]
-                    \edge node[right]{A}; \node[alt=<2>{text=red}{}] (Daniel) {Daniel};
-                    \edge[draw=none]; \node[alt=<4>{text=red}{}] (um) {um};
-                  ]
-                ]
-                \draw[dashed] (abschluss) to node[auto] {A} (Daniel);
-                \draw (zogum.south) to node[left] {} (um);
-                \end{scope}
-            \end{tikzpicture}}
-\end{minipage}\end{frame}
-
 
 \begin{frame}
 \frametitle{Universal Conceptual Cognitive Annotation (UCCA)}
-Intuitive annotation of meaning\only<1>{ \citep{abend2013universal}}.\\
-\onslide<2->{
-  Stable across languages \citep{sulem2015conceptual}.
-}
-
-\vfill
+Multilingual meaning representation framework \citep{abend2013universal,abend2017state,sulem2015conceptual,sulem2018semantic,sulem2018simple,choshen2018reference}.
 
 \begin{adjustbox}{center}
             \begin{tikzpicture}[level distance=7mm, sibling distance=6mm,
@@ -337,8 +278,8 @@ Intuitive annotation of meaning\only<1>{ \citep{abend2013universal}}.\\
 \begin{frame}
 \frametitle{TUPA: Transition-based UCCA Parser}
 
-Incremental parsing by sequential transitions
-\citep*{hershcovich2017a}.
+\textit{A Transition-Based Directed Acyclic Graph Parser for UCCA}
+\citep*{hershcovich2017a}. ACL, Outstanding Paper Award.
 
 \pause
 
@@ -464,25 +405,6 @@ Learns to predict next transition based on current state.
 \end{tikzpicture}
 }
 \end{frame}
-
-
-\begin{frame}
-\frametitle{Cross-lingual UCCA Parsing}
-SemEval 2019: parsing to UCCA \citep{hershcovich2019shared}.
-\begin{itemize}
-\item Training and evaluation in English, French, and German.
-\item Baseline: TUPA.
-\item Participants: 8 teams from 6 countries.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-    \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{Capture}
-    \end{figure}
-\end{frame}
-
 
 
 \begin{frame}
@@ -670,6 +592,10 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 
 \begin{frame}
     \frametitle{Multi-task TUPA}
+    
+    \textit{Multitask Parsing Across Semantic Representations}
+    \citep*{hershcovich2018multitask}. ACL.
+    
     \begin{minipage}{.05\pagewidth}
     \scalebox{6}{\{}
     \end{minipage}
@@ -768,7 +694,7 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     
     \vfill
     
-    Sharing for generalization \citep*{hershcovich2018multitask}.
+    Sharing for generalization.
     
     \vspace{-2mm}
     
@@ -795,9 +721,22 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 \end{frame}
 
 
+
 \begin{frame}
-  \frametitle{Cross-framework Meaning Representation Parsing}
-  CoNLL 2019: parsing to five frameworks \citep{Oep:Abe:Haj:19}.
+\frametitle{Parsing Shared Tasks}
+\textit{SemEval 2019 Task 1: Cross-lingual Semantic Parsing with UCCA}
+\citep*{hershcovich2019shared}.
+\begin{itemize}
+\item Training and evaluation in English, French, and German.
+\item Baseline: TUPA.
+\item Participants: 8 teams from 6 countries.
+\end{itemize}
+
+\pause
+\vfill
+
+\textit{MRP 2019: Cross-Framework Meaning Representation Parsing}
+\citep*{Oep:Abe:Haj:19}. CoNLL.
 \begin{itemize}
 \item Training and evaluation on DM, PSD, EDS, UCCA and AMR.
 \item Baseline: TUPA.
@@ -812,59 +751,10 @@ Winning system: HIT-SCIR (Harbin, China).
 Transition-based parser (similar to TUPA) + efficient training + BERT.
 \end{frame}
 
-\pgfplotstableread{
-framework {first name} first {second name} second {third name} third {first lpps name} {first lpps} {second lpps name} {second lpps} {third lpps name} {third lpps}
-Overall	HIT-SCIR	0.862	SJTU--NICT	0.853	SUDA--Alibaba	0.840	Saarland	0.849	HIT-SCIR	0.848	SJTU--NICT	0.842
-DM	SJTU--NICT	0.955	HIT-SCIR	0.951	ShanghaiTech	0.949	HIT-SCIR	0.950	SJTU--NICT	0.949	Saarland	0.948
-PSD	Saarland	0.913	Hitachi	0.912	SJTU--NICT	0.912	SJTU--NICT	0.885	Hitachi	0.884	Saarland	0.883
-EDS	SUDA--Alibaba	0.918	HIT-SCIR	0.907	SJTU--NICT	0.899	SUDA--Alibaba	0.926	Saarland	0.920	SJTU--NICT	0.912
-UCCA	HIT-SCIR	0.817	SUDA--Alibaba	0.784	SJTU--NICT	0.778	HIT-SCIR	0.826	SUDA--Alibaba	0.821	Saarland	0.762
-AMR	Amazon	0.734	HIT-SCIR	0.729	SJTU--NICT	0.720	Saarland	0.731	Amazon	0.711	{{\'U}FAL MRPipe}	0.707
-}\scores
-
-\begin{frame}[fragile]
-  \begin{center}\footnotesize
-    \begin{tikzpicture}
-    \begin{axis}[
-    ybar=0pt,
-    enlarge x limits={abs=7mm},
-    enlarge y limits={value=0.14,upper},
-    ymin=0,
-    clip=true,
-    width=\textwidth,
-    height=\textheight,
-    bar width=12pt,
-    xtick=data,
-    xticklabels from table={\scores}{framework},
-    xticklabel style={font=\small,anchor=north},
-    xtick align=inside,
-    xticklabel pos=left,
-    yticklabels=none,
-    tickwidth=0pt,
-    nodes near coords={\scalebox{.6}{\pgfmathprintnumber[fixed zerofill,precision=3]{\pgfplotspointmeta}}},
-    every node near coord/.append style={font=\small,rotate=90,anchor=west},
-    axis background/.style={fill=cyan!10},
-    ]
-    \addplot[fill=Gold]table[x expr=\coordindex,y=first]{\scores};
-    \addplot[color=black, point meta=explicit symbolic, only marks, nodes near coords,
-              every node near coord/.append style={font=\tiny,anchor=east}]
-              table[x expr=\coordindex,y=first, meta=first name] {\scores};
-    \addplot[fill=Silver]table[x expr=\coordindex,y=second]{\scores};
-    \addplot[color=black, point meta=explicit symbolic, only marks, nodes near coords,
-              every node near coord/.append style={font=\tiny,anchor=east}]
-              table[x expr=\coordindex,y=second, meta=second name] {\scores};
-    \addplot[fill=Peru]table[x expr=\coordindex,y=third]{\scores};
-    \addplot[color=black, point meta=explicit symbolic, only marks, nodes near coords,
-              every node near coord/.append style={font=\tiny,anchor=east}]
-              table[x expr=\coordindex,y=third, meta=third name] {\scores};
-    \end{axis}
-    \end{tikzpicture}
-  \end{center}
-\end{frame}
 
 \begin{frame}
 \frametitle{Form and Meaning}
-Content Differences in Syntactic and Semantic Representations \citep*{hershcovich2019content}
+\textit{Content Differences in Syntactic and Semantic Representations} \citep*{hershcovich2019content}
 
 \begin{adjustbox}{frame,center,minipage=[r][0.1\textheight][b]{.7\textwidth}}
 From the moment you enter the restaurant, you are greeted with a breathtaking view of Manhattan.
