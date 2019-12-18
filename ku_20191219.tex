@@ -25,6 +25,7 @@
 \usepackage{collcell}
 \usepackage{booktabs}
 \usepackage{color,soul}
+\usepackage[absolute,overlay]{textpos}
 
 \usetikzlibrary{arrows.meta,graphs,graphs.standard,graphdrawing,quotes,shapes}
 \usegdlibrary{layered,trees}
@@ -125,7 +126,21 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Debater}
+\frametitle{My first steps in NLP and ML}
+
+2012--2019: IBM Project Debater
+
+AI system that can debate humans on complex topics \\
+(e.g., \textit{We should ban the sale of violent video games})
+
+\vfill
+\begin{center}
+\includegraphics[width=.6\textwidth]{project-debater_resize_md.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{IBM Project Debater}
 \small
 
 \textit{A Benchmark Dataset for Automatic Detection of Claims and Evidence in the Context of Controversial Topics}
@@ -136,17 +151,40 @@
 \citep*{slonim-etal-2014-claims}. COLING system demo.
 \vfill
 
+{\only<2>{\color{red}}
 \textit{Context Dependent Claim Detection}
 \citep*{levy-etal-2014-context} COLING.
+}
+
+\only<2>{
+\begin{textblock*}{64mm}(32mm,0.18\textheight)
+\begin{exampleblock}{}
+Because violence in video games is interactive and not passive, critics such as Dave
+Grossman and Jack Thompson argue that \textbf{violence in games hardens children to
+unethical acts}, calling first-person shooter games ``murder simulators'', although
+no conclusive evidence has supported this belief
+\end{exampleblock}
+\end{textblock*}}
+
 \vfill
 
 \textit{Automatic Claim Negation: Why, How and When}
 \citep*{bilu-etal-2015-automatic}. NAACL-HLT.
 \vfill
 
+{\only<3>{\color{red}}
 \textit{Argument Invention from First Principles}
 \citep*{bilu-etal-2019-argument}. ACL.
+}
 
+\only<3>{
+\begin{textblock*}{64mm}(32mm,0.18\textheight)
+\begin{exampleblock}{}
+\textbf{Freedom of choice} $\to$ People have the right to make their own choices, including bad ones
+
+\textbf{Black market} $\to$ Prohibiting products and activities makes them less visible and available, and thus less harmful
+\end{exampleblock}
+\end{textblock*}}
 \end{frame}
 
 \begin{frame}
