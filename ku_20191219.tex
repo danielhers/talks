@@ -832,7 +832,7 @@ Winning system (Harbin, China): transition-based parser (like TUPA).
 \end{frame}
 
 \begin{frame}
-\frametitle{Next steps}
+\frametitle{Integrating knowledge bases into NLP}
 \textit{Rewarding Coreference Resolvers for Being Consistent with World Knowledge}
 \citep*{aralikatte2019rewarding}. EMNLP.
 
@@ -851,12 +851,43 @@ Other bands from {\color{blue}the Sunshine State} include {\color{purple}Firefli
 \end{frame}
 
 \begin{frame}
-\frametitle{Conclusion}
+\frametitle{Next steps}
 \begin{itemize}
- \item Meaning representation is valuable for language understanding.\pause
- \item Transition-based parsers excel across frameworks and languages.\pause
- \item Cross-framework unification by multitask and linguistic analysis.
+ \item Is meaning representation necessary for language understanding?\pause
+ \begin{itemize}
+ \item As an infrastructure for better deep learning\pause
+ \item As an interpretation method for probing linguistic knowledge\pause
+ \item {\only<9>{\color{red}}As a goal in itself---e.g., for querying knowledge bases}\pause
+ \end{itemize}
+ \vfill
+ \item Can we make NLP methods robust to new domains and languages?\pause
+ \begin{itemize}
+ \item By simply experimenting with more diverse data\pause
+ \item By principled multitask learning\pause
+ \item By better understanding generalization
+ \end{itemize}
 \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Multilingual semantic parsing from grounding in Wikidata}
+Build knowledge graph search queries from natural language expressions \\
+using methods from meaning representation parsing \\
+and reinforcement learning.
+
+\vfill
+
+\begin{textblock*}{64mm}(32mm,0.33\textheight)
+\begin{exampleblock}{}
+impressionist painters \\
+18th-century American poets \\
+\ldots
+\end{exampleblock}
+\end{textblock*}
+
+\begin{center}
+\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
+\end{center}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
