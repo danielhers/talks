@@ -199,7 +199,7 @@ University of Copenhagen
 
 
 \begin{frame}
-\frametitle{IBM Project Debater}
+\frametitle{IBM Project Debater (2012--2019)}
 
 \begin{minipage}{.8\textwidth}
 AI system that can debate humans on complex topics \\
@@ -246,89 +246,98 @@ no conclusive evidence has supported this belief
 \end{frame}
 
 \begin{frame}
+\setbeamercovered{transparent}
 \frametitle{What can we teach computers to do with language?}
-\only<1>{\includegraphics[width=\textwidth]{lostbook.jpg}}
-\only<2>{Translate:}
-\begin{center}
-\onslide<2,6->{
-  \fbox{\heb{דניאל עבר לקופנהגן אחרי שסיים את הלימודים}}
-}
-
-\only<2,4,5>{
-  \fbox{After graduation, Daniel moved to Copenhagen}
-}
-\only<3,6->{
-  \fbox{After graduation, \underline{Daniel} moved to \underline{Copenhagen}}
-}
-\end{center}
-
-\vspace{-12mm}
-  
-\only<3>{
-  Recognize \\ entities:
-
-  \hspace{54mm} $\downarrow$ \hspace{27mm} $\downarrow$
-
-  \hspace{49mm} Person \hspace{17mm} Location
-}
-
-\only<4>{
-  \vspace{5mm}
-  
-  Infer:
-}
-  
-\only<4>{
+\only<1>{\includegraphics[width=\textwidth]{t5.png}}
+\vfill
+\onslide<2>{Translate:\vspace{-7mm}
   \begin{center}
+  \fbox{Dave Grossman and Jack Thompson argue that violent games are harmful}
+  
   $\downarrow$
   
-  \fbox{Daniel graduated.}
+  \fbox{Dave Grossman og Jack Thompson hævder, at voldsomme spil er skadelige}
   \end{center}
 }
-
-\only<5>{
-  Simplify:
+\vfill
+\onslide<3>{
+  Recognize entities:
+  
+  \fbox{\underline{Dave Grossman} and \underline{Jack Thompson} argue that violent games are harmful}
 }
+\vfill
+\onslide<4>{ 
+  Infer:
+  \begin{center}
+  \fbox{Violence in games hardens children to unethical acts}
   
-\only<5->{
-  \vspace{6mm}
+  $\downarrow$ entails
   
-  \begin{center}  
-  \fbox{Daniel graduated. Then Daniel moved to Copenhagen.}
+  \fbox{Violent games are harmful}
   \end{center}
 }
+\end{frame}
 
-\only<2-5>{\vfill
-\begin{center}
-\includegraphics[width=.2\textwidth]{graduation.png}
-\includegraphics[width=.7\textwidth]{FRB-slot-676x320}
-\end{center}}
-
-\only<6->{
-Identify relations between concepts (\textbf{parsing}, various frameworks):
+\begin{frame}
+\frametitle{What can we teach computers to do with language?}
+    Identify relations between concepts (\textbf{parsing}, various frameworks):
 
     \begin{adjustbox}{center}
-    \begin{dependency}[line width=2pt,label style={line width=.5pt,draw=black},opacity=.16]
-        \begin{deptext}[column sep=1.5em,opacity=1]
-          After \& graduation \& , \& Daniel \& moved \& to \& Copenhagen \\
-        \end{deptext}
-        \depedge[edge below,draw=DarkRed,edge unit distance=3ex]{1}{2}{ARG2}
-        \depedge[edge below,draw=DarkRed,edge unit distance=3ex,opacity=1]{5}{4}{ARG1}
-        \depedge[edge below,draw=DarkRed,edge unit distance=2ex, edge end x offset=-2pt]{1}{5}{ARG1}
-        \deproot[edge below,draw=DarkRed,edge unit distance=3ex]{5}{top}
-        \depedge[edge below,draw=DarkRed,edge unit distance=4ex, edge start x offset=-1pt, edge end x offset=3pt,opacity=1]{5}{7}{ARG2}
-        \depedge[edge below,draw=DarkRed,edge unit distance=3ex, edge end x offset=5pt]{6}{5}{ARG1}
-        \depedge[edge below,draw=DarkRed,edge unit distance=3ex]{6}{7}{ARG2}
-        \depedge[draw=DarkBlue,edge unit distance=3ex]{2}{1}{case}
-        \depedge[draw=DarkBlue,edge unit distance=3ex]{2}{3}{punct}
-        \depedge[draw=DarkBlue,edge unit distance=3ex,opacity=1]{5}{4}{nsubj}
-        \depedge[draw=DarkBlue,edge unit distance=3ex, edge end x offset=-2pt]{5}{2}{obl}
-        \depedge[draw=DarkBlue,edge unit distance=3ex]{7}{6}{case}
-        \deproot[draw=DarkBlue,edge unit distance=3ex]{5}{root}
-        \depedge[draw=DarkBlue,edge unit distance=4ex,opacity=1]{5}{7}{obl}
-    \end{dependency}    
+    \begin{dependency}[line width=2pt,label style={line width=.5pt,draw=black}]
+    \begin{deptext}
+        Dave  \& Grossman \& and   \& Jack  \& Thompson \& argue \& that  \& violent \& games \& are \& harmful \& .     \\
+	\end{deptext}
+	\depedge{6}{1}{nsubj}
+	\depedge{1}{2}{flat}
+	\depedge{4}{3}{cc}
+	\depedge{1}{4}{conj}
+	\depedge{4}{5}{flat}
+	\deproot[edge unit distance=3em]{6}{root}
+	\depedge{11}{7}{mark}
+	\depedge{9}{8}{amod}
+	\depedge{11}{9}{nsubj}
+	\depedge{11}{10}{cop}
+	\depedge{6}{11}{ccomp}
+	\depedge{6}{12}{punct}
+    \end{dependency}
     \end{adjustbox}
-}
+\end{frame}
+
+\begin{frame}
+\setbeamercovered{transparent}
+\frametitle{Natural Language Processing in 2020: The Basics}
+Learn \textit{representations}:
+\[\Sigma^*\to\mathbb{R}^n\]
+
+\pause
+Train classifiers:
+\[\mathbb{R}^n\to Y\]
+
+\pause
+Deploy:
+\[\Sigma^*\to Y\]
+
+\pause
+  \begin{center}
+  \fbox{\small Violence in games hardens children to unethical acts | Violent games are harmful}
+  
+  $\downarrow$
+  
+  \begin{tikzpicture}
+  \def\w{5};
+  \draw (.5,7pt) arc[radius=7pt,start angle= 90,end angle=270];
+  \draw (.5,-7pt) -- (\w+.5,-7pt);
+  \draw (.5,7pt) -- (\w+.5,7pt);
+  \draw (\w+.5,7pt) arc[radius=7pt,start angle=90,end angle=-90];
+  \foreach \x in {1,...,\w}{
+    \node[draw,radius=5pt,circle] at (\x,0) {};
+  }
+  \end{tikzpicture}
+  
+  $\downarrow$
+  
+  entailment
+  \end{center}
 \end{frame}
 
 \begin{frame}
