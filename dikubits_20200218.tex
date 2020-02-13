@@ -307,7 +307,7 @@ no conclusive evidence has supported this belief
 \setbeamercovered{transparent}
 \frametitle{Breaking it down}
 \small
-[Meaning], [Representation] and [Parsing] \\
+[Meaning]\textit{,} [Representation] and [Parsing] \\
 1. What we mean, 2. How to represent (something), 3. How to parse (something)
 
 \pause
@@ -331,23 +331,23 @@ or
 or 
 \vfill
 
-[Meaning Representation] and [(Meaning Representation) Parsing] \\
+[Meaning Representation] and [Parsing \textit{(to Meaning Representation)}] \\
 1. How to represent what we mean, 2. How to parse (1)
 \end{frame}
 
 \begin{frame}
-\setbeamercovered{transparent}
 \frametitle{Natural Language Processing in 2020: The Basics}
-Learn {\only<6>{\color{red}}\textit{representations}}:
-\[{\only<5>{\color{red}}\Sigma^*}\to{\only<6>{\color{red}}\mathbb{R}^n}\]
+{\setbeamercovered{transparent}
+1. Learn {\only<7>{\color{red}}\textit{representations}}:
+\[{\only<5>{\color{red}}\Sigma^*}\to{\only<7>{\color{red}}\mathbb{R}^n}\]
 
 \pause
-Train classifiers:
-\[{\only<6>{\color{red}}\mathbb{R}^n}\to {\only<7>{\color{red}}Y}\]
+2. Train classifiers:
+\[{\only<7>{\color{red}}\mathbb{R}^n}\to {\only<6>{\color{red}}Y}\]
 
 \pause
-Deploy:
-\[{\only<5>{\color{red}}\Sigma^*}\to {\only<7>{\color{red}}Y}\]
+3. Deploy:
+\[{\only<5>{\color{red}}\Sigma^*}\to {\only<6>{\color{red}}Y}\]
 
 \pause
   \begin{center}
@@ -358,7 +358,7 @@ Deploy:
   
   $\downarrow$
   
-  {\only<6>{\color{red}}
+  {\only<7>{\color{red}}
   \begin{tikzpicture}
   \def\w{5};
   \draw (.5,7pt) arc[radius=7pt,start angle= 90,end angle=270];
@@ -372,13 +372,20 @@ Deploy:
   
   $\downarrow$
   
-  {\tt\only<7>{\color{red}}entailment}
+  {\tt\only<6>{\color{red}}entailment}
   \end{center}
+}
+\only<8>{
+\begin{textblock*}{7cm}(3cm,0.8\textheight)
+\begin{exampleblock}{}
+\textit{Representation} = vector of real numbers?
+\end{exampleblock}
+\end{textblock*}}
 \end{frame}
 
 \begin{frame}
 \frametitle{Meaning Representation}
-Universal Conceptual Cognitive Annotation (UCCA):
+{\only<3>{\color{red}Universal Conceptual Cognitive Annotation (UCCA):}}
 
 \begin{adjustbox}{center}
             \begin{tikzpicture}[sibling distance=1mm,
@@ -445,6 +452,83 @@ Universal Conceptual Cognitive Annotation (UCCA):
 \end{adjustbox}
 \end{frame}
 
+
+\begin{frame}
+    \frametitle{Many meaning representation frameworks exist}
+
+      \begin{flushright}
+        \scalebox{.6}{
+\begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick]
+    \node[font=\bf\sffamily\Huge,Indigo] at (-3,0) {UCCA};
+    \node (ROOT) [fill=Indigo, circle] {}
+      child {node (While) {While} edge from parent node[left] {L\;}}
+      child {node (playing) [fill=Indigo, circle] {}
+      {
+        child {node {playing} edge from parent node[left] {P}}
+      } edge from parent node[left] {H} }
+      child {node {,} edge from parent node[right] {U}}
+      child {node (learn) [fill=Indigo, circle] {}
+      {
+        child {node (children) {children} edge from parent node[left] {A}}
+        child {node {learn} edge from parent node[left] {P}}
+        child {node [fill=Indigo, circle] {}
+        {
+          child {node {about} edge from parent node[left] {R}}
+          child {node {themselves} edge from parent node[left] {C}}
+        } edge from parent node[left] {A} }
+      } edge from parent node[right] {H} }
+      ;
+    \draw[dashed,->] (playing) to node [auto] {A} (children);
+\end{tikzpicture}
+        }
+      \end{flushright}
+    
+    \vspace{-23mm}
+    
+    \scalebox{.6}{
+\begin{tikzpicture}[thick]
+\node[font=\bf\sffamily\Huge,DarkGreen] at (0,1) {AMR};
+\graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
+a0[as={learn-01}];
+a1[as={child}];
+a5[as={during}];
+a6[as={play-01}];
+
+a0 ->  ["ARG0"' above] a1;
+a0 ->  ["time"' above] a5;
+a5 ->  ["op1"' above] a6;
+};
+\draw[->, above, DarkGreen] (a6) to node[sloped] {ARG0} (a1);
+\draw[->, above, DarkGreen] (a0) to[out=180,in=90] node[sloped] {ARG1} (a1);
+\end{tikzpicture}
+      }
+    \vspace{-15mm}
+    
+    \begin{flushright}
+    \begin{minipage}{.01\textwidth}
+      \begin{tikzpicture}
+        \node[font=\bf\sffamily\Large,DarkRed] {DM};
+      \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{.6\textwidth}
+        \rmfamily
+        \scalebox{.7}{
+\begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed},
+            text only label, label style={above, color=DarkRed, font=\bf\ttfamily}, font=\small, thick]
+    \begin{deptext}[column sep=1em,ampersand replacement=\^]
+	While \^ playing \^ , \^ children \^ learn \^ about \^ themselves \\
+    \end{deptext}
+    \deproot{5}{top}
+    \depedge{1}{2}{ARG2}
+    \depedge{1}{5}{ARG1}
+    \depedge{5}{4}{ARG1}
+    \depedge{6}{5}{ARG1}
+    \depedge{6}{7}{ARG2}
+\end{dependency}
+    }
+    \end{minipage}
+    \end{flushright}
+\end{frame}
 
 
 \begin{frame}
@@ -717,93 +801,6 @@ Learns to predict next transition based on current state.
     \path (mlp) edge (transition);
 \end{tikzpicture}
 }
-\end{frame}
-
-
-\begin{frame}
-    \frametitle{Many meaning representation frameworks}
-
-      \begin{flushright}
-        \scalebox{.6}{
-\begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick]
-    \node[font=\bf\sffamily\Huge,Indigo] at (-3,0) {UCCA};
-    \node (ROOT) [fill=Indigo, circle] {}
-      child {node (After) {After} edge from parent node[left] {L\;}}
-      child {node (graduation) [fill=Indigo, circle] {}
-      {
-        child {node {graduation} edge from parent node[left] {P}}
-      } edge from parent node[left] {H} }
-      child {node {,} edge from parent node[right] {U}}
-      child {node (moved) [fill=Indigo, circle] {}
-      {
-        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
-        child {node {moved} edge from parent node[left] {P}}
-        child {node [fill=Indigo, circle] {}
-        {
-          child {node {to} edge from parent node[left] {R}}
-          child {node {Copenhagen} edge from parent node[left] {C}}
-        } edge from parent node[left] {A} }
-      } edge from parent node[right] {H} }
-      ;
-    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
-\end{tikzpicture}
-        }
-      \end{flushright}
-    
-    \vspace{-23mm}
-    
-    \scalebox{.6}{
-\begin{tikzpicture}[thick]
-\node[font=\bf\sffamily\Huge,DarkGreen] at (0,6) {AMR};
-\graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
-a4 Copenhagen[as={Copenhagen}];
-a2 Daniel[as={Daniel}];
-a1[as={person}];
-a0[as={move-01}];
-a3[as={city}];
-a2[as={name}];
-a5[as={after}];
-a4[as={name}];
-a6[as={graduate-01}];
-
-a1 ->  ["name"' above] a2;
-a0 ->  ["ARG0"' above] a1;
-a0 ->  ["ARG2"' above] a3;
-a0 ->  ["time"' above] a5;
-a3 ->  ["name"' above] a4;
-a2 ->  ["op1"' above] a2 Daniel;
-a5 ->  ["op1"' above] a6;
-a4 ->  ["op1"' above] a4 Copenhagen;
-};
-\draw[->, above, DarkGreen] (a6) to node[sloped] {ARG0} (a1);
-\end{tikzpicture}
-      }
-    \vspace{-15mm}
-    
-    \begin{flushright}
-    \begin{minipage}{.01\textwidth}
-      \begin{tikzpicture}
-        \node[font=\bf\sffamily\Large,DarkRed] {DM};
-      \end{tikzpicture}
-    \end{minipage}
-    \begin{minipage}{.6\textwidth}
-        \rmfamily
-        \scalebox{.7}{
-\begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed},
-            text only label, label style={above, color=DarkRed, font=\bf\ttfamily}, font=\small, thick]
-    \begin{deptext}[column sep=1em,ampersand replacement=\^]
-	After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
-    \end{deptext}
-    \deproot{5}{top}
-    \depedge{1}{2}{ARG2}
-    \depedge{1}{5}{ARG1}
-    \depedge{5}{4}{ARG1}
-    \depedge{6}{5}{ARG1}
-    \depedge{6}{7}{ARG2}
-\end{dependency}
-    }
-    \end{minipage}
-    \end{flushright}
 \end{frame}
 
 
