@@ -278,6 +278,79 @@ no conclusive evidence has supported this belief
 \end{frame}
 
 \begin{frame}
+\frametitle{Natural Language Processing in 2020: The Basics}
+{\setbeamercovered{transparent}
+1. Learn {\only<7>{\color{red}}\textit{representations}}:
+\[{\only<5>{\color{red}}\Sigma^*}\to{\only<7>{\color{red}}\mathbb{R}^n}\]
+
+\pause
+2. Train classifiers:
+\[{\only<7>{\color{red}}\mathbb{R}^n}\to {\only<6>{\color{red}}Y}\]
+
+\pause
+3. Deploy:
+\[{\only<5>{\color{red}}\Sigma^*}\to {\only<6>{\color{red}}Y}\]
+
+\pause
+  \begin{center}
+  \begin{adjustbox}{padding=1ex 1ex 1ex 1ex,frame,margin=1ex 1ex 1ex 1ex,minipage=[r][6ex][b]{.7\textwidth}}
+  	\centering\rm\only<5>{\color{red}}\small
+  	Violence in games hardens children to unethical acts \\ ? \\ Violent games are harmful
+  \end{adjustbox}
+  
+  $\downarrow$
+  
+  {\only<7>{\color{red}}
+  \begin{tikzpicture}
+  \def\w{5};
+  \draw (.5,7pt) arc[radius=7pt,start angle= 90,end angle=270];
+  \draw (.5,-7pt) -- (\w+.5,-7pt);
+  \draw (.5,7pt) -- (\w+.5,7pt);
+  \draw (\w+.5,7pt) arc[radius=7pt,start angle=90,end angle=-90];
+  \foreach \x in {1,...,\w}{
+    \node[draw,radius=5pt,circle] at (\x,0) {};
+  }
+  \end{tikzpicture}}
+  
+  $\downarrow$
+  
+  {\tt\only<6>{\color{red}}entailment}
+  \end{center}
+}
+\only<8>{
+\begin{textblock*}{7cm}(3cm,0.8\textheight)
+\begin{exampleblock}{}
+\textit{Representation} = vector of real numbers?
+\end{exampleblock}
+\end{textblock*}}
+\end{frame}
+
+\newcommand{\mask}[2]{\alt<#1>{\fbox{\textbf{\color{red}?}}}{#2}}
+
+\begin{frame}
+\frametitle{Learning from plain text: masked language modeling}
+\textrm{\mask{4}{Which} \mask{2}{Sesame} \mask{3}{Street} \mask{1}{character} \mask{5}{is} \mask{6}{your} \mask{7}{favorite}}
+
+\vfill
+\onslide<8>{
+\textit{BERT}\footnote{Bidirectional Encoder Representations from Transformers} (2018):
+\begin{itemize}
+\item Trained on 16GB of text.
+\item 16 TPU chips for 4 days.
+\end{itemize}
+
+\vfill
+
+\url{https://demo.allennlp.org/masked-lm}
+}
+
+\vspace{-3cm}
+\begin{flushright}
+\includegraphics[width=.4\textwidth]{sesame.jpg}
+\end{flushright}
+\end{frame}
+
+\begin{frame}
 \frametitle{What can we teach computers to do with language?}
     Identify relations between concepts (\textbf{parsing}, various frameworks):
 
@@ -332,54 +405,6 @@ or
 
 [Meaning Representation] and [Parsing \textit{(to Meaning Representation)}] \\
 1. How to represent what we mean, 2. How to parse (1)
-\end{frame}
-
-\begin{frame}
-\frametitle{Natural Language Processing in 2020: The Basics}
-{\setbeamercovered{transparent}
-1. Learn {\only<7>{\color{red}}\textit{representations}}:
-\[{\only<5>{\color{red}}\Sigma^*}\to{\only<7>{\color{red}}\mathbb{R}^n}\]
-
-\pause
-2. Train classifiers:
-\[{\only<7>{\color{red}}\mathbb{R}^n}\to {\only<6>{\color{red}}Y}\]
-
-\pause
-3. Deploy:
-\[{\only<5>{\color{red}}\Sigma^*}\to {\only<6>{\color{red}}Y}\]
-
-\pause
-  \begin{center}
-  \begin{adjustbox}{padding=1ex 1ex 1ex 1ex,frame,margin=1ex 1ex 1ex 1ex,minipage=[r][6ex][b]{.7\textwidth}}
-  	\centering\rm\only<5>{\color{red}}\small
-  	Violence in games hardens children to unethical acts \\ ? \\ Violent games are harmful
-  \end{adjustbox}
-  
-  $\downarrow$
-  
-  {\only<7>{\color{red}}
-  \begin{tikzpicture}
-  \def\w{5};
-  \draw (.5,7pt) arc[radius=7pt,start angle= 90,end angle=270];
-  \draw (.5,-7pt) -- (\w+.5,-7pt);
-  \draw (.5,7pt) -- (\w+.5,7pt);
-  \draw (\w+.5,7pt) arc[radius=7pt,start angle=90,end angle=-90];
-  \foreach \x in {1,...,\w}{
-    \node[draw,radius=5pt,circle] at (\x,0) {};
-  }
-  \end{tikzpicture}}
-  
-  $\downarrow$
-  
-  {\tt\only<6>{\color{red}}entailment}
-  \end{center}
-}
-\only<8>{
-\begin{textblock*}{7cm}(3cm,0.8\textheight)
-\begin{exampleblock}{}
-\textit{Representation} = vector of real numbers?
-\end{exampleblock}
-\end{textblock*}}
 \end{frame}
 
 \begin{frame}
@@ -982,7 +1007,20 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 \pause
 \vfill
 
-Winning system (Harbin, China): transition-based parser (like TUPA).
+soon...
+
+\textit{MRP 2020}
+
+\begin{minipage}{.6\textwidth}
+\begin{itemize}
+\item More frameworks.
+\item 5 languages.
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.1\textwidth}
+\includegraphics[width=\textwidth]{logo.png}
+\end{minipage}
 \end{frame}
 
 \begin{frame}
