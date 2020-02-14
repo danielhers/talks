@@ -476,12 +476,7 @@ or
 \end{adjustbox}
 \end{frame}
 
-
-\begin{frame}
-    \frametitle{Many meaning representation frameworks exist}
-
-      \begin{flushright}
-        \scalebox{.6}{
+\def\exucca{
 \begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick]
     \node[font=\bf\sffamily\Huge,Indigo] at (-3,0) {UCCA};
     \node (ROOT) [fill=Indigo, circle] {}
@@ -504,12 +499,8 @@ or
       ;
     \draw[dashed,->] (playing) to node [auto] {A} (children);
 \end{tikzpicture}
-        }
-      \end{flushright}
-    
-    \vspace{-23mm}
-    
-    \scalebox{.6}{
+}
+\def\examr{
 \begin{tikzpicture}[thick]
 \node[font=\bf\sffamily\Huge,DarkGreen] at (0,1) {AMR};
 \graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
@@ -525,10 +516,8 @@ a5 ->  ["op1"' above] a6;
 \draw[->, above, DarkGreen] (a6) to node[sloped] {ARG0} (a1);
 \draw[->, above, DarkGreen] (a0) to[out=180,in=90] node[sloped] {ARG1} (a1);
 \end{tikzpicture}
-      }
-    \vspace{-15mm}
-    
-    \begin{flushright}
+}
+\def\exdm{
     \begin{minipage}{.01\textwidth}
       \begin{tikzpicture}
         \node[font=\bf\sffamily\Large,DarkRed] {DM};
@@ -551,6 +540,22 @@ a5 ->  ["op1"' above] a6;
 \end{dependency}
     }
     \end{minipage}
+}
+
+\begin{frame}
+    \frametitle{Many meaning representation frameworks exist}
+
+      \begin{flushright}
+        \scalebox{.6}{\exucca}
+      \end{flushright}
+    
+    \vspace{-23mm}
+    
+    \scalebox{.6}{\examr}
+    \vspace{-15mm}
+    
+    \begin{flushright}
+	\exdm
     \end{flushright}
 \end{frame}
 
@@ -828,141 +833,27 @@ Learns to predict next transition based on current state.
 \end{frame}
 
 
-\def\convertedudgraduation{
-  \begin{tikzpicture}[level distance=15mm, ->, draw=DarkBlue, thick,
-      every node/.append style={sloped,anchor=south,auto=false,font=\scriptsize},
-      level 1/.style={sibling distance=16mm},
-      level 2/.style={sibling distance=13mm},
-      edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
-    \tikzstyle{word} = [font=\rmfamily,color=black]
-    \node (ROOT) [fill=DarkBlue,circle] {}
-      child {node (after) [fill=DarkBlue,circle] {}
-      {
-        child {node [word] {After{\color{white}g}\quad\quad} edge from parent node {case}}
-        child {node [word] {\quad graduation\quad\quad} edge from parent node {head}}
-      } edge from parent node {obl}}
-      child {node {}
-      {
-        child {node [word] (comma) {\quad,{\color{white}g}} edge from parent [draw=none]}
-      } edge from parent [draw=none]}
-      child {node {}
-      {
-        child {node [word] (Daniel) {Daniel{\color{white}g}} edge from parent [draw=none]}
-      } edge from parent [draw=none]}
-      child {node {}
-      {
-        child {node [word] (moved) {moved{\color{white}g}} edge from parent [draw=none]}
-      } edge from parent [draw=none]}
-      child {node (to) [fill=DarkBlue,circle] {}
-      {
-          child {node [word] {to{\color{white}g}} edge from parent node {case}}
-          child {node [word] {Copenhagen{\color{white}g}} edge from parent node {head}}
-      } edge from parent node {obl}}
-      ;
-      \draw (ROOT) to node {punct} (comma);
-      \draw (ROOT) to node {nsubj} (Daniel);
-      \draw (ROOT) to node {head} (moved);
-  \end{tikzpicture}
-}
-
-
 \begin{frame}
     \frametitle{Sharing for better generalization}
     
     \textit{Multitask Parsing Across Semantic Representations} (2018)
     
-    \begin{minipage}{.05\pagewidth}
-    \scalebox{6}{\{}
-    \end{minipage}
-    \begin{minipage}{.3\pagewidth}
-        \scalebox{.3}{
-\begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick,
-    edge from parent/.append style={nodes={font=\scriptsize}},
-    edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
-    \node (ROOT) [fill=Indigo, circle] {}
-      child {node (After) {After} edge from parent node[left] {L\;}}
-      child {node (graduation) [fill=Indigo, circle] {}
-      {
-        child {node {graduation} edge from parent node[left] {P}}
-      } edge from parent node[left] {H} }
-      child {node {,} edge from parent node[right] {U}}
-      child {node (moved) [fill=Indigo, circle] {}
-      {
-        child {node (Daniel) {Daniel} edge from parent node[left] {A}}
-        child {node {moved} edge from parent node[left] {P}}
-        child {node [fill=Indigo, circle] {}
-        {
-          child {node {to} edge from parent node[left] {R}}
-          child {node {Copenhagen} edge from parent node[left] {C}}
-        } edge from parent node[left] {A} }
-      } edge from parent node[right] {H} }
-      ;
-    \draw[dashed,->] (graduation) to node [auto] {A} (Daniel);
-\end{tikzpicture}
-        }
-    \end{minipage}
-    \begin{minipage}{.24\pagewidth}
-    \scalebox{.3}{
-\begin{tikzpicture}
-\graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
-a4 Copenhagen[as={Copenhagen}];
-a2 Daniel[as={Daniel}];
-a1[as={person}];
-a0[as={move-01}];
-a3[as={city}];
-a2[as={name}];
-a5[as={after}];
-a4[as={name}];
-a6[as={graduate-01}];
-
-a1 ->  ["name"' above] a2;
-a0 ->  ["ARG0"' above] a1;
-a0 ->  ["ARG2"' above] a3;
-a0 ->  ["time"' above] a5;
-a3 ->  ["name"' above] a4;
-a2 ->  ["op1"' above] a2 Daniel;
-a5 ->  ["op1"' above] a6;
-a4 ->  ["op1"' above] a4 Copenhagen;
-};
-\draw[->, above, DarkGreen] (a6) to node[sloped] {ARG0} (a1);
-\end{tikzpicture}
-      }
-    \end{minipage}
-    \begin{minipage}{.21\pagewidth}
-        \rmfamily
-        \scalebox{.3}{
-\begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed},
-            text only label, label style={above, color=DarkRed, font=\bf\ttfamily}, font=\small]
-    \begin{deptext}[column sep=1.5em,ampersand replacement=\^]
-	After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
-    \end{deptext}
-    \deproot{5}{top}
-    \depedge{1}{2}{ARG2}
-    \depedge{1}{5}{ARG1}
-    \depedge{5}{4}{ARG1}
-    \depedge{6}{5}{ARG1}
-    \depedge{6}{7}{ARG2}
-\end{dependency}
-    }
+    \vfill
     
-        \scalebox{.3}{
-    \begin{dependency}[edge style={-{Latex[length=2mm]}, color=DarkBlue},
-        text only label, label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
-    \begin{deptext}[column sep=1.5em,ampersand replacement=\^, color=DarkBlue]
-    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
-    \end{deptext}
-        \depedge[edge unit distance=1em]{2}{1}{case}
-        \depedge[edge unit distance=1em]{2}{3}{punct}
-        \depedge[edge unit distance=1em, edge start x offset=-4mm]{5}{4}{nsubj}
-        \depedge[edge unit distance=1em, edge end x offset=-3mm]{5}{2}{obl}
-        \depedge[edge unit distance=1em]{7}{6}{case}
-        \deproot[edge unit distance=1em]{5}{root}
-        \depedge[edge unit distance=1.5em, edge start x offset=1mm]{5}{7}{obl}
-    \end{dependency}
-    }
+    \begin{minipage}{.06\pagewidth}
+    \scalebox{8}{\{}
     \end{minipage}
-    \begin{minipage}{.05\pagewidth}
-    \scalebox{6}{\}}
+    \begin{minipage}{.27\pagewidth}
+    \scalebox{.32}{\exucca}
+    \end{minipage}
+    \begin{minipage}{.22\pagewidth}
+    \scalebox{.5}{\examr}
+    \end{minipage}
+    \begin{minipage}{.23\pagewidth}
+    \scalebox{.5}{\exdm}
+    \end{minipage}
+    \begin{minipage}{.06\pagewidth}
+    \scalebox{8}{\}}
     \end{minipage}
     
     \vfill
@@ -971,7 +862,80 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     Improved UCCA parsing in English, French and German.
 \end{frame}
 
+\begin{frame}
+\frametitle{Integrating knowledge bases into NLP}
+\textit{Rewarding Coreference Resolvers for Being Consistent with World Knowledge} (2019)
 
+\vfill
+
+\includegraphics[width=.3\textwidth]{wikipedia.png}\hfill
+\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
+
+\only<2>{
+\begin{textblock*}{64mm}(32mm,0.5\textheight)
+\begin{exampleblock}{}
+{\color{red}Lynyrd Skynyrd} was formed in {\color{blue}Florida}.
+Other bands from {\color{blue}the Sunshine State} include {\color{purple}Fireflight} and {\color{orange}Marilyn Manson}.
+\end{exampleblock}
+\end{textblock*}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Multilingual semantic parsing from grounding in Wikidata}
+Build knowledge graph search queries from natural language expressions \\
+using methods from meaning representation parsing \\
+and reinforcement learning.
+
+\vfill
+
+\begin{textblock*}{64mm}(32mm,0.33\textheight)
+\begin{exampleblock}{}
+impressionist painters \\
+18th-century American poets \\
+\ldots
+\end{exampleblock}
+\end{textblock*}
+
+\begin{center}
+\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Meaning representation for machine translation}
+
+\begin{tikzpicture}
+\graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
+a0[as={Interlingua}];
+a1[as={Meaning}];
+a2[as={Syntax}];
+a3[as={Text}];
+
+a3 -> ["parsing"' above] a2;
+a2 -> a1;
+a1 -> a0;
+};
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+\frametitle{Next steps}
+\begin{itemize}
+ \item Is meaning representation necessary for language understanding?\pause
+ \begin{itemize}
+ \item As an infrastructure for better deep learning\pause
+ \item As an interpretation method for probing linguistic knowledge\pause
+ \item {\only<9>{\color{red}}As a goal in itself---e.g., for querying knowledge bases}\pause
+ \end{itemize}
+ \vfill
+ \item Can we make NLP methods robust to new domains and languages?\pause
+ \begin{itemize}
+ \item By simply experimenting with more diverse data\pause
+ \item By principled multitask learning\pause
+ \item By better understanding generalization
+ \end{itemize}
+\end{itemize}
+\end{frame}
 
 \begin{frame}
 \frametitle{Shared tasks: parsing competitions}
@@ -1021,64 +985,6 @@ soon...
 \begin{minipage}{.1\textwidth}
 \includegraphics[width=\textwidth]{logo.png}
 \end{minipage}
-\end{frame}
-
-\begin{frame}
-\frametitle{Integrating knowledge bases into NLP}
-\textit{Rewarding Coreference Resolvers for Being Consistent with World Knowledge} (2019)
-
-\vfill
-
-\includegraphics[width=.3\textwidth]{wikipedia.png}\hfill
-\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
-
-\only<2>{
-\begin{textblock*}{64mm}(32mm,0.5\textheight)
-\begin{exampleblock}{}
-{\color{red}Lynyrd Skynyrd} was formed in {\color{blue}Florida}.
-Other bands from {\color{blue}the Sunshine State} include {\color{purple}Fireflight} and {\color{orange}Marilyn Manson}.
-\end{exampleblock}
-\end{textblock*}}
-\end{frame}
-
-\begin{frame}
-\frametitle{Next steps}
-\begin{itemize}
- \item Is meaning representation necessary for language understanding?\pause
- \begin{itemize}
- \item As an infrastructure for better deep learning\pause
- \item As an interpretation method for probing linguistic knowledge\pause
- \item {\only<9>{\color{red}}As a goal in itself---e.g., for querying knowledge bases}\pause
- \end{itemize}
- \vfill
- \item Can we make NLP methods robust to new domains and languages?\pause
- \begin{itemize}
- \item By simply experimenting with more diverse data\pause
- \item By principled multitask learning\pause
- \item By better understanding generalization
- \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Multilingual semantic parsing from grounding in Wikidata}
-Build knowledge graph search queries from natural language expressions \\
-using methods from meaning representation parsing \\
-and reinforcement learning.
-
-\vfill
-
-\begin{textblock*}{64mm}(32mm,0.33\textheight)
-\begin{exampleblock}{}
-impressionist painters \\
-18th-century American poets \\
-\ldots
-\end{exampleblock}
-\end{textblock*}
-
-\begin{center}
-\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
-\end{center}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
