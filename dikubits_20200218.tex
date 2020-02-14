@@ -863,24 +863,6 @@ Learns to predict next transition based on current state.
 \end{frame}
 
 \begin{frame}
-\frametitle{Integrating knowledge bases into NLP}
-\textit{Rewarding Coreference Resolvers for Being Consistent with World Knowledge} (2019)
-
-\vfill
-
-\includegraphics[width=.3\textwidth]{wikipedia.png}\hfill
-\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
-
-\only<2>{
-\begin{textblock*}{64mm}(32mm,0.5\textheight)
-\begin{exampleblock}{}
-{\color{red}Lynyrd Skynyrd} was formed in {\color{blue}Florida}.
-Other bands from {\color{blue}the Sunshine State} include {\color{purple}Fireflight} and {\color{orange}Marilyn Manson}.
-\end{exampleblock}
-\end{textblock*}}
-\end{frame}
-
-\begin{frame}
 \frametitle{Multilingual semantic parsing from grounding in Wikidata}
 Build knowledge graph search queries from natural language expressions \\
 using methods from meaning representation parsing \\
@@ -896,26 +878,42 @@ impressionist painters \\
 \end{exampleblock}
 \end{textblock*}
 
-\begin{center}
+\includegraphics[width=.3\textwidth]{wikipedia.png}\hfill
 \includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
-\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Meaning representation for machine translation}
+(Simplified) Vauquois triangle:
 
-\begin{tikzpicture}
-\graph[layered layout, sibling distance=4cm, layer distance=2cm, nodes={ellipse,draw=DarkGreen}, edges={nodes={sloped}, DarkGreen}]{
-a0[as={Interlingua}];
-a1[as={Meaning}];
-a2[as={Syntax}];
-a3[as={Text}];
+\begin{center}
+\begin{tikzpicture}[line width=2pt]
+\graph[tree layout, sibling distance=6cm, layer distance=3cm, nodes={rectangle,draw=DarkBlue,align=center}, edges={nodes={sloped}, DarkRed}]{
+a2[as={Interlingua}];
+a1[as={Source meaning \\ representation}];
+a0[as={Source text}];
+b1[as={Target meaning \\ representation}];
+b0[as={Target text}];
 
-a3 -> ["parsing"' above] a2;
-a2 -> a1;
-a1 -> a0;
+(a0) -> ["parsing"' above] (a1);
+(a2) <- [out=180,in=90] (a1);
+(b0) <- ["generation"' above] (b1);
+(a2) -> [out=0,in=90] (b1);
+};
+\pause
+\graph{
+(a0) -> [dashed] (b0);
+};
+\pause
+\graph{
+(a1) -> [dashed] (b1);
+};
+\pause
+\graph{
+(a1) -> [dashed] (b0);
 };
 \end{tikzpicture}
+\end{center}
 \end{frame}
 
 \begin{frame}
