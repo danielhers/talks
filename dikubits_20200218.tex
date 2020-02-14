@@ -37,7 +37,6 @@
     \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
   },
 }
-
 \captionsetup{labelformat=empty}
 
 \newfontfamily\hebfont[Script=Hebrew, Scale=MatchUppercase]{FreeSans}
@@ -984,28 +983,6 @@ a4 ->  ["op1"' above] a4 Copenhagen;
 \vfill
 
 Winning system (Harbin, China): transition-based parser (like TUPA).
-\end{frame}
-
-\begin{frame}
-\frametitle{Syntactic representations}
-    {\color{DarkBlue}\bf\sffamily\Large UD} (Universal Dependencies)
-    
-    \begin{center}
-    \rmfamily
-    \begin{dependency}[text only label, edge style={-{Latex[length=2mm]}, color=DarkBlue}, thick,
-                       label style={above, color=DarkBlue, font=\bf\ttfamily}, font=\small]
-    \begin{deptext}[column sep=.8em,ampersand replacement=\^]
-    After \^ graduation \^ , \^ Daniel \^ moved \^ to \^ Copenhagen \\
-    \end{deptext}
-        \depedge{2}{1}{case}
-        \depedge{2}{3}{punct}
-        \depedge{5}{4}{nsubj}
-        \depedge[edge end x offset=-2pt]{5}{2}{obl}
-        \depedge{7}{6}{case}
-        \deproot[edge unit distance=2.5ex]{5}{root}
-        \depedge{5}{7}{obl}
-    \end{dependency}
-    \end{center}
 \end{frame}
 
 \begin{frame}
