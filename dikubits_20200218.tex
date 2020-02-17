@@ -916,14 +916,43 @@ soon...
 \begin{frame}
 \frametitle{What can meaning representation do for NLP?}
  \begin{itemize}
- \item Better deep learning models
- \item Probing linguistic knowledge
+ \item Probing for linguistic knowledge
  \item Querying knowledge bases
+ \item Better machine translation
  \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Meaning representation for machine translation}
+\frametitle{Probing for linguistic knowledge}
+\includegraphics[width=\textwidth]{probe.png}
+
+\includegraphics[width=\textwidth]{simple-tree.png}
+
+\url{https://nlp.stanford.edu/~johnhew/structural-probe.html}
+\end{frame}
+
+\begin{frame}
+\frametitle{Querying knowledge bases}
+Build knowledge graph search queries from natural language expressions \\
+using methods from meaning representation parsing \\
+and reinforcement learning.
+
+\vfill
+
+\begin{textblock*}{64mm}(32mm,0.33\textheight)
+\begin{exampleblock}{}
+impressionist painters \\
+18th-century American poets \\
+\ldots
+\end{exampleblock}
+\end{textblock*}
+
+\includegraphics[width=.3\textwidth]{wikipedia.png}\hfill
+\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{Better machine translation}
 (Simplified) \textit{Vauquois triangle}:
 
 \begin{center}
@@ -957,26 +986,6 @@ b0[as={Target text}];
 \end{frame}
 
 \begin{frame}
-\frametitle{Multilingual semantic parsing from grounding in Wikidata}
-Build knowledge graph search queries from natural language expressions \\
-using methods from meaning representation parsing \\
-and reinforcement learning.
-
-\vfill
-
-\begin{textblock*}{64mm}(32mm,0.33\textheight)
-\begin{exampleblock}{}
-impressionist painters \\
-18th-century American poets \\
-\ldots
-\end{exampleblock}
-\end{textblock*}
-
-\includegraphics[width=.3\textwidth]{wikipedia.png}\hfill
-\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
-\end{frame}
-
-\begin{frame}
 \frametitle{Related courses}
 DIKU:
 \begin{itemize}
@@ -1001,8 +1010,9 @@ Linguistics:
 \frametitle{Contact me...}
 ... if you are interested in a project on
 \begin{itemize}
-\item Multilingual Parsing of Enhanced Universal Dependencies
+\item Multilingual Enhanced Universal Dependency Parsing
 \item Meaning Representation Encoding for Machine Translation
+\item Semantic Dependency Probing of Pretrained Encoders
 \item Linguistic Analysis of Pretraining Methods
 \item Recursive Composition in Stack Pointer Parsers
 \item Phase Transitions in Word Representation
