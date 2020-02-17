@@ -924,31 +924,61 @@ soon...
 
 \begin{frame}
 \frametitle{Probing for linguistic knowledge}
-\includegraphics[width=\textwidth]{probe.png}
+\only<1>{\includegraphics[width=\textwidth]{probe.png}}
+
+\only<2>{
+Are meaning representations implicitly learned by pretrained encoders?
+
+\begin{dependency}[theme=simple,edge style={-{Latex[length=2mm]}, color=DarkRed},
+            text only label, label style={above, color=DarkRed, font=\bf\ttfamily}, thick]
+\begin{deptext}[column sep=2.2ex]
+    The \& chef \& who \& ran \& to \& the \& stores \& is \& out \& of \& food\\
+\end{deptext}
+\depedge{1}{2}{BV}
+\depedge{4}{2}{ARG1}
+\depedge{5}{7}{ARG2}
+\depedge{5}{4}{ARG1}
+\depedge{6}{7}{BV}
+\deproot{10}{top}
+\depedge{10}{11}{ARG2}
+\depedge{10}{9}{mwe}
+\depedge{10}{2}{ARG1}
+\end{dependency}
+\vspace{-6mm}
+}
 
 \includegraphics[width=\textwidth]{simple-tree.png}
+
+\vfill
 
 \url{https://nlp.stanford.edu/~johnhew/structural-probe.html}
 \end{frame}
 
 \begin{frame}
 \frametitle{Querying knowledge bases}
-Build knowledge graph search queries from natural language expressions \\
-using methods from meaning representation parsing \\
-and reinforcement learning.
+Executable meaning representations: SQL, SPARQL
 
 \vfill
 
+\only<1-2>{
 \begin{textblock*}{64mm}(32mm,0.33\textheight)
 \begin{exampleblock}{}
 impressionist painters \\
 18th-century American poets \\
+birthplace of the writer of Tarzan \\
 \ldots
 \end{exampleblock}
 \end{textblock*}
+}
 
+\only<2>{
 \includegraphics[width=.3\textwidth]{wikipedia.png}\hfill
 \includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
+}
+
+\only<3>{
+\includegraphics[width=\textwidth]{impressionist.png}
+}
 \end{frame}
 
 \begin{frame}
