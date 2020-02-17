@@ -280,7 +280,7 @@ no conclusive evidence has supported this belief
 \begin{frame}
 \frametitle{Natural Language Processing in 2020: The Basics}
 {\setbeamercovered{transparent}
-1. Learn {\only<7>{\color{red}}\textit{representations}}:
+1. Pre-train {\only<7>{\color{red}}\textit{representations}}:
 \[{\only<5>{\color{red}}\Sigma^*}\to{\only<7>{\color{red}}\mathbb{R}^n}\]
 
 \pause
@@ -379,7 +379,7 @@ no conclusive evidence has supported this belief
 \setbeamercovered{transparent}
 \frametitle{Breaking it down}
 \small
-[Meaning]\textit{,} [Representation] and [Parsing] \\
+\textrm{[Meaning]\textit{,} [Representation] and [Parsing]} \\
 1. What we mean, 2. How to represent (something), 3. How to parse (something)
 
 \pause
@@ -387,7 +387,7 @@ no conclusive evidence has supported this belief
 or
 \vfill
 
-[Meaning Representation] and [Parsing] \\
+\textrm{[Meaning Representation] and [Parsing]} \\
 1. How to represent what we mean, 2. How to parse (something)
 
 \pause
@@ -395,7 +395,7 @@ or
 or 
 \vfill
 
-[Meaning [Representation and Parsing]] \\
+\textrm{[Meaning [Representation and Parsing]]} \\
 1. How to represent what we mean, 2. How to parse what we mean
 
 \pause
@@ -403,7 +403,7 @@ or
 or 
 \vfill
 
-[Meaning Representation] and [Parsing \textit{(to Meaning Representation)}] \\
+\textrm{[Meaning Representation] and [Parsing \textit{(to Meaning Representation)}]} \\
 1. How to represent what we mean, 2. How to parse (1)
 \end{frame}
 
@@ -863,6 +863,55 @@ Learns to predict next transition based on current state.
     
     Improved UCCA parsing in English, French and German.
 \end{frame}
+\begin{frame}
+\frametitle{Shared tasks: parsing competitions}
+\textit{SemEval 2019 Task 1: Cross-lingual Semantic Parsing with UCCA}
+
+\begin{minipage}{.6\textwidth}
+\begin{itemize}
+\item 3 languages.
+\item 8 teams from 6 countries.
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.1\textwidth}
+\includegraphics[width=\textwidth]{type_writer2.png}
+\end{minipage}
+
+\pause
+\vfill
+
+\textit{MRP 2019: Cross-Framework Meaning Representation Parsing}
+
+\begin{minipage}{.6\textwidth}
+\begin{itemize}
+\item 5 frameworks.
+\item 18 teams from 8 countries.
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.1\textwidth}
+\includegraphics[width=\textwidth]{logo.png}
+\end{minipage}
+
+\pause
+\vfill
+
+soon...
+
+\textit{MRP 2020}
+
+\begin{minipage}{.6\textwidth}
+\begin{itemize}
+\item More frameworks.
+\item 5 languages.
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.1\textwidth}
+\includegraphics[width=\textwidth]{logo.png}
+\end{minipage}
+\end{frame}
 
 \begin{frame}
 \frametitle{What can meaning representation do for NLP?}
@@ -928,56 +977,6 @@ b0[as={Target text}];
 \end{frame}
 
 \begin{frame}
-\frametitle{Shared tasks: parsing competitions}
-\textit{SemEval 2019 Task 1: Cross-lingual Semantic Parsing with UCCA}
-
-\begin{minipage}{.6\textwidth}
-\begin{itemize}
-\item 3 languages.
-\item 8 teams from 6 countries.
-\end{itemize}
-\end{minipage}
-\hfill
-\begin{minipage}{.1\textwidth}
-\includegraphics[width=\textwidth]{type_writer2.png}
-\end{minipage}
-
-\pause
-\vfill
-
-\textit{MRP 2019: Cross-Framework Meaning Representation Parsing}
-
-\begin{minipage}{.6\textwidth}
-\begin{itemize}
-\item 5 frameworks.
-\item 18 teams from 8 countries.
-\end{itemize}
-\end{minipage}
-\hfill
-\begin{minipage}{.1\textwidth}
-\includegraphics[width=\textwidth]{logo.png}
-\end{minipage}
-
-\pause
-\vfill
-
-soon...
-
-\textit{MRP 2020}
-
-\begin{minipage}{.6\textwidth}
-\begin{itemize}
-\item More frameworks.
-\item 5 languages.
-\end{itemize}
-\end{minipage}
-\hfill
-\begin{minipage}{.1\textwidth}
-\includegraphics[width=\textwidth]{logo.png}
-\end{minipage}
-\end{frame}
-
-\begin{frame}
 \frametitle{Related courses}
 DIKU:
 \begin{itemize}
@@ -1003,11 +1002,12 @@ Linguistics:
 ... if you are interested in a project on
 \begin{itemize}
 \item Multilingual Parsing of Enhanced Universal Dependencies
-\item Combined Semantic Parsing and Generation
 \item Meaning Representation Encoding for Machine Translation
-\item Multilingual Semantic Parsing from Grounding in Wikidata
 \item Linguistic Analysis of Pretraining Methods
-\item Representation Compression and Generalization in Recurrent Networks
+\item Recursive Composition in Stack Pointer Parsers
+%\item Combined Semantic Parsing and Generation
+%\item Multilingual Semantic Parsing from Grounding in Wikidata
+%\item Representation Compression and Generalization in Recurrent Networks
 \end{itemize}
 \vfill
 {\Huge\url{dh@di.ku.dk}}
