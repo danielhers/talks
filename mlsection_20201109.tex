@@ -25,6 +25,7 @@
 \usepackage{collcell}
 \usepackage{booktabs}
 \usepackage{color,soul}
+\usepackage[absolute,overlay]{textpos}
 
 \graphicspath{{figures/}}
 
@@ -63,7 +64,18 @@
 \definecolor{ltgray}{rgb}{0.7,0.7,0.7}
 \definecolor{purple}{rgb}{0.7,0,1.0}
 \definecolor{lavender}{rgb}{0.65,0.55,1.0}
+\definecolor{lightblue}{rgb}{.90,.95,1}
+\sethlcolor{lightblue}
+\renewcommand<>{\hl}[1]{\only#2{\beameroriginal{\hl}}{#1}}
+\definecolor{kugreen}{RGB}{50,93,61}
+\definecolor{kugreenlys}{RGB}{132,158,139}
+\definecolor{kugreenlyslys}{RGB}{173,190,177}
+\definecolor{kugreenlyslyslys}{RGB}{214,223,216}
+\definecolor{ku}{RGB}{144,26,30}
+\definecolor{ku-yellow}{RGB}{255,249,25}
+\definecolor{lightgreen}{RGB}{0,128,0}
 
+\newcommand{\semitransp}[2][20]{\color{fg!#1}#2}
 
 \makeatletter
 \pgfdeclareshape{vector}{
@@ -610,42 +622,55 @@ Learns to greedily predict transition based on current state.
 }
 \end{frame}
 
-
-\section{Cross-lingual Parsing}
-
-\begin{frame}
-\frametitle{SemEval 2019: Cross-lingual UCCA Parsing}
-Shared task: parsing text to UCCA graphs \citep*{hershcovich2019shared}.
-\begin{itemize}
-\item Data: UCCA for English, French, German.
-\item Baseline: TUPA.
-\item Participants: 8 teams from 6 countries.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-    \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{Capture}
-    \end{figure}
-\end{frame}
-
-
-
-\begin{frame}
-\frametitle{UCCA Graph Parsing as Constituent Tree Parsing}
-Winning system: HLT@SUDA (Suzhou, China).
-
-Neural constituency parser + multilingual BERT.
+\begin{frame}{Refining Implicit Argument Annotation for UCCA}
+\citep*{cui-hershcovich-2020-refining}
+\hfill
+\includegraphics[width=.15\textwidth]{ruixiang}
 \begin{center}
-%\includegraphics[width=.4\textwidth]{hltsuda1}$\to$
-%\includegraphics[width=.4\textwidth]{hltsuda2}
-\includegraphics[width=.6\textwidth]{hltsuda3}
+\scalebox{.7}{
+\begin{tikzpicture}[->,level distance=1.55cm,
+  level 1/.style={sibling distance=4cm},
+  level 2/.style={sibling distance=20mm},
+  level 3/.style={sibling distance=20mm},
+  every circle node/.append style={fill=black},
+  every node/.append style={text height=1ex,text depth=0}]
+  \tikzstyle{word} = [font=\rmfamily,color=black]
+  \node (1_1) [circle] {}
+  {
+  child {node (1_2) [circle] {}
+    {
+    child {node (1_16) [word] {\textbf{IMP}$_\text{Non-specific}$}  edge from parent node[midway, fill=white]  {A}}
+    child {node (1_8) [word] {Have}  edge from parent node[midway, fill=white]  {D}}
+    child {node (1_9) [circle] {}
+      {
+      child {node (1_13) [word] {a}  edge from parent node[midway, fill=white]  {F}}
+      child {node (1_12) [word] {real}  edge from parent [white]}
+      child {node (1_14) [word] {mechanic}  edge from parent node[midway, fill=white]  {C}}
+      } edge from parent node[midway, fill=white]  {A}}
+    child {node (1_10) [word] {check}  edge from parent node[midway, fill=white]  {P}}
+    } edge from parent node[midway, fill=white]  {H}}
+  child {node (1_3) [word] {before}  edge from parent node[midway, fill=white]  {L}}
+  child {node (1_4) [circle] {}
+    {
+    child {node (1_6) [word] {you}  edge from parent node[midway, fill=white]  {A}}
+    child {node (1_7) [word] {leave}  edge from parent node[midway, fill=white]  {P}}
+    child {node (1_17) [word] {\textbf{IMP}$_\text{Non-specific}$}  edge from parent node[midway, fill=white]  {A}}
+    } edge from parent node[midway, fill=white]  {H}}
+  };
+  \draw[dashed,->] (1_2) to node [midway, fill=white] {A} (1_6);
+  \draw[bend right,->] (1_2) to[out=-20, in=180] node [midway, fill=white] {D} (1_12);
+\end{tikzpicture}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Refining Implicit Argument Annotation for UCCA}
+\begin{center}
+\includegraphics[width=.8\textwidth]{implicit_pie}
 \end{center}
 \end{frame}
 
 
-\section{Cross-framework Parsing}
+\section{Parsing}
 
 
 \begin{frame}
@@ -756,7 +781,6 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \end{dependency}
     \end{center}
 \end{frame}
-
 
 \begin{frame}
     \frametitle{Data}
@@ -1139,272 +1163,97 @@ a4 ->  ["op1"' above] a4 Copenhagen;
     \end{center}
 \end{frame}
 
-\begin{frame}
-\frametitle{Results}
 
-\pgfplotstableread[row sep=\\,col sep=&]{
-	aux & pf1 & rf1 \\
-	+All & 74.4 & 52 \\
-	+{\color{DarkRed} DM} + {\color{NavyBlue} UD} & 74.9 & 51.2 \\
-	+{\color{DarkGreen} AMR} + {\color{NavyBlue} UD} & 73.8 & 48.5 \\
-	+{\color{DarkGreen} AMR} + {\color{DarkRed} DM} & 74.7 & 51.4 \\
-	+\color{NavyBlue} UD & 74.1 & 50.8 \\
-	+\color{DarkRed} DM & 74.8 & 53.9 \\
-	+\color{DarkGreen} AMR & 73.7 & 49.9 \\
-	Single & 73.6 & 51.5 \\
-}\indomaindata
-
-\pgfplotstableread[row sep=\\,col sep=&]{
-	aux & pf1 & rf1 \\
-	+All & 71 & 29.6 \\
-	+{\color{DarkRed} DM} + {\color{NavyBlue} UD} & 70.6 & 28.4 \\
-	+{\color{DarkGreen} AMR} + {\color{NavyBlue} UD} & 70 & 29.4 \\
-	+{\color{DarkGreen} AMR} + {\color{DarkRed} DM} & 70.5 & 27.3 \\
-	+\color{NavyBlue} UD & 69.7 & 28.7 \\
-	+\color{DarkRed} DM & 70.7 & 25.9 \\
-	+\color{DarkGreen} AMR & 69.5 & 27.5 \\
-	Single & 69 & 26.7 \\
-}\outdomaindata
-
-\pgfplotstableread[row sep=\\,col sep=&]{
-	aux & pf1 & rf1 \\
-	+\color{NavyBlue} UD & 70.1 & 20.3 \\
-	Single & 67.6 & 13.9 \\
-}\frenchdata
-
-\pgfplotstableread[row sep=\\,col sep=&]{
-	aux & pf1 & rf1 \\
-	+\color{NavyBlue} UD & 73.2 & 35.5 \\
-	Single & 72.5 & 27.1 \\
-}\germandata
-
-    \small
-	\begin{minipage}{.4\textwidth}
-	\begin{tikzpicture}
-		    \begin{axis}[
-		    xbar,
-		    width=.7\textwidth,
-		    height=.91\textheight,
-		    xmin=65,
-		    xmax=80,
-		    bar width=3mm,
-		    xtick=\empty,
-		    ytick=data,
-		    yticklabels from table={\indomaindata}{aux},
-		    axis x line=none,
-		    axis line style={draw=none},
-		    clip=false,
-		    title={English (in-domain)}
-		    ]
-%		    \addplot [fill=Crimson, point meta=explicit symbolic,nodes near coords,
-%		    nodes near coords align={anchor=west}] table [x=rf1,y expr=\coordindex,meta=rf1] {\indomaindata};
-		    \addplot [fill=Navy, point meta=explicit symbolic,nodes near coords,
-		    nodes near coords align={anchor=west}] table [x=pf1,y expr=\coordindex,meta=pf1] {\indomaindata};
-		    \end{axis}
-	\end{tikzpicture}
-	\end{minipage}
-	\begin{minipage}{.23\textwidth}
-	\vspace{-3.5mm}
-	\begin{tikzpicture}
-		    \begin{axis}[
-		    xbar,
-		    width=1.7\textwidth,
-		    height=.9\textheight,
-		    xmin=65,
-		    xmax=80,
-		    bar width=3mm,
-		    xtick=\empty,
-		    axis x line=none,
-		    axis y line=none,
-		    clip=false,
-		    title={English (ood)}
-		    ]
-%		    \addplot [fill=Crimson, point meta=explicit symbolic,nodes near coords,
-%		    nodes near coords align={anchor=west}] table [x=rf1,y expr=\coordindex,meta=rf1] {\outdomaindata};
-		    \addplot [fill=Navy, point meta=explicit symbolic,nodes near coords,
-		    nodes near coords align={anchor=west}] table [x=pf1,y expr=\coordindex,meta=pf1] {\outdomaindata};
-		    \end{axis}
-	\end{tikzpicture}
-	\end{minipage}
-	\begin{minipage}{.22\textwidth}
-	\begin{tikzpicture}
-		    \begin{axis}[
-		    xbar,
-		    width=1.2\textwidth,
-		    height=.3\textheight,
-		    xmin=65,
-		    xmax=80,
-		    bar width=3mm,
-		    xtick=\empty,
-		    ytick=data,
-		    yticklabels from table={\frenchdata}{aux},
-		    axis x line=none,
-		    axis line style={draw=none},
-		    clip=false,
-		    title={French}
-		    ]
-%		    \addplot [fill=Crimson, point meta=explicit symbolic,nodes near coords,
-%		    nodes near coords align={anchor=west}] table [x=rf1,y expr=\coordindex,meta=rf1] {\frenchdata};
-		    \addplot [fill=Navy, point meta=explicit symbolic,nodes near coords,
-		    nodes near coords align={anchor=west}] table [x=pf1,y expr=\coordindex,meta=pf1] {\frenchdata};
-		    \end{axis}
-	\end{tikzpicture}
-
-    \vspace{1cm}
-	
-	\begin{tikzpicture}
-		    \begin{axis}[
-		    xbar,
-		    width=1.2\textwidth,
-		    height=.3\textheight,
-		    xmin=65,
-		    xmax=80,
-		    bar width=3mm,
-		    reverse legend,
-	        legend style={at={(axis cs:0,1.5)},anchor=south west},
-		    xtick=\empty,
-		    ytick=data,
-		    yticklabels from table={\germandata}{aux},
-		    axis x line=none,
-		    axis line style={draw=none},
-		    clip=false,
-		    title={German}
-		    ]
-%		    \addplot [fill=Crimson, point meta=explicit symbolic,nodes near coords,
-%		    nodes near coords align={anchor=west}] table [x=rf1,y expr=\coordindex,meta=rf1] {\germandata};
-		    \addplot [fill=Navy, point meta=explicit symbolic,nodes near coords,
-		    nodes near coords align={anchor=west}] table [x=pf1,y expr=\coordindex,meta=pf1] {\germandata};
-%		    \legend{remote F1,primary F1}
-		    \end{axis}
-	\end{tikzpicture}
-	\end{minipage}
-\end{frame}
+\subsection{Shared Tasks}
 
 \begin{frame}
-TUPA output: \\
+\frametitle{Shared tasks: parsing competitions}
+\textit{SemEval 2019 Task 1: Cross-lingual Semantic Parsing with UCCA} \citep{hershcovich2019shared}
 
-\scalebox{.7}{
-\begin{tikzpicture}[->,level distance=9mm,
-  level 1/.style={sibling distance=8cm},
-  level 2/.style={sibling distance=35mm},
-  level 3/.style={ sibling distance=9mm},
-  level 4/.style={ sibling distance=13mm},
-  level 5/.style={ sibling distance=8mm},
-  every circle node/.append style={fill=black},
-  edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.east)}]
-  \tikzstyle{word} = [font=\rmfamily,color=black,rotate=40,anchor=east]
-  \node (1_1) [circle] {}
-  {
-  child {node (1_2) [circle] {}
-    {
-    child {node (1_5) [circle] {}
-      {
-      child {node (1_10) [word] {No} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_11) [word] {transoceanic} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_12) [word] {navigational} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_13) [word] {undertaking} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $A$}}
-    child {node (1_6) [circle] {}
-      {
-      child {node (1_14) [word] {has} edge from parent node[auto] {\scriptsize $F$}}
-      child {node (1_15) [word] {been} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_16) [word] {conducted} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $P$}}
-    child {node (1_7) [circle] {}
-      {
-      child {node (1_17) [word] {with} edge from parent node[auto] {\scriptsize $R$}}
-      child {node (1_18) [circle] {}
-        {
-        child {node (1_25) [circle] {}
-          {
-          child {node (1_28) [word] {more} edge from parent node[auto] {\scriptsize $E$}}
-          child {node (1_29) [word] {ability} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $C$}}
-        child {node (1_27) [circle] {}
-          {
-          child {node (1_30) [word] {no} edge from parent node[auto] {\scriptsize $E$}}
-          child {node (1_31) [circle] {}
-            {
-            child {node (1_32) [word] {business} edge from parent node[auto] {\scriptsize $E$}}
-            child {node (1_33) [word] {dealings} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $A$}} }edge from parent node[auto] {\scriptsize $H$}}
-  child {node (1_3) [circle] {}
-    {
-    child {node (1_8) [circle] {}
-      {
-      child {node (1_19) [word] {have} edge from parent node[auto] {\scriptsize $F$}}
-      child {node (1_20) [word] {been} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_21) [word] {crowned} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $P$}}
-    child {node (1_9) [circle] {}
-      {
-      child {node (1_22) [word] {with} edge from parent node[auto] {\scriptsize $R$}}
-      child {node (1_23) [word] {greater} edge from parent node[auto] {\scriptsize $D$}}
-      child {node (1_24) [word] {success} edge from parent node[auto] {\scriptsize $P$}} }edge from parent node[auto] {\scriptsize $A$}} }edge from parent node[auto] {\scriptsize $H$}} }
-;
-\end{tikzpicture}}
-
-\vspace{-5mm}
-
-Multi-task TUPA output: \\
-(+AMR+DM+UD)
-
-\vspace{-5mm}
-
-\scalebox{.7}{
-\begin{tikzpicture}[->,level distance=9mm,
-  level 1/.style={sibling distance=8cm},
-  level 2/.style={sibling distance=28mm},
-  level 3/.style={ sibling distance=9mm},
-  every circle node/.append style={fill=black},
-  edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.east)}]
-  \tikzstyle{word} = [font=\rmfamily,color=black,rotate=40,anchor=east]
-  \node (1_1) [circle] {}
-  {
-  child {node (1_2) [circle] {}
-    {
-    child {node (1_6) [circle] {}
-      {
-      child {node (1_12) [word] {No} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_13) [word] {transoceanic} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_14) [word] {navigational} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_15) [word] {undertaking} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $A$}}
-    child {node (1_7) [circle] {}
-      {
-      child {node (1_16) [word] {has} edge from parent node[auto] {\scriptsize $F$}}
-      child {node (1_17) [word] {been} edge from parent node[auto] {\scriptsize $F$}}
-      child {node (1_18) [word] {conducted} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $P$}}
-    child {node (1_8) [circle] {}
-      {
-      child {node (1_19) [word] {with} edge from parent node[auto] {\scriptsize $R$}}
-      child {node (1_20) [word] {more} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_21) [word] {ability} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $A$}} }edge from parent node[auto] {\scriptsize $H$}}
-  child {node (1_4) [circle] {}
-    {
-    child {node (1_9) [circle] {}
-      {
-      child {node (1_22) [word] {no} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_23) [word] {business} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_24) [word] {dealings} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $A$}}
-    child {node (1_10) [circle] {}
-      {
-      child {node (1_25) [word] {have} edge from parent node[auto] {\scriptsize $F$}}
-      child {node (1_26) [word] {been} edge from parent node[auto] {\scriptsize $F$}}
-      child {node (1_27) [word] {crowned} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $P$}}
-    child {node (1_11) [circle] {}
-      {
-      child {node (1_28) [word] {with} edge from parent node[auto] {\scriptsize $R$}}
-      child {node (1_29) [word] {greater} edge from parent node[auto] {\scriptsize $E$}}
-      child {node (1_30) [word] {success} edge from parent node[auto] {\scriptsize $C$}} }edge from parent node[auto] {\scriptsize $A$}} }edge from parent node[auto] {\scriptsize $H$}} }
-;
-\end{tikzpicture}}
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{CoNLL 2019: Cross-framework MRP}
-  Shared task: parsing text to graphs in five frameworks \citep*{Oep:Abe:Haj:19}.
+\begin{minipage}{.8\textwidth}
 \begin{itemize}
-\item Data: DM, PSD, EDS, UCCA and AMR for English.
-\item Baseline: TUPA.
-\item Participants: 18 teams from 8 countries.
+\item UCCA parsing in English, French and German.
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{.1\textwidth}
+\includegraphics[width=\textwidth]{type_writer2.png}
+\end{minipage}
+
+\pause
+\vfill
+
+\textit{MRP 2019: Cross-Framework Meaning Representation Parsing} \citep{Oep:Abe:Haj:19}
+
+\begin{itemize}
+\item DM, PSD, EDS, UCCA and AMR parsing in English.
+\end{itemize}
+
+\pause
+\vfill
+
+\textit{MRP 2020: Cross-Framework and Cross-Lingual MRP} \citep{Oep:Abe:Abz:20}
+
+\begin{itemize}
+\item EDS, PTG, UCCA, AMR and DRG parsing in English, Czech, German and Chinese.
 \end{itemize}
 \end{frame}
+
+
+\begin{frame}\frametitle{SemEval 2019 Task 1: Cross-lingual Semantic Parsing}
+\begin{itemize}
+\item UCCA parsing in English, French and German.
+\item 8 teams participated.
+\item Baseline: TUPA.
+\end{itemize}
+
+\vfill\pause
+
+        \begin{itemize}
+            \item 
+                English $\{$in-domain/out-of-domain$\} \times 
+                \{$open/closed$\}$
+            \item
+                German in-domain $\{$open/closed$\}$
+            \item
+                French \textit{low-resource} (only 15 training sentences)
+        \end{itemize}
+
+\vfill
+\begin{center}
+  \begin{minipage}{.2\textwidth}\includegraphics[width=\textwidth]{wikipedia.png}\end{minipage}
+  \begin{minipage}{.2\textwidth}\includegraphics[width=\textwidth]{squid.jpg}\end{minipage}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{SemEval 2019 Task 1}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{Capture}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{SemEval 2019 Task 1}
+
+        HLT@SUDA: \\
+        Neural constituency parser + multi-task + BERT \\
+        French: trained on all languages, with language embedding
+        
+        \begin{center}
+            \includegraphics[width=.8\textwidth]{hltsuda3.png}
+        \end{center}  
+\end{frame}
+
+\begin{frame}{MRP 2019}
+\begin{itemize}
+\item DM, PSD, EDS, UCCA and AMR parsing in English.
+\item 18 teams participated.
+\item Baseline: TUPA (generalized beyond UCCA).
+\end{itemize}
+\end{frame}
+
 
 
 \pgfplotstableread{
@@ -1470,8 +1319,8 @@ a b c d e f shape	System	Approach	Overall	DM	PSD	EDS	UCCA	AMR
 \end{frame}
 
 \begin{frame}
-\frametitle{Unified Pipeline for Meaning Representation Parsing}
-Winning system: HIT-SCIR (Harbin, China).
+\frametitle{MRP 2019}
+Winning system: HIT-SCIR \citep{Che:Dou:Xu:19}.
 
 Transition-based parser (similar to TUPA) + efficient training + BERT.
 
@@ -1480,8 +1329,988 @@ Transition-based parser (similar to TUPA) + efficient training + BERT.
 \end{center}
 \end{frame}
 
+\begin{frame}{MRP 2020}
+\begin{itemize}
+\item EDS, PTG, UCCA, AMR and DRG parsing in English, Czech, German and Chinese.
+\item 8 teams participated.
+\end{itemize}
+\end{frame}
 
-\section{What Distinguishes Meaning Representations?}
+\begin{frame}{MRP 2020}
+\begin{center}
+\begin{tabular}{lccccccccccccccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{EDS}} &  \multicolumn{3}{c}{\textbf{UCCA}} & \multicolumn{3}{c}{\textbf{AMR}} \\
+\cmidrule(l{2pt}r{3pt}){2-4} \cmidrule(l{2pt}r{3pt}){5-7} \cmidrule(l{2pt}r{3pt}){8-10}
+ & P & R & F & P & R & F & P & R & F\\
+\midrule
+2019 & .92 & .93 & .93 & .84 & .82 & .83 & .74 & .72 & .73 \\
+2020 & .97 & .97 & .97 & .86 & .80 & .83 & .78 & .79 & .79 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{MRP 2020}
+Winning systems: \'{U}FAL \citep{Sam:Str:20} and Hitachi
+    \citep{Oza:Mor:Kor:20}, encoder-decoder with pre-trained transformers.
+\end{frame}
+
+
+\pgfplotstableread{
+framework {system} {eval f1} {best f1} {best name}
+EDS {HIT-SCIR (Ours)} 80 94 Hitachi
+PTG TUPA 54 89 Hitachi
+UCCA TUPA 73 76 ÚFAL
+AMR TUPA 52 82 Hitachi
+DRG TUPA 63 94 ÚFAL
+Overall All 64 86 {Hitachi \& ÚFAL}
+}\cfscores
+
+\frame{
+\frametitle{Official Evaluation}
+  Cross Framework Track:
+  \vfill
+  
+    \begin{tikzpicture}
+    \begin{axis}[
+    ybar=0pt,
+    enlarge x limits={abs=7mm},
+    enlarge y limits={value=0.14,upper},
+    ymin=0,
+    clip=true,
+    width=1.1\textwidth,
+    height=.94\textheight,
+    bar width=12pt,
+    xtick=data,
+    xticklabels from table={\cfscores}{framework},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    yticklabels=none,
+    xlabel={\tiny Full Evaluation MRP F-score (\%)},
+    tickwidth=0pt,
+    nodes near coords={\scalebox{.6}{\pgfmathprintnumber[precision=1]{\pgfplotspointmeta}}},
+    every node near coord/.append style={font=\small,rotate=90,anchor=west},
+    axis background/.style={fill=cyan!10},
+    legend style={at={(axis cs:5.4,0)},anchor=south east,font=\tiny},
+    legend cell align={left},
+    ]
+    \addplot[fill=red]table[x expr=\coordindex,y=eval f1]{\cfscores};
+    \addplot[fill=Gold]table[x expr=\coordindex,y=best f1]{\cfscores};
+    \addplot+[color=black, point meta=explicit symbolic, only marks, nodes near coords, every node near coord/.append style={font=\tiny,anchor=east},xshift=-4mm]
+    table[x expr=\coordindex,y=eval f1, meta=system, forget plot] {\cfscores};
+    \addplot+[color=black, point meta=explicit symbolic, only marks, nodes near coords, every node near coord/.append style={font=\tiny,anchor=east}]
+    table[x expr=\coordindex,y=best f1, meta=best name, forget plot] {\cfscores};
+    \legend{Our System,Best System}
+    \end{axis}
+    \end{tikzpicture}
+}
+
+\pgfplotstableread{
+framework {system} {eval f1} {best f1} {best name}
+PTG TUPA 58 91 ÚFAL
+UCCA {HIT-SCIR (Ous)} 75 81 ÚFAL
+AMR TUPA 45 80 Hitachi
+DRG TUPA 62 93 Hitachi
+Overall All 60 85 {Hitachi \& ÚFAL}
+}\clscores
+
+\frame{
+\frametitle{Official Evaluation}
+  Cross Lingual Track:
+  \vfill
+  
+    \begin{tikzpicture}
+    \begin{axis}[
+    ybar=0pt,
+    enlarge x limits={abs=7mm},
+    enlarge y limits={value=0.14,upper},
+    ymin=0,
+    clip=true,
+    width=1.1\textwidth,
+    height=.94\textheight,
+    bar width=12pt,
+    xtick=data,
+    xticklabels from table={\clscores}{framework},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    yticklabels=none,
+    xlabel={\tiny Full Evaluation MRP F-score (\%)},
+    tickwidth=0pt,
+    nodes near coords={\scalebox{.6}{\pgfmathprintnumber[precision=1]{\pgfplotspointmeta}}},
+    every node near coord/.append style={font=\small,rotate=90,anchor=west},
+    axis background/.style={fill=cyan!10},
+    legend style={at={(axis cs:4.4,0)},anchor=south east,font=\tiny},
+    legend cell align={left},
+    ]
+    \addplot[fill=red]table[x expr=\coordindex,y=eval f1]{\clscores};
+    \addplot[fill=Gold]table[x expr=\coordindex,y=best f1]{\clscores};
+    \addplot+[color=black, point meta=explicit symbolic, only marks, nodes near coords, every node near coord/.append style={font=\tiny,anchor=east},xshift=-4mm]
+    table[x expr=\coordindex,y=eval f1, meta=system, forget plot] {\clscores};
+    \addplot+[color=black, point meta=explicit symbolic, only marks, nodes near coords, every node near coord/.append style={font=\tiny,anchor=east}]
+    table[x expr=\coordindex,y=best f1, meta=best name, forget plot] {\clscores};
+    \legend{Our System,Best System}
+    \end{axis}
+    \end{tikzpicture}
+}
+
+\pgfplotstableread{
+framework {system} {cf f1} {cl f1}
+PTG TUPA 54 58
+UCCA* HIT-SCIR 78 77
+AMR TUPA 52 45
+DRG* TUPA 52 51
+}\cfvclscores
+
+\pgfplotstableread{
+framework {system} {cf data} {cl data}
+PTG TUPA 42024 39560
+UCCA  HIT-SCIR 6872 3713
+AMR TUPA 16529 57885
+DRG TUPA 6606 1575
+}\cfvcldata
+
+\frame{
+\frametitle{CL vs. CF Track}
+    \begin{tikzpicture}
+    \begin{axis}[
+    ybar=0pt,
+    enlarge x limits={abs=7mm},
+    enlarge y limits={value=0.34,upper},
+    ymin=0,
+    clip=true,
+    width=1.1\textwidth,
+    height=.45\textheight,
+    bar width=12pt,
+    xtick=data,
+    xticklabels from table={\cfvclscores}{framework},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    yticklabels=none,
+    xlabel={\tiny Full Evaluation (* for Validation) MRP F-score (\%)},
+    tickwidth=0pt,
+    nodes near coords={\scalebox{.6}{\pgfmathprintnumber[precision=1]{\pgfplotspointmeta}}},
+    every node near coord/.append style={font=\small,rotate=90,anchor=west},
+    axis background/.style={fill=cyan!10},
+    legend style={at={(axis cs:3.2,80)},anchor=south east,font=\tiny},
+    legend cell align={left},
+    ]
+    \addplot[fill=red]table[x expr=\coordindex,y=cf f1]{\cfvclscores};
+    \addplot[fill=Gold]table[x expr=\coordindex,y=cl f1]{\cfvclscores};
+    \addplot+[color=black, point meta=explicit symbolic, only marks, nodes near coords, every node near coord/.append style={font=\tiny,anchor=east},xshift=-4mm]
+    table[x expr=\coordindex,y=cf f1, meta=system, forget plot] {\cfvclscores};
+    \addplot+[color=black, point meta=explicit symbolic, only marks, nodes near coords, every node near coord/.append style={font=\tiny,anchor=east}]
+    table[x expr=\coordindex,y=cl f1, meta=system, forget plot] {\cfvclscores};
+    \legend{Cross-Framework,Cross-Lingual}
+    \end{axis}
+    \end{tikzpicture}
+    
+    \vfill
+    
+    \begin{tikzpicture}
+    \begin{axis}[
+    ybar=0pt,
+    enlarge x limits={abs=7mm},
+    enlarge y limits={value=0.8,upper},
+    ymin=0,
+    clip=true,
+    width=1.1\textwidth,
+    height=0.45\textheight,
+    bar width=12pt,
+    xtick=data,
+    xticklabels from table={\cfvcldata}{framework},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    yticklabels=none,
+    scaled y ticks=false,
+    xlabel={\tiny Dataset Size (\# Sentences)},
+    tickwidth=0pt,
+    nodes near coords={\scalebox{.6}{\pgfmathprintnumber[precision=1]{\pgfplotspointmeta}}},
+    every node near coord/.append style={font=\small,rotate=90,anchor=west},
+    axis background/.style={fill=cyan!10},
+    legend style={at={(axis cs:3.2,50000)},anchor=south east,font=\tiny},
+    legend cell align={left},
+    ]
+    \addplot[fill=red]table[x expr=\coordindex,y=cf data]{\cfvcldata};
+    \addplot[fill=Gold]table[x expr=\coordindex,y=cl data]{\cfvcldata};
+    % \legend{Cross-Framework,Cross-Lingual}
+    \end{axis}
+    \end{tikzpicture}
+}
+
+
+\begin{frame}
+	\frametitle{Multi-Task Model}
+	{
+	Variant 1
+	  \begin{center}
+	  \includegraphics[width=.95\textwidth]{figures/multitask-shared.png}
+	  \end{center}
+	}
+	\vspace{-1cm}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Multi-Task Model}
+	{
+	Variant 2
+	  \begin{center}
+	  \includegraphics[width=.95\textwidth]{figures/multitask-dedicated.png}
+	  \end{center}
+	}
+	\vspace{-1cm}
+\end{frame}
+
+
+\pgfplotstableread{
+ framework Variant1 Variant2 Single-Task
+ EDS 43 27 82
+ UCCA 68 49 79
+}\multitaskscores
+
+\frame{
+\frametitle{Multi-Task Results}
+    \begin{tikzpicture}
+    \begin{axis}[
+    ybar=0pt,
+    enlarge x limits={abs=23mm},
+    enlarge y limits={value=0.14,upper},
+    ymin=0,
+    clip=true,
+    width=1.1\textwidth,
+    height=.94\textheight,
+    bar width=28pt,
+    xtick=data,
+    xticklabels from table={\multitaskscores}{framework},
+    xticklabel style={font=\small,anchor=north},
+    xtick align=inside,
+    xticklabel pos=left,
+    yticklabels=none,
+    xlabel={\tiny Cross-Framework Track Validation MRP F-score (\%)},
+    tickwidth=0pt,
+    nodes near coords={\scalebox{.6}{\pgfmathprintnumber[precision=1]{\pgfplotspointmeta}}},
+    every node near coord/.append style={font=\small,rotate=90,anchor=west},
+    axis background/.style={fill=cyan!10},
+    legend style={at={(axis cs:1.4,0)},anchor=south east,font=\tiny},
+    legend cell align={left},
+    ]
+    \addplot[fill=red]table[x expr=\coordindex,y=Variant1]{\multitaskscores};
+    \addplot[fill=Gold]table[x expr=\coordindex,y=Variant2]{\multitaskscores};
+    \addplot[fill=Green]table[x expr=\coordindex,y=Single-Task]{\multitaskscores};
+    \legend{Variant 1,Variant 2,Single-Task}
+    \end{axis}
+    \end{tikzpicture}
+}
+
+\begin{frame}{IWPT 2020}
+Applied HIT-SCIR parser to Enhanced UD parsing
+\citep*{hershcovich-etal-2020-kopsala}.
+\begin{center}
+\includegraphics[width=.8\textwidth]{map_big}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{IWPT 2020}
+  \begin{overlayarea}{\textwidth}{\textheight}
+  \only<1-3>{
+    \begin{block}{}
+      \vspace{0.27cm}
+    \end{block}{}
+  }
+  \only<4>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Shift}}}
+    \end{block}{}
+  }
+  \only<5>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Shift}} x4}
+    \end{block}{}
+  }
+  \only<6>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Left-Edge:nmod}} }
+    \end{block}{}
+  }
+  \only<7>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Node}} }
+    \end{block}{}
+  }
+  \only<8>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Reduce-1}} }
+    \end{block}{}
+  }
+  \only<9>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Left-Edge:det}} }
+    \end{block}{}
+  }
+  \only<10>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Reduce-1}} }
+    \end{block}{}
+  }
+  \only<11>{
+    \begin{block}{}
+      \vspace{0.12cm}
+      \centerline{\ldots}
+      \vspace{0.12cm}
+    \end{block}{}
+  }
+  \only<12>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Swap}} }
+    \end{block}{}
+  }
+  \only<13>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Right-Edge:nmod:van}} }
+    \end{block}{}
+  }
+  \only<14>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\semitransp{\textsc{Reduce-0}} }}
+    \end{block}{}
+  }
+  \only<15>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\semitransp{\textsc{Shift}} x3} }
+    \end{block}{}
+  }
+  \only<16>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Swap}} }
+    \end{block}{}
+  }
+  \only<17>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\semitransp{\textsc{Right-Edge:cc}}} }
+    \end{block}{}
+  }
+  \only<18>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\semitransp{\textsc{Reduce-0}}} }
+    \end{block}{}
+  }
+  \only<19>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\semitransp{\textsc{Shift}} x2} }
+    \end{block}{}
+  }
+  \only<20>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Swap}} }
+    \end{block}{}
+  }
+  \only<21>{
+    \begin{block}{}
+      \vspace{0.12cm}
+      \centerline{\ldots}
+      \vspace{0.12cm}
+    \end{block}{}
+  }
+  \only<22>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\semitransp{\textsc{Right-Edge:punct}}} }
+    \end{block}{}
+  }
+  \only<23>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\semitransp{\textsc{Reduce-0}} x2} }
+    \end{block}{}
+  }
+  \only<24>{
+    \begin{block}{}
+      \centerline{\textcolor{lightgreen}{\textsc{Finish}} }
+    \end{block}{}
+  }
+
+\only<1-5>{
+  \begin{figure}[ht]
+    \centering
+    \begin{dependency}[text only label, label style={above}, font=\tiny, scale=0.5]
+      \begin{deptext}[column sep=0em]
+        Deze \& is  \& de  \& grootste \& hal  \& van \& België \& , \& en  \& \textit{NULL}  \& de  \& enige \& die  \& voldoet \& aan \& de  \& normen \& .     \\
+      \end{deptext}
+      \depedge{5}{1}{nsubj}
+      \depedge{5}{2}{cop}
+      \depedge{5}{3}{det}
+      \depedge[edge below]{5}{4}{nmod}
+      \deproot[edge unit distance=2ex]{5}{root}
+      \depedge{7}{6}{case}
+      \depedge{5}{7}{nmod\textbf{:van}}
+      \depedge[edge unit distance=.8ex]{12}{8}{punct}
+    %   \depedge[dashed]{12}{9}{cc}
+      \depedge[edge below]{10}{9}{cc}
+      \depedge[edge below]{5}{10}{conj:en}
+      \depedge[edge unit distance=2ex]{14}{10}{nsubj:relsubj}
+    %   \depedge[dashed]{12}{11}{det}
+      \depedge[edge below]{10}{11}{det}
+    %   \depedge[dashed,edge unit distance=1ex]{5}{12}{conj}
+      \depedge[edge below]{10}{12}{nmod}
+    %   \depedge[dashed]{14}{13}{nsubj}
+      \depedge[edge below]{10}{13}{ref}
+    %   \depedge[dashed]{12}{14}{acl:relcl}
+      \depedge[edge below,edge unit distance=4.7ex]{10}{14}{acl:relcl}
+      \depedge{17}{15}{case}
+      \depedge{17}{16}{det}
+      \depedge{14}{17}{obl\textbf{:aan}}
+      \depedge[edge unit distance=1.2ex]{5}{18}{punct}
+    \end{dependency}
+  \end{figure}
+}
+
+  \only<6-8>{
+  \begin{figure}[ht]
+    \centering
+    \begin{dependency}[text only label, label style={above}, font=\tiny, scale=0.5]
+      \begin{deptext}[column sep=0em]
+        Deze \& is  \& de  \& grootste \& hal  \& van \& België \& , \& en  \& \textit{NULL}  \& de  \& enige \& die  \& voldoet \& aan \& de  \& normen \& .     \\
+      \end{deptext}
+      \depedge{5}{1}{nsubj}
+      \depedge{5}{2}{cop}
+      \depedge{5}{3}{det}
+      \depedge[green,edge below]{5}{4}{nmod}
+      \deproot[edge unit distance=2ex]{5}{root}
+      \depedge{7}{6}{case}
+      \depedge{5}{7}{nmod\textbf{:van}}
+      \depedge[edge unit distance=.8ex]{12}{8}{punct}
+    %   \depedge[dashed]{12}{9}{cc}
+      \depedge[edge below]{10}{9}{cc}
+      \depedge[edge below]{5}{10}{conj:en}
+      \depedge[edge unit distance=2ex]{14}{10}{nsubj:relsubj}
+    %   \depedge[dashed]{12}{11}{det}
+      \depedge[edge below]{10}{11}{det}
+    %   \depedge[dashed,edge unit distance=1ex]{5}{12}{conj}
+      \depedge[edge below]{10}{12}{nmod}
+    %   \depedge[dashed]{14}{13}{nsubj}
+      \depedge[edge below]{10}{13}{ref}
+    %   \depedge[dashed]{12}{14}{acl:relcl}
+      \depedge[edge below,edge unit distance=4.7ex]{10}{14}{acl:relcl}
+      \depedge{17}{15}{case}
+      \depedge{17}{16}{det}
+      \depedge{14}{17}{obl\textbf{:aan}}
+      \depedge[edge unit distance=1.2ex]{5}{18}{punct}
+    \end{dependency}
+\end{figure}
+}
+
+\only<9-10>{
+  \begin{figure}[ht]
+    \centering
+    \begin{dependency}[text only label, label style={above}, font=\tiny, scale=0.5]
+      \begin{deptext}[column sep=0em]
+        Deze \& is  \& de  \& grootste \& hal  \& van \& België \& , \& en  \& \textit{NULL}  \& de  \& enige \& die  \& voldoet \& aan \& de  \& normen \& .     \\
+      \end{deptext}
+      \depedge{5}{1}{nsubj}
+      \depedge{5}{2}{cop}
+      \depedge[green]{5}{3}{det}
+      \depedge[green,edge below]{5}{4}{nmod}
+      \deproot[edge unit distance=2ex]{5}{root}
+      \depedge{7}{6}{case}
+      \depedge{5}{7}{nmod\textbf{:van}}
+      \depedge[edge unit distance=.8ex]{12}{8}{punct}
+    %   \depedge[dashed]{12}{9}{cc}
+      \depedge[edge below]{10}{9}{cc}
+      \depedge[edge below]{5}{10}{conj:en}
+      \depedge[edge unit distance=2ex]{14}{10}{nsubj:relsubj}
+    %   \depedge[dashed]{12}{11}{det}
+      \depedge[edge below]{10}{11}{det}
+    %   \depedge[dashed,edge unit distance=1ex]{5}{12}{conj}
+      \depedge[edge below]{10}{12}{nmod}
+    %   \depedge[dashed]{14}{13}{nsubj}
+      \depedge[edge below]{10}{13}{ref}
+    %   \depedge[dashed]{12}{14}{acl:relcl}
+      \depedge[edge below,edge unit distance=4.7ex]{10}{14}{acl:relcl}
+      \depedge{17}{15}{case}
+      \depedge{17}{16}{det}
+      \depedge{14}{17}{obl\textbf{:aan}}
+      \depedge[edge unit distance=1.2ex]{5}{18}{punct}
+    \end{dependency}
+  \end{figure}
+}
+
+
+\only<11-12>{
+  \begin{figure}[ht]
+    \centering
+    \begin{dependency}[text only label, label style={above}, font=\tiny, scale=0.5]
+      \begin{deptext}[column sep=0em]
+        Deze \& is  \& de  \& grootste \& hal  \& van \& België \& , \& en  \& \textit{NULL}  \& de  \& enige \& die  \& voldoet \& aan \& de  \& normen \& .     \\
+      \end{deptext}
+      \depedge[green]{5}{1}{nsubj}
+      \depedge[green]{5}{2}{cop}
+      \depedge[green]{5}{3}{det}
+      \depedge[green,edge below]{5}{4}{nmod}
+      \deproot[green,edge unit distance=2ex]{5}{root}
+      \depedge[green]{7}{6}{case}
+      \depedge{5}{7}{nmod\textbf{:van}}
+      \depedge[edge unit distance=.8ex]{12}{8}{punct}
+    %   \depedge[dashed]{12}{9}{cc}
+      \depedge[edge below]{10}{9}{cc}
+      \depedge[green,edge below]{5}{10}{conj:en}
+      \depedge[edge unit distance=2ex]{14}{10}{nsubj:relsubj}
+    %   \depedge[dashed]{12}{11}{det}
+      \depedge[edge below]{10}{11}{det}
+    %   \depedge[dashed,edge unit distance=1ex]{5}{12}{conj}
+      \depedge[edge below]{10}{12}{nmod}
+    %   \depedge[dashed]{14}{13}{nsubj}
+      \depedge[edge below]{10}{13}{ref}
+    %   \depedge[dashed]{12}{14}{acl:relcl}
+      \depedge[edge below,edge unit distance=4.7ex]{10}{14}{acl:relcl}
+      \depedge{17}{15}{case}
+      \depedge{17}{16}{det}
+      \depedge{14}{17}{obl\textbf{:aan}}
+      \depedge[edge unit distance=1.2ex]{5}{18}{punct}
+    \end{dependency}
+  \end{figure}
+}
+
+\only<13-16>{
+  \begin{figure}[ht]
+    \centering
+    \begin{dependency}[text only label, label style={above}, font=\tiny, scale=0.5]
+      \begin{deptext}[column sep=0em]
+        Deze \& is  \& de  \& grootste \& hal  \& van \& België \& , \& en  \& \textit{NULL}  \& de  \& enige \& die  \& voldoet \& aan \& de  \& normen \& .     \\
+      \end{deptext}
+      \depedge[green]{5}{1}{nsubj}
+      \depedge[green]{5}{2}{cop}
+      \depedge[green]{5}{3}{det}
+      \depedge[green,edge below]{5}{4}{nmod}
+      \deproot[green,edge unit distance=2ex]{5}{root}
+      \depedge[green]{7}{6}{case}
+      \depedge[green]{5}{7}{nmod\textbf{:van}}
+      \depedge[edge unit distance=.8ex]{12}{8}{punct}
+    %   \depedge[dashed]{12}{9}{cc}
+      \depedge[edge below]{10}{9}{cc}
+      \depedge[green,edge below]{5}{10}{conj:en}
+      \depedge[edge unit distance=2ex]{14}{10}{nsubj:relsubj}
+    %   \depedge[dashed]{12}{11}{det}
+      \depedge[edge below]{10}{11}{det}
+    %   \depedge[dashed,edge unit distance=1ex]{5}{12}{conj}
+      \depedge[edge below]{10}{12}{nmod}
+    %   \depedge[dashed]{14}{13}{nsubj}
+      \depedge[edge below]{10}{13}{ref}
+    %   \depedge[dashed]{12}{14}{acl:relcl}
+      \depedge[edge below,edge unit distance=4.7ex]{10}{14}{acl:relcl}
+      \depedge{17}{15}{case}
+      \depedge{17}{16}{det}
+      \depedge{14}{17}{obl\textbf{:aan}}
+      \depedge[edge unit distance=1.2ex]{5}{18}{punct}
+    \end{dependency}
+  \end{figure}
+}
+
+\only<17-20>{
+  \begin{figure}[ht]
+    \centering
+    \begin{dependency}[text only label, label style={above}, font=\tiny, scale=0.5]
+      \begin{deptext}[column sep=0em]
+        Deze \& is  \& de  \& grootste \& hal  \& van \& België \& , \& en  \& \textit{NULL}  \& de  \& enige \& die  \& voldoet \& aan \& de  \& normen \& .     \\
+      \end{deptext}
+      \depedge[green]{5}{1}{nsubj}
+      \depedge[green]{5}{2}{cop}
+      \depedge[green]{5}{3}{det}
+      \depedge[green,edge below]{5}{4}{nmod}
+      \deproot[green,edge unit distance=2ex]{5}{root}
+      \depedge[green]{7}{6}{case}
+      \depedge[green]{5}{7}{nmod\textbf{:van}}
+      \depedge[edge unit distance=.8ex]{12}{8}{punct}
+    %   \depedge[dashed]{12}{9}{cc}
+      \depedge[green,edge below]{10}{9}{cc}
+      \depedge[green,edge below]{5}{10}{conj:en}
+      \depedge[edge unit distance=2ex]{14}{10}{nsubj:relsubj}
+    %   \depedge[dashed]{12}{11}{det}
+      \depedge[edge below]{10}{11}{det}
+    %   \depedge[dashed,edge unit distance=1ex]{5}{12}{conj}
+      \depedge[edge below]{10}{12}{nmod}
+    %   \depedge[dashed]{14}{13}{nsubj}
+      \depedge[edge below]{10}{13}{ref}
+    %   \depedge[dashed]{12}{14}{acl:relcl}
+      \depedge[edge below,edge unit distance=4.7ex]{10}{14}{acl:relcl}
+      \depedge{17}{15}{case}
+      \depedge{17}{16}{det}
+      \depedge{14}{17}{obl\textbf{:aan}}
+      \depedge[edge unit distance=1.2ex]{5}{18}{punct}
+    \end{dependency}
+  \end{figure}
+}
+
+\only<21>{
+  \begin{figure}[ht]
+    \centering
+    \begin{dependency}[text only label, label style={above}, font=\tiny, scale=0.5]
+      \begin{deptext}[column sep=0em]
+        Deze \& is  \& de  \& grootste \& hal  \& van \& België \& , \& en  \& \textit{NULL}  \& de  \& enige \& die  \& voldoet \& aan \& de  \& normen \& .     \\
+      \end{deptext}
+      \depedge[green]{5}{1}{nsubj}
+      \depedge[green]{5}{2}{cop}
+      \depedge[green]{5}{3}{det}
+      \depedge[green,edge below]{5}{4}{nmod}
+      \deproot[green,edge unit distance=2ex]{5}{root}
+      \depedge[green]{7}{6}{case}
+      \depedge[green]{5}{7}{nmod\textbf{:van}}
+      \depedge[green,edge unit distance=.8ex]{12}{8}{punct}
+    %   \depedge[green,dashed]{12}{9}{cc}
+      \depedge[green,edge below]{10}{9}{cc}
+      \depedge[green,edge below]{5}{10}{conj:en}
+      \depedge[green,edge unit distance=2ex]{14}{10}{nsubj:relsubj}
+    %   \depedge[green,dashed]{12}{11}{det}
+      \depedge[green,edge below]{10}{11}{det}
+    %   \depedge[green,dashed,edge unit distance=1ex]{5}{12}{conj}
+      \depedge[green,edge below]{10}{12}{nmod}
+    %   \depedge[green,dashed]{14}{13}{nsubj}
+      \depedge[green,edge below]{10}{13}{ref}
+    %   \depedge[green,dashed]{12}{14}{acl:relcl}
+      \depedge[green,edge below,edge unit distance=4.7ex]{10}{14}{acl:relcl}
+      \depedge[green]{17}{15}{case}
+      \depedge[green]{17}{16}{det}
+      \depedge[green]{14}{17}{obl\textbf{:aan}}
+      \depedge[edge unit distance=1.2ex]{5}{18}{punct}
+    \end{dependency}
+  \end{figure}
+}
+
+
+\only<22->{
+  \begin{figure}[ht]
+    \centering
+    \begin{dependency}[text only label, label style={above}, font=\tiny, scale=0.5]
+      \begin{deptext}[column sep=0em]
+        Deze \& is  \& de  \& grootste \& hal  \& van \& België \& , \& en  \& \textit{NULL}  \& de  \& enige \& die  \& voldoet \& aan \& de  \& normen \& .     \\
+      \end{deptext}
+      \depedge[green]{5}{1}{nsubj}
+      \depedge[green]{5}{2}{cop}
+      \depedge[green]{5}{3}{det}
+      \depedge[green,edge below]{5}{4}{nmod}
+      \deproot[green,edge unit distance=2ex]{5}{root}
+      \depedge[green]{7}{6}{case}
+      \depedge[green]{5}{7}{nmod\textbf{:van}}
+      \depedge[green,edge unit distance=.8ex]{12}{8}{punct}
+    %   \depedge[green,dashed]{12}{9}{cc}
+      \depedge[green,edge below]{10}{9}{cc}
+      \depedge[green,edge below]{5}{10}{conj:en}
+      \depedge[green,edge unit distance=2ex]{14}{10}{nsubj:relsubj}
+    %   \depedge[green,dashed]{12}{11}{det}
+      \depedge[green,edge below]{10}{11}{det}
+    %   \depedge[green,dashed,edge unit distance=1ex]{5}{12}{conj}
+      \depedge[green,edge below]{10}{12}{nmod}
+    %   \depedge[green,dashed]{14}{13}{nsubj}
+      \depedge[green,edge below]{10}{13}{ref}
+    %   \depedge[green,dashed]{12}{14}{acl:relcl}
+      \depedge[green,edge below,edge unit distance=4.7ex]{10}{14}{acl:relcl}
+      \depedge[green]{17}{15}{case}
+      \depedge[green]{17}{16}{det}
+      \depedge[green]{14}{17}{obl\textbf{:aan}}
+      \depedge[green,edge unit distance=1.2ex]{5}{18}{punct}
+    \end{dependency}
+  \end{figure}
+}
+
+
+\only<1>{
+  \begin{block}{}
+    \vspace{0.39cm}
+  \end{block}
+}
+
+\only<2>{
+  \begin{block}{}
+    $[$ ROOT $]$ $[$ \tiny{Deze is de grootste hal van België , en de enige die voldoet aan de normen .} $]$ 
+  \end{block}
+}
+\only<3>{
+  \begin{block}{}
+    $[$ ROOT $]$ $[$ Deze is de grootste hal van België , en de (\dots) $]$ 
+  \end{block}
+}
+\only<4>{
+  \begin{block}{}
+    $[$ ROOT Deze $]$ $[$ is de grootste hal van België , en de (\dots) $]$ 
+  \end{block}
+}
+\only<5-6>{
+  \begin{block}{}
+    $[$ ROOT Deze is de grootste hal $]$ $[$ van België , en de (\dots) $]$ 
+  \end{block}
+}
+\only<7>{
+  \begin{block}{}
+    $[$ ROOT Deze is de grootste hal $]$ $[$ NULL van België , en (\dots) $]$ 
+  \end{block}
+}
+\only<8-9>{
+  \begin{block}{}
+    $[$ ROOT Deze is de hal $]$ $[$ NULL van België , en de enige (\dots) $]$ 
+  \end{block}
+}
+\only<10>{
+  \begin{block}{}
+    $[$ ROOT Deze is hal $]$ $[$ NULL van België , en de enige die (\dots) $]$ 
+  \end{block}
+}
+\only<11>{
+  \begin{block}{}
+    $[$ ROOT hal NULL België $]$ $[$ , en de enige die voldoet aan (\ldots) $]$ 
+  \end{block}
+}
+
+\only<12-13>{
+  \begin{block}{}
+    $[$  ROOT hal België $]$ $[$ NULL , en de enige die voldoet aan (\dots) $]$ 
+  \end{block}
+}
+\only<14>{
+  \begin{block}{}
+    $[$  ROOT hal $]$ $[$ NULL , en de enige die voldoet aan de normen $]$ 
+  \end{block}
+}
+\only<15>{
+  \begin{block}{}
+    $[$  ROOT hal NULL , en $]$ $[$ de enige die voldoet aan de normen $]$ 
+  \end{block}
+}
+\only<16-17>{
+  \begin{block}{}
+    $[$ ROOT hal NULL en $]$ $[$ , de enige die voldoet aan de normen $]$ 
+  \end{block}
+}
+\only<18>{
+  \begin{block}{}
+    $[$   ROOT hal NULL $]$ $[$ , de enige die voldoet aan de normen $]$ 
+  \end{block}
+}
+\only<19>{
+  \begin{block}{}
+    $[$  ROOT hal NULL , de $]$ $[$ enige die voldoet aan de normen $]$ 
+  \end{block}
+}
+\only<20>{
+  \begin{block}{}
+    $[$  ROOT hal NULL de $]$ $[$ , enige die voldoet aan de normen $]$ 
+  \end{block}
+}
+\only<21-22>{
+  \begin{block}{}
+    $[$  ROOT hal . $]$ $[$  $]$ 
+  \end{block}
+}
+\only<23->{
+  \begin{block}{}
+    $[$  ROOT $]$ $[$  $]$ 
+  \end{block}
+}
+
+\end{overlayarea}
+\end{frame}
+
+\section{Applications}
+
+\begin{frame}
+\frametitle{What can meaning representation do for NLP?}
+ \begin{itemize}
+ \item Incorporating linguistically informed rules
+ \item Controlled evaluation by explicit criteria
+ \item Inductive bias to facilitate learning
+ \item Explainable models by design
+ \end{itemize}
+\end{frame}
+
+\subsection{Incorporating linguistically informed rules into NLP}
+
+\begin{frame}
+\frametitle{Sentence Splitting for Text Simplification}
+% https://www.aclweb.org/anthology/attachments/P18-1016.Presentation.pdf
+    
+    {\color{blue}Last year I read the book John authored} $\rightarrow$ \\
+    \hfill {\color{red}John wrote a book.} {\color{green}I read the book.}
+    
+    \vfill\pause
+
+    MT-based simplifcation is \textit{overly conservative}.
+    
+    \vfill\pause
+    
+    \textbf{Direct Semantic Splitting} before MT-based simplification
+    to place each scene in its own sentence
+    \citep{sulem-etal-2018-simple}.
+    
+    \begin{center}
+        \includegraphics[width=.7\textwidth]{dss1.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sentence Splitting for Text Simplification}
+    \begin{center}
+        \includegraphics[width=\textwidth]{dss2.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sentence Splitting for Text Simplification}
+    \begin{center}
+        \includegraphics[width=\textwidth]{dss3.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sentence Splitting for Text Simplification}
+    Participant scenes are not split.
+    \begin{center}
+        \includegraphics[width=.5\textwidth]{dss4.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sentence Splitting for Text Simplification}
+    {\color{blue}He observed the planet.} {\color{green}Planet has 14 satellites.}
+
+    \vfill\pause
+    
+    Neural MT methods to fix grammaticality.
+    \begin{center}
+        \includegraphics[width=\textwidth]{dss1.png}
+    \end{center}
+    
+    \vfill\pause
+    
+    {\color{blue}He observed the planet.} {\color{green}\textbf{The planet} has 14 satellites.}
+\end{frame}
+
+% \begin{frame}
+% \frametitle{Semantic Structural Decomposition for Neural Machine Translation}
+%     \citep{sulem-etal-2020-semantic}.
+% \end{frame}
+
+\subsection{Controlled NLG evaluation by explicit criteria}
+
+\begin{frame}{BLEU is Not Suitable for the Evaluation of Text Simplification}
+    \textbf{BLEU}: reference-based evaluation metric for MT,
+    also widely used to evaluate text simplification.
+    
+    \vfill\pause
+    
+    With sentence splitting,
+    not correlated with grammaticality or meaning preservation
+    \citep{sulem-etal-2018-bleu}.
+    
+    \vfill\pause
+    
+    \textit{Negatively correlated} with simplicity!
+\end{frame}
+
+\begin{frame}{Semantic Structural Evaluation for Text Simplification}
+    \textbf{SAMSA}: reference-less measure of
+    \textit{structural simplicity} and \textit{meaning preservation}
+     \citep{sulem-etal-2018-semantic}.
+     
+    Same principle: \textit{one scene per sentence}.
+    
+    \begin{center}
+        \includegraphics[width=.5\textwidth]{ucca_simplification}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Semantic Structural Evaluation for Text Simplification}
+    \begin{center}
+        \includegraphics[width=.8\textwidth]{samsa1.png}
+    \end{center}
+    \begin{center}
+        \includegraphics[width=.7\textwidth]{samsa2.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Grammatical Error Correction}
+    Another text-to-text generation task.
+    
+    {\color{red}Ther is both sides of stories} \rightarrow \\
+    \hfill {\color{blue}There are two sides to every story}
+    
+    \vfill\pause
+    
+    Using \textit{references} for GEC evaluation encourages conservatism and underestimates precision
+    \citep{choshen-abend-2018-inherent}.
+\end{frame}
+
+\begin{frame}{Reference-less Measure of Faithfulness for Grammatical Error Correction}
+    \begin{itemize}
+        \item UCCA is \textit{applicable} to ungrammatical learner language!
+        \item UCCA is \textit{stable} with respect to grammar corrections
+    \end{itemize}
+    
+    \begin{center}
+    \begin{tikzpicture}[sibling distance=3mm, level distance=7mm,
+    every node/.append style={font=\rmfamily},
+	every circle node/.append style={fill=black}]
+    \begin{scope}[frontier/.style={distance from root=15mm},
+	edge from parent path={(\tikzparentnode.center) ..
+        controls +(0,-.25) and +(0,.25) .. (\tikzchildnode.north)}]
+    \Tree [.\node [circle] (rootu) {};
+    \edge node [auto=right]{}; \node (Heu) {He};
+    \edge node[auto=right down]{}; \node (gve) {gve};
+    \edge node[auto=right]{};
+    [.\node [circle](an appleu) {};
+    \edge node[auto=right]{}; \node (anu) {an};
+    \edge node[auto=left]{}; \node (appleu) {apple};
+    ]
+    \edge node[auto=left]{};
+    [.\node [circle](for john) {};
+    \edge node[auto=right]{};\node (for) {for};
+    \edge node[auto=left]{}; \node (john) {john};
+    ]]
+    \end{scope}
+    \begin{scope}[yshift=-41mm,grow'=up,
+      frontier/.style={distance from root=12mm},
+      edge from parent path={(\tikzparentnode.center) ..
+      controls +(0,.25) and +(0,-.25) .. (\tikzchildnode.south)}]
+    \Tree [.\node [circle] (rootd) {};
+    \edge node [auto=left]{}; \node (Hed) {He};
+    \edge node[auto=right]{}; \node (gave) {gave};
+    \edge node[auto=right]{};\node (John) {John};
+    \edge node[auto=right]{};
+    [.\node [circle] (an appled) {};
+    \edge node[auto=left]{}; \node (and) {an};
+    \edge node[auto=right]{}; \node (appled) {apple};
+    ]
+    ]
+    \end{scope}
+    \begin{scope}[dashed]
+    \draw (Heu) -- (Hed);
+    \draw (gve) -- (gave);
+    \draw (John) -- (john);
+    \draw (anu) -- (and);
+    \draw (appleu) -- (appled);
+    \end{scope}
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Reference-less Measure of Faithfulness for Grammatical Error Correction}
+    \textbf{USim} measures meaning preservation automatically \textit{without references}
+    \citep{choshen-abend-2018-reference}.
+    
+    \vfill\pause
+    
+    Variation on standard UCCA evaluation, using unit \textit{alignment}
+    between the source and target graphs.
+    
+    \vfill\pause
+    
+    Sensitive to faithfulness, not overly conservative.
+    \begin{center}
+        \includegraphics[width=.5\textwidth]{usim1.png}
+    \end{center}
+\end{frame}
+
+
+\section{Comparison}
 
 
 \begin{frame}
@@ -1805,52 +2634,12 @@ Evaluate by matching edges \citep*{hershcovich2019content}.
 \end{frame}
 
 \begin{frame}
-\frametitle{Ongoing Work}
+\frametitle{Comparison by Conversion: Reverse-Engineering UCCA from Syntax and Lexical Semantics}
 
-Complement syntax with \textit{lexical} semantics to make up for differences.
+Complement syntax with \textit{lexical} semantics to make up for differences
+\citep{hershcovich-et-al-2020-comparison}.
 
 \includegraphics[width=\textwidth]{ex-ucca-streusle.pdf}
-\end{frame}
-
-\begin{frame}{Refining Implicit Argument Annotation for UCCA}
-\citep*{cui-hershcovich-2020-refining}
-\hfill
-\includegraphics[width=.1\textwidth]{ruixiang}
-\begin{center}
-\scalebox{.7}{
-\begin{tikzpicture}[->,level distance=1.35cm,
-  level 1/.style={sibling distance=4cm},
-  level 2/.style={sibling distance=20mm},
-  level 3/.style={sibling distance=20mm},
-  every circle node/.append style={fill=black},
-  every node/.append style={text height=1ex,text depth=0}]
-  \tikzstyle{word} = [font=\rmfamily,color=black]
-  \node (1_1) [circle] {}
-  {
-  child {node (1_2) [circle] {}
-    {
-    child {node (1_16) [word] {\textbf{IMP}$_\text{Non-specific}$}  edge from parent node[midway, fill=white]  {A}}
-    child {node (1_8) [word] {Have}  edge from parent node[midway, fill=white]  {D}}
-    child {node (1_9) [circle] {}
-      {
-      child {node (1_13) [word] {a}  edge from parent node[midway, fill=white]  {F}}
-      child {node (1_12) [word] {real}  edge from parent [white]}
-      child {node (1_14) [word] {mechanic}  edge from parent node[midway, fill=white]  {C}}
-      } edge from parent node[midway, fill=white]  {A}}
-    child {node (1_10) [word] {check}  edge from parent node[midway, fill=white]  {P}}
-    } edge from parent node[midway, fill=white]  {H}}
-  child {node (1_3) [word] {before}  edge from parent node[midway, fill=white]  {L}}
-  child {node (1_4) [circle] {}
-    {
-    child {node (1_6) [word] {you}  edge from parent node[midway, fill=white]  {A}}
-    child {node (1_7) [word] {leave}  edge from parent node[midway, fill=white]  {P}}
-    child {node (1_17) [word] {\textbf{IMP}$_\text{Non-specific}$}  edge from parent node[midway, fill=white]  {A}}
-    } edge from parent node[midway, fill=white]  {H}}
-  };
-  \draw[dashed,->] (1_2) to node [midway, fill=white] {A} (1_6);
-  \draw[bend right,->] (1_2) to[out=-20, in=180] node [midway, fill=white] {D} (1_12);
-\end{tikzpicture}}
-\end{center}
 \end{frame}
 
 \section*{}
@@ -1873,7 +2662,7 @@ Thanks!
 \begin{frame}[allowframebreaks]
 \frametitle{References}
 \bibliographystyle{plainnat}
-\tiny\bibliography{references}
+\tiny\bibliography{references,mrp,anthology}
 \end{frame}
 
 \begin{frame}
