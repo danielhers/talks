@@ -26,6 +26,8 @@
 \usepackage{booktabs}
 \usepackage{color,soul}
 
+\graphicspath{{figures/}}
+
 \usetikzlibrary{arrows.meta,graphs,graphs.standard,graphdrawing,quotes,shapes}
 \usegdlibrary{layered,trees}
 
@@ -110,7 +112,6 @@
 }
 \newcolumntype{R}{>{\collectcell\ApplyGradient}{c}<{\endcollectcell}}
 
-
 \MakePerPage{footnote}
 
 % Outline slides
@@ -123,7 +124,7 @@
 
 \title[]{Universal Meaning Representation Parsing}
 \author{Daniel Hershcovich}
-\date{ML Section Meeting \\ November 9, 2020}
+\date{ML Section \\ November 9, 2020}
 
 \begin{frame}
 \titlepage
@@ -1809,9 +1810,48 @@ Evaluate by matching edges \citep*{hershcovich2019content}.
 Complement syntax with \textit{lexical} semantics to make up for differences.
 
 \includegraphics[width=\textwidth]{ex-ucca-streusle.pdf}
-
 \end{frame}
 
+\begin{frame}{Refining Implicit Argument Annotation for UCCA}
+\citep*{cui-hershcovich-2020-refining}
+\hfill
+\includegraphics[width=.1\textwidth]{ruixiang}
+\begin{center}
+\scalebox{.7}{
+\begin{tikzpicture}[->,level distance=1.35cm,
+  level 1/.style={sibling distance=4cm},
+  level 2/.style={sibling distance=20mm},
+  level 3/.style={sibling distance=20mm},
+  every circle node/.append style={fill=black},
+  every node/.append style={text height=1ex,text depth=0}]
+  \tikzstyle{word} = [font=\rmfamily,color=black]
+  \node (1_1) [circle] {}
+  {
+  child {node (1_2) [circle] {}
+    {
+    child {node (1_16) [word] {\textbf{IMP}$_\text{Non-specific}$}  edge from parent node[midway, fill=white]  {A}}
+    child {node (1_8) [word] {Have}  edge from parent node[midway, fill=white]  {D}}
+    child {node (1_9) [circle] {}
+      {
+      child {node (1_13) [word] {a}  edge from parent node[midway, fill=white]  {F}}
+      child {node (1_12) [word] {real}  edge from parent [white]}
+      child {node (1_14) [word] {mechanic}  edge from parent node[midway, fill=white]  {C}}
+      } edge from parent node[midway, fill=white]  {A}}
+    child {node (1_10) [word] {check}  edge from parent node[midway, fill=white]  {P}}
+    } edge from parent node[midway, fill=white]  {H}}
+  child {node (1_3) [word] {before}  edge from parent node[midway, fill=white]  {L}}
+  child {node (1_4) [circle] {}
+    {
+    child {node (1_6) [word] {you}  edge from parent node[midway, fill=white]  {A}}
+    child {node (1_7) [word] {leave}  edge from parent node[midway, fill=white]  {P}}
+    child {node (1_17) [word] {\textbf{IMP}$_\text{Non-specific}$}  edge from parent node[midway, fill=white]  {A}}
+    } edge from parent node[midway, fill=white]  {H}}
+  };
+  \draw[dashed,->] (1_2) to node [midway, fill=white] {A} (1_6);
+  \draw[bend right,->] (1_2) to[out=-20, in=180] node [midway, fill=white] {D} (1_12);
+\end{tikzpicture}}
+\end{center}
+\end{frame}
 
 \section*{}
 
