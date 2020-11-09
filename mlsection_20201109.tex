@@ -143,8 +143,6 @@
 \begin{document}
 
 
-\section{Representations}
-
 \title[]{Meaning Representations and Where to Find Them}
 \author{Daniel Hershcovich}
 \date{ML Section \\ November 9, 2020}
@@ -153,6 +151,20 @@
 \titlepage
 \end{frame}
 
+\begin{frame}{The Route}
+\begin{itemize}
+ \item<1-> Meaning representations are useful for NLP, and NLG evaluation.
+ \item<2-> They have accurate parsers for various frameworks and languages.
+ \item<3-> Linguistic and supervised conversion enable deep comparison.
+\end{itemize}
+
+\vfill
+\begin{center}
+\onslide<1->{\includegraphics[width=.5\textwidth]{treasure_map}}
+\end{center}
+\end{frame}
+
+\section{Representations}
 
 \begin{frame}
     \frametitle{Meaning Representations}
@@ -573,6 +585,44 @@ Fine-grained annotation of EWT corpus
 
 \section{Parsing}
 
+\begin{frame}
+\frametitle{UCCA Parsing}
+{\Large \textbf{The Task:} Given plain text,
+predict its UCCA graph representation.}
+
+\vfill
+
+\begin{center}
+    {\rmfamily\small They thought about taking a short break}
+\[\Downarrow\]
+\scalebox{.75}{
+\begin{tikzpicture}[level distance=16mm, sibling distance=28mm, ->, thick,
+  level 2/.style={sibling distance=12mm},
+  level 3/.style={sibling distance=18mm},
+  edge from parent/.append style={nodes={font=\scriptsize}}]
+  \tikzstyle{word} = [font=\rmfamily,color=black]
+    \node (ROOT) [fill=blue, circle] {}
+      child {node (They) [word] {They} edge from parent node[midway, fill=white] {A}}
+      child {node [word] {thought} edge from parent node[midway, fill=white] {P}}
+      child {node (abouttakingashortbreak) [fill=blue, circle] {}
+      {
+        child {node [word] {about} edge from parent node[midway, fill=white] {R}}
+        child {node (takingabreak) [fill=blue, circle] {}
+        {
+          child {node [word] {taking} edge from parent node[midway, fill=white] {F}}
+          child {node [word] {a} edge from parent node[midway, fill=white] {F}}
+          child {node [word] (short) {short} edge from parent[draw=none]}
+          child {node [word] {break} edge from parent node[midway, fill=white] {C}}
+        } edge from parent node[midway, fill=white] {P} }
+      } edge from parent node[midway, fill=white] {A} }
+      ;
+    \draw[bend left,dashed,->] (abouttakingashortbreak) to node [auto] {\scriptsize A} (They);
+    \draw[bend left,->] (abouttakingashortbreak) to node [auto] {\scriptsize D} (short);
+\end{tikzpicture}}
+\end{center}
+\end{frame}
+
+\subsection{TUPA}
 
 \begin{frame}
 \frametitle{TUPA}
@@ -1387,7 +1437,7 @@ DRG* TUPA 52 51
 framework {system} {cf data} {cl data}
 PTG TUPA 42024 39560
 UCCA  HIT-SCIR 6872 3713
-AMR TUPA 16529 57885
+AMR TUPA 57885 16529
 DRG TUPA 6606 1575
 }\cfvcldata
 
@@ -2036,6 +2086,7 @@ HIT-SCIR parser for \textbf{Enhanced UD} parsing
 
 \section{Comparison}
 
+\subsection{To Syntax}
 
 \begin{frame}
 \frametitle{UCCA vs. UD}
@@ -2357,6 +2408,8 @@ Evaluate by matching edges \citep*{hershcovich2019content}.
     \end{dependency}
 \end{frame}
 
+\subsection{To Lexical Semantics}
+
 \begin{frame}
 \frametitle{Comparison by Conversion: Reverse-Engineering UCCA from Syntax and Lexical Semantics}
 
@@ -2523,24 +2576,27 @@ HIT-SCIR (GloVe) &  67.0 & 42.4\\
 \end{frame}
 
 \begin{frame}{Examples}
-\scalebox{.6}{
-\centering\scriptsize 
+\begin{center}
+	\tiny
     \renewcommand\arraystretch{1.4}
     \setlength\tabcolsep{4pt}
-    \begin{tabular}{llll}
-        \normalsize\textbf{STREUSLE Annotation} & \normalsize\textbf{Predicted UCCA Annotation} & \normalsize\textbf{Gold UCCA Annotation} \\
+    \begin{tabular}{lrl}
+        \textbf{$\underset{\text{STREUSLE}}{\text{Predicted UCCA}}$} & \textbf{Gold UCCA} \\
         \hline
-        \bf Noun compounds \\
-        $\underset{\sst{n.substance}}{\text{tap\_water}}$ & tap water (\textit{unanalyzable}) & [\ucca{E} tap] [\ucca{C} water] & \xmark \\
-        $\underset{\sst{n.event}}{\text{road\_construction}}$ & [\ucca{P} road construction] & [\ucca{A} road] [\ucca{P} construction] & \xmark \\
-        \bf Adverbs and linkage \\
-        $\underset{\sst{v.vid}}{\text{Gets\_busy}}$ so $\underset{\sst{v.motion}}{\text{come}}$ early & [\ucca{H} [\ucca{P} Gets busy] ] [\ucca{L} so] [\ucca{H} [\ucca{P} come] [\ucca{T} early]~] & [\ucca{H} [\ucca{D} Gets] [\ucca{S} busy]~] [\ucca{L} so] [\ucca{H} [\ucca{P} come] [\ucca{T} early]~] & \xcmark
- \\
-        so easy to $\underset{\sst{v.motion}}{\text{load}}$ & [\ucca{L} so] [\ucca{H} [\ucca{S} easy] [\ucca{A} [\ucca{F} to] [\ucca{P} load]~]~]  & [\ucca{D} [\ucca{E} so] [\ucca{C} easy]~] [\ucca{F} to] [\ucca{P} load]  & \xmark \\
-        \bf Scene-evoking nouns \\
-        a $\underset{\sst{n.food}}{\text{meal}}$ $\underset{\sst{p.locus}}{\text{on}}$ the $\underset{\sst{n.communication}}{\text{menu}}$ & [\ucca{F} a] [\ucca{C} meal] [\ucca{E} [\ucca{R} on] [\ucca{F} the] [\ucca{C} menu]~]~] & [\ucca{F} a] [\ucca{C} meal] [\ucca{E} [\ucca{R} on] [\ucca{F} the] [\ucca{C} menu]~]~] & \cmark \\
-        $\underset{\sst{v.communication}}{\text{answered}}$ all $\underset{\sst{p.gestalt}}{\underset{\sst{p.originator}}{\text{my}}}$ $\underset{\sst{n.communication}}{\text{questions}}$ & [\ucca{P} answered] [\ucca{A} [\ucca{Q} all] [\ucca{A} my] [\ucca{C} questions]~] & [\ucca{P} answered] [\ucca{A} [\ucca{D} all] [\ucca{A} my] [\ucca{P} questions]~] & \xmark
-    \end{tabular}}
+        \bf Noun compounds \\{}
+        $\underset{\sst{n.substance}}{\text{tap\_water}}$ (\textit{unanalyzable}) & [\ucca{E} tap] [\ucca{C} water] & \xmark \\{}
+        [\ucca{\color{Pcolor}P} $\underset{\sst{n.event}}{\text{road\_construction}}$] & [\ucca{\color{Acolor}A} road] [\ucca{\color{Pcolor}P} construction] & \xmark \\\\{}
+        \pause{}
+        \bf Adverbs and linkage \\{}
+        [\ucca{H} [\ucca{\color{Pcolor}P} $\underset{\sst{v.vid}}{\text{Gets\_busy}}$] ] [\ucca{L} so] [\ucca{H} [\ucca{\color{Pcolor}P} $\underset{\sst{v.motion}}{\text{come}}$] [\ucca{T} early]~] & [\ucca{H} [\ucca{D} Gets] [\ucca{\color{Scolor}S} busy]~] [\ucca{L} so] [\ucca{H} [\ucca{\color{Pcolor}P} come] [\ucca{T} early]~] & \xcmark
+ \\{}
+        [\ucca{L} so] [\ucca{H} [\ucca{\color{Scolor}S} easy] [\ucca{\color{Acolor}A} [\ucca{F} to] [\ucca{\color{Pcolor}P} $\underset{\sst{v.motion}}{\text{load}}$]~]~]  & [\ucca{D} [\ucca{E} so] [\ucca{C} easy]~] [\ucca{F} to] [\ucca{\color{Pcolor}P} load]  & \xmark \\\\{}
+        \pause{}
+        \bf Scene-evoking nouns \\{}
+        \multirow{3}{5cm}{[\ucca{F} a] [\ucca{C} $\underset{\sst{n.food}}{\text{meal}}$] [\ucca{E} [\ucca{R} $\underset{\sst{p.locus}}{\text{on}}$] [\ucca{F} the] [\ucca{C} $\underset{\sst{n.communication}}{\text{menu}}$]~]~]} & [\ucca{F} a] [\ucca{C} meal] [\ucca{E} [\ucca{R} on] [\ucca{F} the] [\ucca{C} menu]~]~] & \cmark \\\\\\{}
+        \multirow{2}{5cm}{[\ucca{\color{Pcolor}P} $\underset{\sst{v.communication}}{\text{answered}}$] [\ucca{\color{Acolor}A} [\ucca{Q} all] [\ucca{\color{Acolor}A} $\underset{\sst{p.gestalt}}{\underset{\sst{p.originator}}{\text{my}}}$] [\ucca{C} $\underset{\sst{n.communication}}{\text{questions}}$]~]} & [\ucca{\color{Pcolor}P} answered] [\ucca{\color{Acolor}A} [\ucca{D} all] [\ucca{\color{Acolor}A} my] [\ucca{\color{Pcolor}P} questions]~] & \xmark
+    \end{tabular}
+\end{center}
 \end{frame}
 
 \section*{}
@@ -2548,8 +2604,8 @@ HIT-SCIR (GloVe) &  67.0 & 42.4\\
 \begin{frame}
 \frametitle{Conclusion}
 \begin{itemize}
- \item Meaning representations are useful!\pause
- \item Various parsers across frameworks and languages.\pause
+ \item Meaning representations are useful for NLP, and NLG evaluation.\pause
+ \item They have accurate parsers for various frameworks and languages.\pause
  \item Linguistic and supervised conversion enable deep comparison.
 \end{itemize}
 
