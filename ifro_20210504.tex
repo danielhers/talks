@@ -183,8 +183,7 @@
 }
 \end{frame}
 
-\begin{frame}
-\frametitle{IBM Debater}
+\begin{frame}{IBM Debater}
 
 \begin{minipage}{.8\textwidth}
 AI system that can debate humans on complex topics
@@ -225,8 +224,7 @@ Slonim et al. \textbf{``An autonomous debating system.''} \textit{Nature} (2021)
 \end{flushright}
 \end{frame}
 
-\begin{frame}
-\frametitle{What can we teach computers to do with language?}
+\begin{frame}{What can we teach computers to do with language?}
     Identify relations between concepts (\textbf{parsing}, various frameworks):
 
     \begin{adjustbox}{center}
@@ -290,8 +288,7 @@ or
 1. How to represent what we mean, 2. How to parse (1)
 \end{frame}
 
-\begin{frame}
-\frametitle{Graphs}
+\begin{frame}{Graphs}
 Abend and Rappoport. \textbf{``Universal Conceptual Cognitive Annotation (UCCA)''}. \textit{ACL} (2013)
 
 \begin{adjustbox}{center}
@@ -359,17 +356,17 @@ Abend and Rappoport. \textbf{``Universal Conceptual Cognitive Annotation (UCCA)'
 \end{adjustbox}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{UCCA}
 \includegraphics[width=\textwidth]{ucca_meaning}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{UCCA with Implicit Units}
 \includegraphics[width=\textwidth]{ucca_meaning_implicit}
 
 Cui and Hershcovich. \textbf{``Refining Implicit Argument Annotation for UCCA.''} \textit{DMR} (2020)
 \end{frame}
 
-\begin{frame}
+\begin{frame}{UCCA with Implicit Units}
 \includegraphics[width=\textwidth]{implicit}
 \end{frame}
 
@@ -439,8 +436,7 @@ a5 ->  ["op1"' above] a6;
     \end{minipage}
 }
 
-\begin{frame}
-    \frametitle{Different Ways to Represent Meaning}
+\begin{frame}{Different Frameworks to Represent Meaning}
 
       \begin{flushright}
         \scalebox{.6}{\exucca}
@@ -533,8 +529,7 @@ Transitions:
 \hspace{5mm}\textsc{{\color{orange}Left-Remote$_X$}, {\color{orange}Right-Remote$_X$}, {\color{red}Swap}, Finish}\}
 \end{frame}
 
-\begin{frame}
-\frametitle{Example: TUPA Transition Sequence}
+\begin{frame}{Example: TUPA Transition Sequence}
 \begin{minipage}[t][8mm][t]{\textwidth}
     $\Rightarrow$\textsc{
         \only<1>{Shift}\only<2>{Right-Edge$_A$}\only<3>{Shift}\only<4>{Swap}\only<5>{Right-Edge$_P$}\only<6>{Reduce}\only<7>{Shift}\only<8>{Shift}\only<9>{Node$_R$}\only<10>{Reduce}\only<11>{Shift}\only<12>{Left-Remote$_A$}\only<13>{Shift}\only<14>{Node$_C$}\only<15>{Reduce}\only<16>{Shift}\only<17>{Right-Edge$_P$}\only<18>{Shift}\only<19>{Right-Edge$_F$}\only<20>{Reduce}\only<21>{Shift}\only<22>{Swap}\only<23>{Right-Edge$_D$}\only<24>{Reduce}\only<25>{Swap}\only<26>{Right-Edge$_A$}\only<27>{Reduce}\only<28>{Reduce}\only<29>{Shift}\only<30>{Reduce}\only<31>{Shift}\only<32>{Right-Edge$_C$}\only<33>{Finish}
@@ -641,8 +636,7 @@ Transitions:
 \end{tikzpicture}}
 \end{frame}
 
-\begin{frame}
-\frametitle{TUPA Model}
+\begin{frame}{TUPA Model}
 Learns to predict next transition based on current state.
 
 \centering
@@ -733,8 +727,7 @@ Learns to predict next transition based on current state.
 \end{frame}
 
 
-\begin{frame}
-    \frametitle{Sharing}
+\begin{frame}{Sharing}
     
     \begin{minipage}{.06\pagewidth}
     \scalebox{8}{\{}
@@ -778,15 +771,13 @@ Learns to predict next transition based on current state.
 Improved parsing in 5 frameworks in English, French, German, Chinese and Czech.
 \end{frame}
 
-\begin{frame}
-\frametitle{Meaning Representations Explain \textit{Human} Language Processing}
+\begin{frame}{Meaning Representations Explain \textit{Human} Language Processing}
 \includegraphics[width=\textwidth]{injecting}
 
 Abdou et al. \textbf{``Does injecting linguistic structure into language models lead to better alignment with brain recordings?​''}. (2021)
 \end{frame}
 
-\begin{frame}
-\frametitle{Meaning Representations Make NLP Interpretable}
+\begin{frame}{Meaning Representations Make NLP Interpretable}
 \begin{center}
 \begin{tikzpicture}[line width=2pt]
 \graph[tree layout, sibling distance=6cm, layer distance=3cm, nodes={rectangle,draw=DarkBlue,align=center}, edges={nodes={sloped}, DarkRed}]{
@@ -817,11 +808,21 @@ b0[as={Target text}];
 \end{center}
 \end{frame}
 
-\begin{frame}
-\frametitle{Meaning Representations Help Answering Questions}
+\begin{frame}{Meaning Representations Help Answering Questions}
 \includegraphics[width=\textwidth]{querying}
 \end{frame}
 
+\begin{frame}{Other Ideas}
+\includegraphics[width=\textwidth]{vegetables}
+Source: WHO % https://gateway.euro.who.int/en/indicators/hfa_446-3240-average-amount-of-fruits-and-vegetables-available-per-person-per-year-kg/visualizations/#id=19474
+
+\pause
+
+\vspace{-7cm}
+\begin{flushright}
+\includegraphics[width=.4\textwidth]{220px-How_To_Cook_In_Eretz_Israel}
+\end{flushright}
+\end{frame}
 
 \begin{frame}{Conclusion}
 Symbolic meaning representation
