@@ -116,7 +116,7 @@
 \begin{document}
 
 
-\title[]{Meaning Representation and Parsing in Natural Language Processing}
+\title[]{Meaning Representation and Parsing \\ in Natural Language Processing}
 \author{Daniel Hershcovich}
 \date{IFRO \\ 4 May 2021}
 
@@ -124,7 +124,33 @@
 \titlepage
 \end{frame}
 
+\begin{frame}
+\includegraphics[width=.7\textwidth]{reviews}
 
+\pause
+\vspace{-3cm}
+\includegraphics[width=\textwidth]{amazon}
+
+\pause
+\vspace{-7cm}
+\hfill\includegraphics[width=.5\textwidth]{imdb}
+\end{frame}
+
+\begin{frame}{Semantic Parsing}
+\includegraphics[width=\textwidth]{srl}
+
+\pause
+\begin{itemize}
+\item How long do visitors typically stay?​ \pause
+\item Do people typically come with their kids?​ \pause
+\item Are there more boys or girls visiting?​ \pause
+\item Do visitors with kids spend more time there?​
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Scaling Up Qualitative Studies}
+\includegraphics[width=\textwidth]{qualitative}
+\end{frame}
 
 \begin{frame}
 \setbeamercovered{transparent}
@@ -169,7 +195,7 @@ AI system that can debate humans on complex topics
 \includegraphics[width=\textwidth]{debater.png}
 \end{center}
 
-Slonim, Noam, et al. \textbf{``An autonomous debating system.''} \textit{Nature} 591.7850 (2021): 379-384.
+Slonim et al. \textbf{``An autonomous debating system.''} \textit{Nature} (2021)
 
 \end{frame}
 
@@ -222,6 +248,14 @@ Slonim, Noam, et al. \textbf{``An autonomous debating system.''} \textit{Nature}
 	\depedge{6}{12}{punct}
     \end{dependency}
     \end{adjustbox}
+\end{frame}
+
+\begin{frame}
+\includegraphics[width=\textwidth]{dep_meaning}
+\end{frame}
+
+\begin{frame}
+\includegraphics[width=\textwidth]{dep_toast}
 \end{frame}
 
 \begin{frame}
@@ -325,6 +359,16 @@ or
 \end{adjustbox}
 \end{frame}
 
+\begin{frame}
+\includegraphics[width=\textwidth]{ucca_meaning}
+\end{frame}
+
+\begin{frame}
+\includegraphics[width=\textwidth]{ucca_meaning_implicit}
+
+Cui and Hershcovich. \textbf{``Refining Implicit Argument Annotation for UCCA.''} \textit{DMR} (2020)
+\end{frame}
+
 \def\exucca{
 \begin{tikzpicture}[level distance=2cm, sibling distance=25mm, ->, draw=Indigo, thick]
     \node[font=\bf\sffamily\Huge,Indigo] at (-3,0) {UCCA};
@@ -412,14 +456,10 @@ a5 ->  ["op1"' above] a6;
 \begin{frame}
 \frametitle{Parsing}
 
-\textit{A Transition-Based Directed Acyclic Graph Parser for UCCA} (2017)
-
-\url{http://bit.ly/tupademo}
-
 \pause
 
-\centering
-\scalebox{.8}{
+\begin{center}
+\scalebox{.7}{
 \begin{tikzpicture}[level distance=15mm, sibling distance=2cm, ->, thick,
     every node/.append style={font=\rmfamily},
     edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
@@ -443,11 +483,16 @@ a5 ->  ["op1"' above] a6;
     \draw[bend left,dashed] (abouttakingashortbreak) to node [auto] {A} (They);
     \draw[bend left] (abouttakingashortbreak) to node [auto] {D} (short);
 \end{tikzpicture}}
+\end{center}
+
 \[\Updownarrow\]
 \begin{flushleft}
 \footnotesize
 \textsc{Shift}, \textsc{Right-Edge$_A$}, \textsc{Shift}, \textsc{Swap}, \textsc{Right-Edge$_P$}, \textsc{Reduce}, \textsc{Shift}, \textsc{Shift}, \textsc{Node$_R$}, \textsc{Reduce}, \textsc{Left-Remote$_A$}, \textsc{Shift}, \textsc{Shift}, \textsc{Node$_C$}, \textsc{Reduce}, \textsc{Shift}, \textsc{Right-Edge$_P$}, \textsc{Shift}, \textsc{Right-Edge$_F$}, \textsc{Reduce}, \textsc{Shift}, \textsc{Swap}, \textsc{Right-Edge$_D$}, \textsc{Reduce}, \textsc{Swap}, \textsc{Right-Edge$_A$}, \textsc{Reduce}, \textsc{Reduce}, \textsc{Shift}, \textsc{Reduce}, \textsc{Shift}, \textsc{Right-Edge$_C$}, \textsc{Finish}
 \end{flushleft}
+
+
+Hershcovich et al. \textbf{``A Transition-Based Directed Acyclic Graph Parser for UCCA''}. \textit{ACL} (2017)
 \end{frame}
 
 \begin{frame}
@@ -687,10 +732,6 @@ Learns to predict next transition based on current state.
 \begin{frame}
     \frametitle{Sharing for better generalization}
     
-    \textit{Multitask Parsing Across Semantic Representations} (2018)
-    
-    \vfill
-    
     \begin{minipage}{.06\pagewidth}
     \scalebox{8}{\{}
     \end{minipage}
@@ -711,84 +752,32 @@ Learns to predict next transition based on current state.
     \pause
     
     Improved UCCA parsing in English, French and German.
+    
+    \vfill
+    
+    Hershcovich et al. \textbf{``Multitask Parsing Across Semantic Representations''}. \textit{ACL} (2018)
 \end{frame}
 \begin{frame}
-\frametitle{Shared tasks: parsing competitions}
-\textit{SemEval 2019 Task 1: Cross-lingual Semantic Parsing with UCCA}
-
-\begin{minipage}{.6\textwidth}
+\frametitle{Parsing Competitions}
+\begin{flushright}
+\includegraphics[width=.1\textwidth]{type_writer2.png}
+\end{flushright}
 \begin{itemize}
-\item 3 languages.
-\item 8 teams from 6 countries.
-\end{itemize}
-\end{minipage}
-\hfill
-\begin{minipage}{.1\textwidth}
-\includegraphics[width=\textwidth]{type_writer2.png}
-\end{minipage}
-
-\pause
-\vfill
-
-\textit{MRP 2019: Cross-Framework Meaning Representation Parsing}
-
-\begin{itemize}
-\item 5 frameworks.
-\item 18 teams from 8 countries.
-\end{itemize}
-\pause
-\vfill
-
-soon...
-
-\textit{MRP 2020}
-
-\begin{itemize}
-\item More frameworks.
-\item 5 languages.
+\item Hershcovich et al. \textbf{``SemEval-2019 task 1: Cross-lingual semantic parsing with UCCA''}. \textit{SemEval} (2019)
+\item Oepen et al. \textbf{``MRP 2019: Cross-Framework Meaning Representation Parsing''}. \textit{CoNLL} (2019)
+\item Oepen et al. \textbf{``MRP 2020: The Second Shared Task on Cross-framework and Cross-Lingual Meaning Representation Parsing''}. \textit{CoNLL} (2020)
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{What can meaning representation do for NLP?}
- \begin{itemize}
- \item Probing for linguistic knowledge
- \item Querying knowledge bases
- \item Better machine translation
- \end{itemize}
+\frametitle{Meaning Representations Explain \textit{Human} Language Processing}
+\includegraphics[width=\textwidth]{injecting}
+
+Abdou et al. \textbf{``Does injecting linguistic structure into language models lead to better alignment with brain recordings?​''}. (2021)
 \end{frame}
 
 \begin{frame}
-\frametitle{Querying knowledge bases}
-Executable meaning representations: SQL, SPARQL
-
-\vfill
-
-\only<1-2>{
-\begin{textblock*}{64mm}(32mm,0.33\textheight)
-\begin{exampleblock}{}
-impressionist painters \\
-18th-century American poets \\
-birthplace of the writer of Tarzan \\
-\ldots
-\end{exampleblock}
-\end{textblock*}
-}
-
-\only<2>{
-\includegraphics[width=.3\textwidth]{wikipedia.png}\hfill
-\includegraphics[width=.3\textwidth]{640px-Wikidata-logo-en.png}
-}
-
-\only<3>{
-\includegraphics[width=\textwidth]{impressionist.png}
-}
-\end{frame}
-
-\begin{frame}
-\frametitle{Better machine translation}
-(Simplified) \textit{Vauquois triangle}:
-
+\frametitle{Meaning Representations Make NLP Interpretable}
 \begin{center}
 \begin{tikzpicture}[line width=2pt]
 \graph[tree layout, sibling distance=6cm, layer distance=3cm, nodes={rectangle,draw=DarkBlue,align=center}, edges={nodes={sloped}, DarkRed}]{
@@ -820,40 +809,18 @@ b0[as={Target text}];
 \end{frame}
 
 \begin{frame}
-\frametitle{Related courses}
-DIKU:
-\begin{itemize}
-\item Natural Language Processing
-\item Advanced Topics in Natural Language Processing
-\item Elements of Machine Learning
-\item Machine Learning
-\item Data Science
-\end{itemize}
-Linguistics:
-\begin{itemize}
-\item Semantics and pragmatics
-\item Language Processing 2
-\item Language 3 – Semantics, Interaction Analysis, and Linguistic Theory
-\end{itemize}
-
-\vfill
-(I am not teaching yet.)
+\frametitle{Meaning Representations Help Answering Questions}
+\includegraphics[width=\textwidth]{querying}
 \end{frame}
 
-\begin{frame}
-\frametitle{Contact me...}
-... if you are interested in a project on
+
+\begin{frame}{Conclusion}
+Symbolic meaning representation
 \begin{itemize}
-\item Multilingual Enhanced Universal Dependency Parsing
-\item Meaning Representation Encoding for Machine Translation
-\item Semantic Dependency Probing of Pretrained Encoders
-\item Linguistic Analysis of Pretraining Methods
-\item Recursive Composition in Stack Pointer Parsers
-\item Phase Transitions in Word Representation
-\item Training Parsers with Translation Signals
-%\item Combined Semantic Parsing and Generation
-%\item Multilingual Semantic Parsing from Grounding in Wikidata
-%\item Representation Compression and Generalization in Recurrent Networks
+\item Scales qualitative studies
+\item Can be generated accurately by parsers
+\item Makes NLP interpretable
+\item Facilitates question answering
 \end{itemize}
 \vfill
 {\Huge\url{dh@di.ku.dk}}
