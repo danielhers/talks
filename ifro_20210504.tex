@@ -124,28 +124,29 @@
 \titlepage
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Sentiment Classification}
 \includegraphics[width=.7\textwidth]{reviews}
 
 \pause
-\vspace{-3cm}
+\vspace{-35mm}
 \includegraphics[width=\textwidth]{amazon}
 
 \pause
-\vspace{-7cm}
+\vspace{-8cm}
 \hfill\includegraphics[width=.5\textwidth]{imdb}
 \end{frame}
 
 \begin{frame}{Semantic Parsing}
-\includegraphics[width=\textwidth]{srl}
-
-\pause
 \begin{itemize}
 \item How long do visitors typically stay?​ \pause
 \item Do people typically come with their kids?​ \pause
 \item Are there more boys or girls visiting?​ \pause
 \item Do visitors with kids spend more time there?​
 \end{itemize}
+
+\pause
+
+\includegraphics[width=\textwidth]{srl}
 \end{frame}
 
 \begin{frame}{Scaling Up Qualitative Studies}
@@ -199,23 +200,16 @@ Slonim et al. \textbf{``An autonomous debating system.''} \textit{Nature} (2021)
 \end{frame}
 
 
-\newcommand{\mask}[2]{\alt<#1>{\fbox{\textbf{\color{red}?}}}{#2}}
+\newcommand{\mask}[2]{\alt<#1>{\fbox{\textbf{\color{red}?}\hspace{-3mm}{\color{white}#2}}}{#2}}
 
 \begin{frame}
 \frametitle{Learning from plain text: masked language modeling}
-\textrm{\mask{4}{Which} \mask{2}{Sesame} \mask{3}{Street} \mask{1}{character} \mask{5}{is} \mask{6}{your} \mask{7}{favorite}}
+\textrm{\mask{4}{Which} \mask{2}{Sesame} \mask{3}{Street} \mask{1}{character} \mask{5}{is} \mask{6}{your} \mask{7}{favorite}?}
 
 \vfill
 \onslide<8>{
-\textit{BERT} (Bidirectional Encoder Representations from Transformers):
-\begin{itemize}
-\item Trained on 16GB of text.
-\item 16 TPU chips for 4 days.
-\end{itemize}
-
-\vfill
-
-\url{https://demo.allennlp.org/masked-lm}
+BERT, RoBERTa, XLM-R, \ldots \\
+GPT, GPT-2, GPT-3
 }
 
 \vspace{-3cm}
@@ -248,11 +242,11 @@ Slonim et al. \textbf{``An autonomous debating system.''} \textit{Nature} (2021)
     \end{adjustbox}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Dependency Parsing}
 \includegraphics[width=\textwidth]{dep_meaning}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Dependency Parsing}
 \includegraphics[width=\textwidth]{dep_toast}
 \end{frame}
 
@@ -288,7 +282,7 @@ or
 1. How to represent what we mean, 2. How to parse (1)
 \end{frame}
 
-\begin{frame}{Graphs}
+\begin{frame}{Meaning Representation Graphs}
 Abend and Rappoport. \textbf{``Universal Conceptual Cognitive Annotation (UCCA)''}. \textit{ACL} (2013)
 
 \begin{adjustbox}{center}
@@ -356,18 +350,23 @@ Abend and Rappoport. \textbf{``Universal Conceptual Cognitive Annotation (UCCA)'
 \end{adjustbox}
 \end{frame}
 
-\begin{frame}{UCCA}
-\includegraphics[width=\textwidth]{ucca_meaning}
+\begin{frame}{Meaning Representation Graphs}
+\begin{center}
+\includegraphics[width=.9\textwidth]{ucca_meaning}
+\end{center}
+
+\scriptsize
+Hershcovich et al. \textbf{``Content Differences in Syntactic and Semantic Representations''}. \textit{NAACL} (2019) \\
+Hershcovich et al. \textbf{``Comparison by Conversion: Reverse-Engineering UCCA from Syntax and Lexical Semantics''}. \textit{COLING} (2020)
 \end{frame}
 
-\begin{frame}{UCCA with Implicit Units}
-\includegraphics[width=\textwidth]{ucca_meaning_implicit}
+\begin{frame}{Implicit Elements}
+\only<1>{\includegraphics[width=\textwidth]{ucca_meaning_implicit}\vspace{-1cm}}
+\only<2>{\includegraphics[width=\textwidth]{implicit}}
+
+\vfill
 
 Cui and Hershcovich. \textbf{``Refining Implicit Argument Annotation for UCCA.''} \textit{DMR} (2020)
-\end{frame}
-
-\begin{frame}{UCCA with Implicit Units}
-\includegraphics[width=\textwidth]{implicit}
 \end{frame}
 
 \def\exucca{
@@ -456,11 +455,9 @@ a5 ->  ["op1"' above] a6;
 \begin{frame}
 \frametitle{Parsing}
 
-\pause
-
 \begin{center}
 \scalebox{.7}{
-\begin{tikzpicture}[level distance=15mm, sibling distance=2cm, ->, thick,
+\begin{tikzpicture}[level distance=19mm, sibling distance=2cm, ->, thick,
     every node/.append style={font=\rmfamily},
     edge from parent path={(\tikzparentnode.center) -- (\tikzchildnode.north)}]
     \node(ROOT)[fill=black, circle] at (3,0) {}
@@ -485,6 +482,8 @@ a5 ->  ["op1"' above] a6;
 \end{tikzpicture}}
 \end{center}
 
+\vspace{-1cm}
+
 \[\Updownarrow\]
 \begin{flushleft}
 \footnotesize
@@ -498,8 +497,7 @@ Hershcovich et al. \textbf{``A Transition-Based Directed Acyclic Graph Parser fo
 \begin{frame}
 \frametitle{TUPA: Transition-based UCCA Parser}
 
-Parses text $w_1 \ldots w_n$ to graph $G$ incrementally by applying transitions to the parser state,
-consisting of: stack, buffer and constructed graph.
+Parses text to graph incrementally by applying transitions to its state.
 
 \pause
 \vfill
@@ -748,7 +746,7 @@ Learns to predict next transition based on current state.
     \vfill
     \pause
     
-    Improved UCCA parsing in English, French and German.
+    Improves UCCA parsing in English, French and German.
     
     \vfill
     
@@ -756,6 +754,8 @@ Learns to predict next transition based on current state.
 \end{frame}
 \begin{frame}
 \frametitle{Parsing Competitions}
+Improvements in 5 frameworks and 5 languages
+(English, French, German, Chinese and Czech).
 \begin{flushright}
 \includegraphics[width=.1\textwidth]{type_writer2.png}
 \end{flushright}
@@ -764,15 +764,12 @@ Learns to predict next transition based on current state.
 \item Oepen et al. \textbf{``MRP 2019: Cross-Framework Meaning Representation Parsing''}. \textit{CoNLL} (2019)
 \item Oepen et al. \textbf{``MRP 2020: The Second Shared Task on Cross-framework and Cross-Lingual Meaning Representation Parsing''}. \textit{CoNLL} (2020)
 \end{itemize}
-
-\vfill
-\pause
-
-Improved parsing in 5 frameworks in English, French, German, Chinese and Czech.
 \end{frame}
 
 \begin{frame}{Meaning Representations Explain \textit{Human} Language Processing}
-\includegraphics[width=\textwidth]{injecting}
+\begin{center}
+\includegraphics[width=.8\textwidth]{injecting}
+\end{center}
 
 Abdou et al. \textbf{``Does injecting linguistic structure into language models lead to better alignment with brain recordings?​''}. (2021)
 \end{frame}
@@ -806,6 +803,8 @@ b0[as={Target text}];
 };
 \end{tikzpicture}
 \end{center}
+
+\textit{Work in progress}
 \end{frame}
 
 \begin{frame}{Meaning Representations Help Answering Questions}
@@ -830,7 +829,8 @@ Symbolic meaning representation
 \item Scales qualitative studies
 \item Can be generated accurately by parsers
 \item Makes NLP interpretable
-\item Facilitates question answering
+\item Facilitates question answering \pause
+\item \textbf{Can do a lot more!}
 \end{itemize}
 \vfill
 {\Huge\url{dh@di.ku.dk}}
